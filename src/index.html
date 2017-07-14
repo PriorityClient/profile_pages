@@ -6,6 +6,7 @@
 		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 		<style>
 			body { background: #eee; }
+			.hidden { display:none; }
 			.mdl-card.main-content { width:90%; }
 			.pitchArea {
 					width:100%;
@@ -15,10 +16,44 @@
 			}
 		</style>
 		<script>
-			function $(id){
+			function $(id, element){
 				var ident = id.slice(1);
 				if(id.match(/^\#/)) return document.getElementById(ident);
 				if(id.match(/^\./)) return document.getElementsByClassName(ident);
+			}
+
+			function setupSubmitBid(formId, api){
+				element = $(formId);
+				if (element.addEventListener) {
+						element.addEventListener("submit", function(evt) {
+								evt.preventDefault();
+								submitBid(element, api);
+						}, true);
+				}
+				else {
+						element.attachEvent('onsubmit', function(evt){
+								evt.preventDefault();
+								submitBid(element, api);
+						});
+				}
+			}
+
+			function submitBid(formElement, api){
+				var user_id = $("#user-id").innerHTML;
+				var bid = {
+					"pitcher_first_name": $("#pitcher-first-name").value,
+					"pitcher_last_name": $("#pitcher-last-name").value,
+					"pitcher_company_name": $("#pitcher-company-name").value,
+					"pitcher_email": $("#pitcher-email").value,
+					"description": $("#description").value,
+					"bid_amount": parseFloat($("#bid-amount").value)
+				}
+				axios.post(api+"/users/"+user_id+"/pitch", bid)
+			}
+
+			function setup(api){
+				getUserFrom(api);
+				setupSubmitBid("#bid-form", api);
 			}
 
 			function getUserFrom(api){
@@ -29,6 +64,7 @@
 					.get(api+"/users/"+screen_name)
 					.then(function(result){
 						var user = result.data;
+						$("#user-id").innerHTML=user.id
 						$("#user-name").innerHTML=user.first_name+" "+user.last_name;
 						$("#user-avatar").src=(user.avatar_url || "default.png");
 						$("#email-domain").innerHTML=user.privatized_email;
@@ -44,7 +80,7 @@
 			}
 		</script>
 	</head>
-	<body onLoad="getUserFrom('http://localhost:3000/pitches/v1')">
+	<body onLoad="setup('http://localhost:3000/pitches/v1')">
 		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 			<header class="mdl-layout__header">
 				<div class="mdl-layout__header-row">
@@ -64,6 +100,7 @@
 								<img id="user-avatar" alt="username profile image">
 							</div>
 							<div class="mdl-card__supporting-text">
+								<div id="user-id" class="hidden"></div>
 								<div id="user-name"></div>
 								<div id="company-name"></div>
 								<div id="user-title"></div>
@@ -90,76 +127,78 @@
 
 					<div class="mdl-cell mdl-cell--9-col">
 						<div class="main-content mdl-card">
+							<form id="bid-form">
 
-							<div class="mdl-card__title">
-								<h6 class="mdl-card__title-text">
-									Your Pitch
-								</h6>
-							</div><!-- title -->
+								<div class="mdl-card__title">
+									<h6 class="mdl-card__title-text">
+										Your Pitch
+									</h6>
+								</div><!-- title -->
 
-							<div class='mdl-card__supporting-text'>
-								<div class="mdl-grid">
-									<div class="mdl-cell mdl-cell--6-col">
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-											<input type="text" id="user" class="mdl-textfield__input">
-											<label for="user" class="mdl-textfield__label">First Name</label>
+								<div class='mdl-card__supporting-text'>
+									<div class="mdl-grid">
+										<div class="mdl-cell mdl-cell--6-col">
+											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+												<input type="text" id="pitcher-first-name" class="mdl-textfield__input">
+												<label for="user" class="mdl-textfield__label">First Name</label>
+											</div>
+										</div>
+										<div class="mdl-cell mdl-cell--6-col">
+											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+												<input type="text" id="pitcher-last-name" class="mdl-textfield__input">
+												<label for="user" class="mdl-textfield__label">Last Name</label>
+											</div>
 										</div>
 									</div>
-									<div class="mdl-cell mdl-cell--6-col">
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-											<input type="text" id="user" class="mdl-textfield__input">
-											<label for="user" class="mdl-textfield__label">Last Name</label>
+									<div class="mdl-grid">
+										<div class="mdl-cell mdl-cell--12-col">
+											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+												<input type="text" id="pitcher-email" class="mdl-textfield__input">
+												<label for="user" class="mdl-textfield__label">Email Address</label>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="mdl-grid">
-									<div class="mdl-cell mdl-cell--12-col">
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-											<input type="text" id="user" class="mdl-textfield__input">
-											<label for="user" class="mdl-textfield__label">Email Address</label>
+									<div class="mdl-grid">
+										<div class="mdl-cell mdl-cell--12-col">
+											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+												<input type="text" id="pitcher-company-name" class="mdl-textfield__input">
+												<label for="user" class="mdl-textfield__label">Company Name</label>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="mdl-grid">
-									<div class="mdl-cell mdl-cell--12-col">
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-											<input type="text" id="user" class="mdl-textfield__input">
-											<label for="user" class="mdl-textfield__label">Company Name</label>
+									<div class="mdl-grid">
+										<div class="mdl-cell mdl-cell--8-col">
+											<label class="substitute-variable">Explain your product or service and why {{user-first-name}} might be interested</label>
+										</div>
+										<div class="mdl-layout-spacer"></div>
+										<div class="mdl-cell mdl-cell--1-col">
+											(0/700)
+										</div>
+										<div class="mdl-cell mdl-cell--12-col">
+											<textarea class="pitchArea" rows="10" id="description"></textarea>
 										</div>
 									</div>
-								</div>
-								<div class="mdl-grid">
-									<div class="mdl-cell mdl-cell--8-col">
-										<label class="substitute-variable">Explain your product or service and why {{user-first-name}} might be interested</label>
-									</div>
-									<div class="mdl-layout-spacer"></div>
-									<div class="mdl-cell mdl-cell--1-col">
-										(0/700)
-									</div>
-									<div class="mdl-cell mdl-cell--12-col">
-										<textarea class="pitchArea" rows="10"></textarea>
-									</div>
-								</div>
-								<div class="mdl-grid">
-									<div class="mdl-cell mdl-cell--12-col">
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-											<input type="text" id="user" class="mdl-textfield__input">
-											<label for="user" class="mdl-textfield__label">Bid Amount</label>
+									<div class="mdl-grid">
+										<div class="mdl-cell mdl-cell--12-col">
+											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+												<input type="text" id="bid-amount" class="mdl-textfield__input">
+												<label for="user" class="mdl-textfield__label">Bid Amount</label>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="mdl-grid">
-									<div class="mdl-layout-spacer"></div>
-									<div class="mdl-cell mdl-cell--2-col">
-										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-											<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
-												Submit Bid
-											</button>
+									<div class="mdl-grid">
+										<div class="mdl-layout-spacer"></div>
+										<div class="mdl-cell mdl-cell--2-col">
+											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+												<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+													Submit Bid
+												</button>
+											</div>
 										</div>
 									</div>
-								</div>
-							</div><!-- supporting-text -->
+								</div><!-- supporting-text -->
 
+							</form>
 						</div> <!-- pitch form card -->
 
 					</div> <!-- 9-wide mdl cell -->
