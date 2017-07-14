@@ -39,6 +39,8 @@
 			}
 
 			function submitBid(formElement, api){
+				$("#bid-form-card").classList.add("hidden")
+				$("#bid-form-submit").classList.remove("hidden")
 				var user_id = $("#user-id").innerHTML;
 				var bid = {
 					"pitcher_first_name": $("#pitcher-first-name").value,
@@ -49,6 +51,16 @@
 					"bid_amount": parseFloat($("#bid-amount").value)
 				}
 				axios.post(api+"/users/"+user_id+"/pitch", bid)
+						 .then(function(){
+// hide form
+// show success
+$("#bid-form-submit-pending").classList.add("hidden")
+$("#bid-form-submit-success").classList.remove("hidden")
+						})
+.catch(function(){
+$("#bid-form-submit-pending").classList.add("hidden")
+$("#bid-form-submit-failure").classList.remove("hidden")
+})
 			}
 
 			function setup(api){
@@ -80,6 +92,7 @@
 			}
 		</script>
 	</head>
+	<!--<body onLoad="setup('https://staging.priorityclient.com/pitches/v1')">-->
 	<body onLoad="setup('http://localhost:3000/pitches/v1')">
 		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 			<header class="mdl-layout__header">
@@ -126,7 +139,12 @@
 					</div><!-- left panel -->
 
 					<div class="mdl-cell mdl-cell--9-col">
-						<div class="main-content mdl-card">
+						<div id="bid-form-submit" class="hidden main-content mdl-card">
+							<span id="bid-form-submit-pending">Pending...</span>
+							<span id="bid-form-submit-success" class="hidden" >Success!</span>
+							<span id="bid-form-submit-failure" class="hidden" >Failure :(</span>
+						</div>
+						<div id="bid-form-card" class="main-content mdl-card">
 							<form id="bid-form">
 
 								<div class="mdl-card__title">
