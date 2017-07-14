@@ -1,1 +1,140 @@
-welcome
+<html>
+	<head>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+		<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+		<style>
+			body { background: #eee; }
+			.mdl-card.main-content { width:90%; }
+			.pitchArea {
+					width:100%;
+					-webkit-box-sizing: border-box;
+						 -moz-box-sizing: border-box;
+									box-sizing: border-box;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+			<header class="mdl-layout__header">
+				<div class="mdl-layout__header-row">
+					<!-- Title -->
+					<span class="mdl-layout-title">LOGO GOES HERE</span>
+				</div>
+			</header>
+
+			<main class="mdl-layout__content">
+
+				<div class="mdl-grid">
+
+					<div class="mdl-cell mdl-cell--3-col">
+
+						<div class="mdl-card">
+							<div>
+								<img src="profileImage.jpg" alt="username profile image">
+							</div>
+							<div class="mdl-card__supporting-text">
+								<div class="lead-name">User Name</div>
+								<div class="lead-company-name">Company Name</div>
+								<div class="lead-title">User Title</div>
+								<div>Verified Email Address:</div>
+								<div class="lead-email">--------@address.com</div>
+								<div>User profile text goes here</div>
+							</div>
+						</div><!-- profile description card -->
+
+						<div class="mdl-card" style="top:25px">
+							<div class="mdl-card__title">
+								<h6 class="mdl-card__title-text">
+									What is a Priority Pitch?
+								</h6>
+							</div>
+							<ul class='mdl-card__supporting-text mdl-list'>
+								<li class="mdl-list__item">Fill out the form to submit your meeting to {{username}}</li>
+								<li class="mdl-list__item">$8 is charged to your card when you submit your bid</li>
+								<li class="mdl-list__item">Pitch is shown to {{username}}</li>
+							</ul>
+						</div><!-- service description card -->
+
+					</div><!-- left panel -->
+
+					<div class="mdl-cell mdl-cell--9-col">
+						<div class="main-content mdl-card">
+
+							<div class="mdl-card__title">
+								<h6 class="mdl-card__title-text">
+									Your Pitch
+								</h6>
+							</div><!-- title -->
+
+							<div class='mdl-card__supporting-text'>
+								<div class="mdl-grid">
+									<div class="mdl-cell mdl-cell--6-col">
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+											<input type="text" id="user" class="mdl-textfield__input">
+											<label for="user" class="mdl-textfield__label">First Name</label>
+										</div>
+									</div>
+									<div class="mdl-cell mdl-cell--6-col">
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+											<input type="text" id="user" class="mdl-textfield__input">
+											<label for="user" class="mdl-textfield__label">Last Name</label>
+										</div>
+									</div>
+								</div>
+								<div class="mdl-grid">
+									<div class="mdl-cell mdl-cell--12-col">
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+											<input type="text" id="user" class="mdl-textfield__input">
+											<label for="user" class="mdl-textfield__label">Email Address</label>
+										</div>
+									</div>
+								</div>
+								<div class="mdl-grid">
+									<div class="mdl-cell mdl-cell--12-col">
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+											<input type="text" id="user" class="mdl-textfield__input">
+											<label for="user" class="mdl-textfield__label">Company Name</label>
+										</div>
+									</div>
+								</div>
+								<div class="mdl-grid">
+									<div class="mdl-cell mdl-cell--8-col">
+										<label>Explain your product or service and why {{firstname}} might be interested</label>
+									</div>
+									<div class="mdl-layout-spacer"></div>
+									<div class="mdl-cell mdl-cell--1-col">
+										(0/700)
+									</div>
+									<div class="mdl-cell mdl-cell--12-col">
+										<textarea class="pitchArea" rows="10"></textarea>
+									</div>
+								</div>
+								<div class="mdl-grid">
+									<div class="mdl-cell mdl-cell--12-col">
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+											<input type="text" id="user" class="mdl-textfield__input">
+											<label for="user" class="mdl-textfield__label">Bid Amount</label>
+										</div>
+									</div>
+								</div>
+								<div class="mdl-grid">
+									<div class="mdl-layout-spacer"></div>
+									<div class="mdl-cell mdl-cell--2-col">
+										<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+											<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+												Submit Bid
+											</button>
+										</div>
+									</div>
+								</div>
+							</div><!-- supporting-text -->
+
+						</div> <!-- pitch form card -->
+
+					</div> <!-- 9-wide mdl cell -->
+				</div> <!-- mdl grid -->
+			</main> <!-- area under header -->
+		</div> <!-- mdl main content wrapper -->
+	</body>
+</html>
