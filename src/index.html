@@ -3,6 +3,7 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
 		<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 		<style>
 			body { background: #eee; }
 			.mdl-card.main-content { width:90%; }
@@ -13,8 +14,37 @@
 									box-sizing: border-box;
 			}
 		</style>
+		<script>
+			function $(id){
+				var ident = id.slice(1);
+				if(id.match(/^\#/)) return document.getElementById(ident);
+				if(id.match(/^\./)) return document.getElementsByClassName(ident);
+			}
+
+			function getUserFrom(api){
+				console.log("ready to retrieve");
+				url = window.location.href.split("?");
+				screen_name = url[url.length-1];
+				axios
+					.get(api+"/users/"+screen_name)
+					.then(function(result){
+						var user = result.data;
+						$("#user-name").innerHTML=user.first_name+" "+user.last_name;
+						$("#user-avatar").src=(user.avatar_url || "default.png");
+						$("#email-domain").innerHTML=user.privatized_email;
+						$("#user-bio").innerHTML=user.bio;
+						$("#company-name").innerHTML=(user.companyName||"");
+						//$("user-title").innerHTML=user.title
+						var update_name = $(".substitute-variable")
+						for(var i=0; i<update_name.length; i++){
+							var body = update_name[i].innerHTML
+							update_name[i].innerHTML = body.replace("{{user-first-name}}", user.first_name);
+						}
+					})
+			}
+		</script>
 	</head>
-	<body>
+	<body onLoad="getUserFrom('http://localhost:3000/pitches/v1')">
 		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 			<header class="mdl-layout__header">
 				<div class="mdl-layout__header-row">
@@ -31,15 +61,15 @@
 
 						<div class="mdl-card">
 							<div>
-								<img src="profileImage.jpg" alt="username profile image">
+								<img id="user-avatar" alt="username profile image">
 							</div>
 							<div class="mdl-card__supporting-text">
-								<div class="lead-name">User Name</div>
-								<div class="lead-company-name">Company Name</div>
-								<div class="lead-title">User Title</div>
+								<div id="user-name"></div>
+								<div id="company-name"></div>
+								<div id="user-title"></div>
 								<div>Verified Email Address:</div>
-								<div class="lead-email">--------@address.com</div>
-								<div>User profile text goes here</div>
+								<div>--------<span id="email-domain"></span></div>
+								<div id="user-bio"></div>
 							</div>
 						</div><!-- profile description card -->
 
@@ -50,9 +80,9 @@
 								</h6>
 							</div>
 							<ul class='mdl-card__supporting-text mdl-list'>
-								<li class="mdl-list__item">Fill out the form to submit your meeting to {{username}}</li>
+								<li class="substitute-variable mdl-list__item">Fill out the form to submit your meeting to {{user-first-name}}</li>
 								<li class="mdl-list__item">$8 is charged to your card when you submit your bid</li>
-								<li class="mdl-list__item">Pitch is shown to {{username}}</li>
+								<li class="substitute-variable mdl-list__item">Pitch is shown to {{user-first-name}}</li>
 							</ul>
 						</div><!-- service description card -->
 
@@ -100,7 +130,7 @@
 								</div>
 								<div class="mdl-grid">
 									<div class="mdl-cell mdl-cell--8-col">
-										<label>Explain your product or service and why {{firstname}} might be interested</label>
+										<label class="substitute-variable">Explain your product or service and why {{user-first-name}} might be interested</label>
 									</div>
 									<div class="mdl-layout-spacer"></div>
 									<div class="mdl-cell mdl-cell--1-col">
