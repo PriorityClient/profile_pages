@@ -60,11 +60,9 @@
 			function submitBid(formElement, api){
 				if(!check_required( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email")) return false;
 
-
-				$("#bid-form-card").classList.add("hidden")
-				$("#bid-form-submit").classList.remove("hidden")
 				var user_id = $("#user-id").innerHTML;
 				var bid = {
+					"id": user_id,
 					"pitcher_first_name": $("#pitcher-first-name").value,
 					"pitcher_last_name": $("#pitcher-last-name").value,
 					"pitcher_company_name": $("#pitcher-company-name").value,
@@ -72,16 +70,8 @@
 					"description": $("#description").value,
 					"bid_amount": parseFloat($("#bid-amount").value)
 				}
-
-				axios.post(api+"/users/"+user_id+"/pitch", bid)
-						 .then(function(){
-								$("#bid-form-submit-pending").classList.add("hidden")
-								$("#bid-form-submit-success").classList.remove("hidden")
-							})
-							.catch(function(){
-								$("#bid-form-submit-pending").classList.add("hidden")
-								$("#bid-form-submit-failure").classList.remove("hidden")
-							})
+				// get second page
+				window.location.href = "complete.html?"+btoa(JSON.stringify(bid));
 			}
 
 			function setup(api){
@@ -176,7 +166,7 @@
 							<span id="bid-form-submit-failure" class="hidden" >Failure :(</span>
 						</div>
 						<div id="bid-form-card" class="main-content mdl-card">
-							<form id="bid-form">
+							<form id="bid-form" autocomplete="on">
 
 								<div class="mdl-card__title">
 									<h6 class="mdl-card__title-text">
