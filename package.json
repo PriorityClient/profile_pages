@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "exit 0",
-    "build": "mkdir www && cp src/index.html www/",
+    "build": "webpack && cp -R src/assets/img www/assets",
     "clean": "rm -rf www",
     "build:clean": "npm run clean && npm run build"
   },
@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/PriorityClient/profile_pages#readme",
   "devDependencies": {
-    "express": "^4.15.3"
+    "express": "^4.15.3",
+    "html-webpack-plugin": "^2.29.0",
+    "webpack": "^3.3.0"
   }
 }
