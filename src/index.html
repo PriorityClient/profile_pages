@@ -92,7 +92,7 @@
 
 			function getUserFrom(api){
 				console.log("ready to retrieve");
-				url = window.location.href.split("?");
+				url = window.location.href.split("/profile/");
 				screen_name = url[url.length-1];
 				axios
 					.get(api+"/users/"+screen_name)

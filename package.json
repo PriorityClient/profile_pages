@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "test": "exit 0",
     "build": "mkdir www && cp src/index.html www/",
     "clean": "rm -rf www",
@@ -18,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/PriorityClient/profile_pages/issues"
   },
-  "homepage": "https://github.com/PriorityClient/profile_pages#readme"
+  "homepage": "https://github.com/PriorityClient/profile_pages#readme",
+  "devDependencies": {
+    "express": "^4.15.3"
+  }
 }
