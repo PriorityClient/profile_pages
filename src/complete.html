@@ -45,19 +45,28 @@
         showUser(JSON.parse(atob(elements.user)));
 				axios.post(api+"/users/"+bid.id+"/pitch", bid)
          .then(function(response){
-            $("#bid-info").innerHTML = JSON.stringify(response.data);
+var pitchResponse = JSON.parse(response.data.pitch);
+console.log(pitchResponse);
+            $("#pitcher-first-name").innerHTML=pitchResponse.pitcher_first_name
+            $("#pitcher-last-name").innerHTML=pitchResponse.pitcher_last_name
+            $("#pitcher-company-name").innerHTML=pitchResponse.pitcher_company_name
+            $("#pitcher-email").innerHTML=pitchResponse.pitcher_email
+            $("#description").innerHTML=pitchResponse.description
+            $("#bid-amount").innerHTML=pitchResponse.bid_amount
+
             $("#bid-form-submit-pending").classList.add("hidden")
             $("#bid-form-submit-success").classList.remove("hidden")
           })
-          .catch(function(){
+          .catch(function(err){
+console.log(err);
             $("#bid-form-submit-pending").classList.add("hidden")
             $("#bid-form-submit-failure").classList.remove("hidden")
           })
       }
     </script>
   </head>
-	<body onLoad="setup('https://staging.priorityclient.com/profiles/v1')">
-	<!--<body onLoad="setup('http://localhost:3000/profiles/v1')">-->
+	<!--<body onLoad="setup('https://staging.priorityclient.com/profiles/v1')">-->
+	<body onLoad="setup('http://localhost:3000/profiles/v1')">
 		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 			<header class="mdl-layout__header">
 				<div class="mdl-layout__header-row">
@@ -102,26 +111,76 @@
 					</div><!-- left panel -->
 
 					<div class="mdl-cell mdl-cell--9-col">
-            <div id="bid-form-submit" class="main-content mdl-card">
-              <span id="bid-form-submit-pending">Pending...</span>
-              <span id="bid-form-submit-success" class="hidden" >
-                Success!
-                <div id="bid-info"></div>
-                <form action="/your-server-side-code" method="POST">
-                  <script
-                    src="https://checkout.stripe.com/checkout.js"
-                    class="stripe-button"
-                    data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
-                    data-amount="999"
-                    data-name="Stripe.com"
-                    data-description="Widget"
-                    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-                    data-locale="auto"
-                    data-zip-code="true">
-                  </script>
-                </form>
-              </span>
-              <span id="bid-form-submit-failure" class="hidden" >Failure :(</span>
+            <div id="bid-form-submit">
+              <div id="bid-form-submit-pending" class="main-content mdl-card">Pending...</div>
+              <div id="bid-form-submit-failure" class="main-content mdl-card hidden">Failure :(</div>
+              <div id="bid-form-submit-success" class="main-content mdl-card hidden ">
+                <div class="mdl-card__title">
+                  <h6 class="mdl-card__title-text">
+                    Confirm Your Pitch
+                  </h6>
+                </div><!-- title -->
+
+                <div class='mdl-card__supporting-text'>
+                  <div class="mdl-grid">
+                    <div class="mdl-cell mdl-cell--6-col">
+<h6>First Name</h6>
+<div id="pitcher-first-name">
+</div>
+                    </div>
+
+                    <div class="mdl-cell mdl-cell--6-col">
+<h6>Last Name</h6>
+<div id="pitcher-last-name">
+</div>
+                    </div>
+
+                    <div class="mdl-cell mdl-cell--12-col">
+<h6>Email</h6>
+<div id="pitcher-email">
+</div>
+                    </div>
+
+                    <div class="mdl-cell mdl-cell--12-col">
+<h6>Company Name</h6>
+<div id="pitcher-company-name">
+</div>
+                    </div>
+
+                    <div class="mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield">
+<h6>description</h6>
+<div id="description">
+</div>
+                    </div>
+                    <div class="mdl-cell mdl-cell--12-col">
+<h6>bid amount</h6>
+<div id="bid-amount">
+</div>
+                    </div>
+                  </div>
+                  <div class="mdl-grid">
+                    <div class="mdl-layout-spacer"></div>
+                    <div class="mdl-cell mdl-cell--2-col">
+                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <form action="/your-server-side-code" method="POST">
+                          <script
+                            src="https://checkout.stripe.com/checkout.js"
+                            class="stripe-button"
+                            data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
+                            data-amount="999"
+                            data-name="Stripe.com"
+                            data-description="Widget"
+                            data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                            data-locale="auto"
+                            data-zip-code="true">
+                          </script>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
 					</div> <!-- 9-wide mdl cell -->
 				</div> <!-- mdl grid -->

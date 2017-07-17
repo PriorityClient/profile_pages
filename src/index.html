@@ -72,7 +72,7 @@
 					"bid_amount": parseFloat($("#bid-amount").value)
 				}
 				// get second page
-				window.location.href = "complete.html?bid="+btoa(JSON.stringify(bid))+"&user="+btoa(user);
+				window.location.href = "/complete.html?bid="+btoa(JSON.stringify(bid))+"&user="+btoa(user);
 			}
 
 			function setup(api){
@@ -121,8 +121,8 @@
 			}
 		</script>
 	</head>
-	<body onLoad="setup('https://staging.priorityclient.com/profiles/v1')">
-	<!--<body onLoad="setup('http://localhost:3000/profiles/v1')">-->
+	<!--<body onLoad="setup('https://staging.priorityclient.com/profiles/v1')">-->
+	<body onLoad="setup('http://localhost:3000/profiles/v1')">
 		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 			<header class="mdl-layout__header">
 				<div class="mdl-layout__header-row">
