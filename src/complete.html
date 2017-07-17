@@ -5,7 +5,9 @@
 		<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 		<style>
+			body { background: #eee; }
 			.hidden { display:none; }
+			.mdl-card.main-content { width:100%; }
     </style>
     <script>
 			function $(id, element, log){
@@ -15,11 +17,35 @@
 				return document.querySelectorAll(ident);
 			}
 
+			function showUser(result){
+				var user = result.data;
+				$("#user-name").innerHTML=user.first_name+" "+user.last_name;
+				$("#user-avatar").src=(user.avatar_url || "default.png");
+				$("#email-domain").innerHTML=user.privatized_email;
+				$("#user-bio").innerHTML=user.bio;
+				$("#company-name").innerHTML=(user.companyName||"");
+				//$("user-title").innerHTML=user.title
+				var update_name = $(".substitute-variable")
+				for(var i=0; i<update_name.length; i++){
+					var body = update_name[i].innerHTML
+					update_name[i].innerHTML = body.replace("{{user-first-name}}", user.first_name);
+				}
+			}
+
       function setup(api){
 				url = window.location.href.split("?");
-				bid = JSON.parse(atob(url[url.length-1]));
+        queryString = url[url.length-1];
+        entities = queryString.split("&");
+        var elements = {};
+        for(var i=0; i<entities.length; i++){
+          var sep = entities[i].split("=");
+          elements[sep[0]] = sep[1]
+        }
+				bid = JSON.parse(atob(elements.bid));
+        showUser(JSON.parse(atob(elements.user)));
 				axios.post(api+"/users/"+bid.id+"/pitch", bid)
-         .then(function(){
+         .then(function(response){
+            $("#bid-info").innerHTML = JSON.stringify(response.data);
             $("#bid-form-submit-pending").classList.add("hidden")
             $("#bid-form-submit-success").classList.remove("hidden")
           })
@@ -31,11 +57,67 @@
     </script>
   </head>
 	<body onLoad="setup('http://localhost:3000/pitches/v1')">
-    <div id="bid-form-submit" class="main-content mdl-card">
-      <span id="bid-form-submit-pending">Pending...</span>
-      <span id="bid-form-submit-success" class="hidden" >Success!</span>
-      <span id="bid-form-submit-failure" class="hidden" >Failure :(</span>
-    </div>
   </body>
+	<!--<body onLoad="setup('https://staging.priorityclient.com/pitches/v1')">-->
+	<body onLoad="setup('http://localhost:3000/pitches/v1')">
+		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+			<header class="mdl-layout__header">
+				<div class="mdl-layout__header-row">
+					<!-- Title -->
+					<span class="mdl-layout-title">LOGO GOES HERE</span>
+				</div>
+			</header>
+
+			<main class="mdl-layout__content">
+
+				<div class="mdl-grid">
+					<div class="mdl-cell mdl-cell--3-col">
+
+						<div class="mdl-card">
+							<div>
+								<img id="user-avatar" alt="username profile image">
+							</div>
+							<div class="mdl-card__supporting-text">
+								<div id="user-id" class="hidden"></div>
+								<div id="user-name"></div>
+								<div id="company-name"></div>
+								<div id="user-title"></div>
+								<div>Verified Email Address:</div>
+								<div>--------<span id="email-domain"></span></div>
+								<div id="user-bio"></div>
+							</div>
+						</div><!-- profile description card -->
+
+						<div class="mdl-card" style="top:25px">
+							<div class="mdl-card__title">
+								<h6 class="mdl-card__title-text">
+									What is a Priority Pitch?
+								</h6>
+							</div>
+							<ul class='mdl-card__supporting-text mdl-list'>
+								<li class="substitute-variable mdl-list__item">Fill out the form to submit your meeting to {{user-first-name}}</li>
+								<li class="mdl-list__item">$8 is charged to your card when you submit your bid</li>
+								<li class="substitute-variable mdl-list__item">Pitch is shown to {{user-first-name}}</li>
+							</ul>
+						</div><!-- service description card -->
+
+					</div><!-- left panel -->
+
+					<div class="mdl-cell mdl-cell--9-col">
+            <div id="bid-form-submit" class="main-content mdl-card">
+              <span id="bid-form-submit-pending">Pending...</span>
+              <span id="bid-form-submit-success" class="hidden" >
+Success!
+<div id="bid-info">
+</div>
+</span>
+              <span id="bid-form-submit-failure" class="hidden" >Failure :(</span>
+            </div>
+					</div> <!-- 9-wide mdl cell -->
+				</div> <!-- mdl grid -->
+
+			</main> <!-- area under header -->
+		</div> <!-- mdl main content wrapper -->
+	</body>
 </html>
 

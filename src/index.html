@@ -61,6 +61,7 @@
 				if(!check_required( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email")) return false;
 
 				var user_id = $("#user-id").innerHTML;
+				var user = $("#user-info").innerHTML;
 				var bid = {
 					"id": user_id,
 					"pitcher_first_name": $("#pitcher-first-name").value,
@@ -71,7 +72,7 @@
 					"bid_amount": parseFloat($("#bid-amount").value)
 				}
 				// get second page
-				window.location.href = "complete.html?"+btoa(JSON.stringify(bid));
+				window.location.href = "complete.html?bid="+btoa(JSON.stringify(bid))+"&user="+btoa(user);
 			}
 
 			function setup(api){
@@ -95,21 +96,25 @@
 				screen_name = url[url.length-1];
 				axios
 					.get(api+"/users/"+screen_name)
-					.then(function(result){
-						var user = result.data;
-						$("#user-id").innerHTML=user.id
-						$("#user-name").innerHTML=user.first_name+" "+user.last_name;
-						$("#user-avatar").src=(user.avatar_url || "default.png");
-						$("#email-domain").innerHTML=user.privatized_email;
-						$("#user-bio").innerHTML=user.bio;
-						$("#company-name").innerHTML=(user.companyName||"");
-						//$("user-title").innerHTML=user.title
-						var update_name = $(".substitute-variable")
-						for(var i=0; i<update_name.length; i++){
-							var body = update_name[i].innerHTML
-							update_name[i].innerHTML = body.replace("{{user-first-name}}", user.first_name);
-						}
-					})
+					.then(showUser)
+			}
+
+
+			function showUser(result){
+				var user = result.data;
+				$("#user-id").innerHTML=user.id
+				$("#user-info").innerHTML=JSON.stringify(result);
+				$("#user-name").innerHTML=user.first_name+" "+user.last_name;
+				$("#user-avatar").src=(user.avatar_url || "default.png");
+				$("#email-domain").innerHTML=user.privatized_email;
+				$("#user-bio").innerHTML=user.bio;
+				$("#company-name").innerHTML=(user.companyName||"");
+				//$("user-title").innerHTML=user.title
+				var update_name = $(".substitute-variable")
+				for(var i=0; i<update_name.length; i++){
+					var body = update_name[i].innerHTML
+					update_name[i].innerHTML = body.replace("{{user-first-name}}", user.first_name);
+				}
 			}
 		</script>
 	</head>
@@ -135,6 +140,7 @@
 							</div>
 							<div class="mdl-card__supporting-text">
 								<div id="user-id" class="hidden"></div>
+								<div id="user-info" class="hidden"></div>
 								<div id="user-name"></div>
 								<div id="company-name"></div>
 								<div id="user-title"></div>
