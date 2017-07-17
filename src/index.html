@@ -10,6 +10,7 @@
 			.hidden { display:none; }
 			.mdl-card.main-content { width:100%; }
 			.pitchArea {
+					border: 1px solid rgba(0,0,0,.12);;
 					width:100%;
 					-webkit-box-sizing: border-box;
 						 -moz-box-sizing: border-box;
@@ -41,7 +42,25 @@
 				})
 			}
 
+			function check_required(firstName, lastName, description, bidAmount, emailAddress){
+				var first = $(firstName).value.trim() != ''
+				var last  = $(lastName).value.trim() != ''
+				var desc  = $(description).value.trim() != ''
+				var bid   = $(bidAmount).value.trim() != ''
+				var email = $(emailAddress).value.trim() != ''
+				if(!first)  $(firstName).parentElement.classList.add('is-invalid')
+				if(!last)   $(lastName).parentElement.classList.add('is-invalid')
+				if(!desc)   $(description).parentElement.classList.add('is-invalid')
+				if(!bid)    $(bidAmount).parentElement.classList.add('is-invalid')
+				if(!email)  $(emailAddress).parentElement.classList.add('is-invalid')
+
+				return first&&last&&desc&&bid&&email
+			}
+
 			function submitBid(formElement, api){
+				if(!check_required( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email")) return false;
+
+
 				$("#bid-form-card").classList.add("hidden")
 				$("#bid-form-submit").classList.remove("hidden")
 				var user_id = $("#user-id").innerHTML;
@@ -53,17 +72,16 @@
 					"description": $("#description").value,
 					"bid_amount": parseFloat($("#bid-amount").value)
 				}
+
 				axios.post(api+"/users/"+user_id+"/pitch", bid)
 						 .then(function(){
-// hide form
-// show success
-$("#bid-form-submit-pending").classList.add("hidden")
-$("#bid-form-submit-success").classList.remove("hidden")
-						})
-.catch(function(){
-$("#bid-form-submit-pending").classList.add("hidden")
-$("#bid-form-submit-failure").classList.remove("hidden")
-})
+								$("#bid-form-submit-pending").classList.add("hidden")
+								$("#bid-form-submit-success").classList.remove("hidden")
+							})
+							.catch(function(){
+								$("#bid-form-submit-pending").classList.add("hidden")
+								$("#bid-form-submit-failure").classList.remove("hidden")
+							})
 			}
 
 			function setup(api){
@@ -172,32 +190,32 @@ $("#bid-form-submit-failure").classList.remove("hidden")
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 												<input type="text" id="pitcher-first-name" class="mdl-textfield__input">
 												<label for="user" class="mdl-textfield__label">First Name</label>
+												<span class="mdl-textfield__error">First Name is required</span>
 											</div>
 										</div>
 										<div class="mdl-cell mdl-cell--6-col">
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 												<input type="text" id="pitcher-last-name" class="mdl-textfield__input">
 												<label for="user" class="mdl-textfield__label">Last Name</label>
+												<span class="mdl-textfield__error">Last Name is required</span>
 											</div>
 										</div>
-									</div>
-									<div class="mdl-grid">
+
 										<div class="mdl-cell mdl-cell--12-col">
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-												<input type="text" id="pitcher-email" class="mdl-textfield__input">
+												<input type="text" id="pitcher-email" class="mdl-textfield__input" pattern="[a-zA-Z0-9!#\$%&'\*\+-\/=\?\^_`\{\|\}~\.]+@[a-zA-Z0-9\-]+\.[a-zA-Z]+">
 												<label for="user" class="mdl-textfield__label">Email Address</label>
+												<span class="mdl-textfield__error">A valid email address is required</span>
 											</div>
 										</div>
-									</div>
-									<div class="mdl-grid">
+
 										<div class="mdl-cell mdl-cell--12-col">
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 												<input type="text" id="pitcher-company-name" class="mdl-textfield__input">
 												<label for="user" class="mdl-textfield__label">Company Name</label>
 											</div>
 										</div>
-									</div>
-									<div class="mdl-grid">
+
 										<div class="mdl-cell mdl-cell--8-col">
 											<label class="substitute-variable">Explain your product or service and why {{user-first-name}} might be interested</label>
 										</div>
@@ -205,15 +223,15 @@ $("#bid-form-submit-failure").classList.remove("hidden")
 										<div class="mdl-cell mdl-cell--1-col" id="descriptionCharacterCountContainer" >
 											(<span id="descriptionCharacterCount">0</span>/700)
 										</div>
-										<div class="mdl-cell mdl-cell--12-col">
-											<textarea class="pitchArea" rows="10" id="description" ></textarea>
+										<div class="mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield">
+											<textarea class="pitchArea mdl-textfield__input" rows="10" id="description" ></textarea>
+											<span class="mdl-textfield__error">You must enter a pitch</span>
 										</div>
-									</div>
-									<div class="mdl-grid">
 										<div class="mdl-cell mdl-cell--12-col">
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-												<input type="text" id="bid-amount" class="mdl-textfield__input">
+												<input type="number" step="0.01" min="0" id="bid-amount" class="mdl-textfield__input" pattern="-?[0-9]*(\.[0-9]+)?">
 												<label for="user" class="mdl-textfield__label">Bid Amount</label>
+												<span class="mdl-textfield__error">Bid must be a valid dollar amount</span>
 											</div>
 										</div>
 									</div>
