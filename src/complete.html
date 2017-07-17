@@ -107,10 +107,22 @@
             <div id="bid-form-submit" class="main-content mdl-card">
               <span id="bid-form-submit-pending">Pending...</span>
               <span id="bid-form-submit-success" class="hidden" >
-Success!
-<div id="bid-info">
-</div>
-</span>
+                Success!
+                <div id="bid-info"></div>
+                <form action="/your-server-side-code" method="POST">
+                  <script
+                    src="https://checkout.stripe.com/checkout.js"
+                    class="stripe-button"
+                    data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
+                    data-amount="999"
+                    data-name="Stripe.com"
+                    data-description="Widget"
+                    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                    data-locale="auto"
+                    data-zip-code="true">
+                  </script>
+                </form>
+              </span>
               <span id="bid-form-submit-failure" class="hidden" >Failure :(</span>
             </div>
 					</div> <!-- 9-wide mdl cell -->
