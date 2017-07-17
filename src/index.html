@@ -97,6 +97,7 @@
 				axios
 					.get(api+"/users/"+screen_name)
 					.then(showUser)
+          .catch()
 			}
 
 
@@ -118,8 +119,8 @@
 			}
 		</script>
 	</head>
-	<!--<body onLoad="setup('https://staging.priorityclient.com/pitches/v1')">-->
-	<body onLoad="setup('http://localhost:3000/pitches/v1')">
+	<body onLoad="setup('https://staging.priorityclient.com/profiles/v1')">
+	<!--<body onLoad="setup('http://localhost:3000/profiles/v1')">-->
 		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 			<header class="mdl-layout__header">
 				<div class="mdl-layout__header-row">
