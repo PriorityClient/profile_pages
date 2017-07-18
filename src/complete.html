@@ -12,7 +12,7 @@
     </style>
   </head>
 	<!--<body onLoad="complete('https://staging.priorityclient.com/profiles/v1')">-->
-	<body onLoad="complete('http://localhost:3000/profiles/v1')">
+	<body onLoad="complete({{{API_ADDRESS}}})">
 		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 			<header class="mdl-layout__header">
 				<div class="mdl-layout__header-row">
@@ -112,7 +112,7 @@
                           <script
                             src="https://checkout.stripe.com/checkout.js"
                             class="stripe-button"
-                            data-key="pk_test_6pRNASCoBOKtIshFeQd4XMUh"
+                            data-key="{{{STRIPE_KEY}}}"
                             data-amount="999"
                             data-name="Stripe.com"
                             data-description="Widget"

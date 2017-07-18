@@ -90,7 +90,8 @@ function showUser(result){
   try {
     $("#user-id").innerHTML=user.id
     $("#user-info").innerHTML=JSON.stringify(result);
-  } catch(err){ }
+  } catch(err){ /* completion page does not have these elements */ }
+
 	$("#user-name").innerHTML=user.first_name+" "+user.last_name;
 	$("#user-avatar").src=(user.avatar_url || "/default.png");
 	$("#email-domain").innerHTML=user.privatized_email;

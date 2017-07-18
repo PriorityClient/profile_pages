@@ -17,13 +17,13 @@ module.exports = {
   plugins: [
 		new HtmlWebpackPlugin({
 			template: path.resolve(__dirname, "./src/complete.html"),
-			filename: 'complete.html',
+			filename: 'complete.html'
 		}),
 		new HtmlWebpackPlugin({
-			template: path.resolve(__dirname, "./src/index.html"),
+			template: path.resolve(__dirname, "./src/index.html")
 		}),
     new webpack.ProvidePlugin({
-      globals: "globals",
+      globals: "globals"
     })
   ],
 };
