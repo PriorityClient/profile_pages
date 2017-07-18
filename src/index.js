@@ -1,3 +1,9 @@
+function setup(api){
+	getUserFrom(api);
+	setupSubmitBid("#bid-form", api);
+	setupDescriptionCharCountDisplay("#description", "#descriptionCharacterCount", "#descriptionCharacterCountContainer", 700);
+}
+
 function $(id, element, log){
 	var ident = id.slice(1);
 	if(id.match(/^\#[^\.]*$/)) return document.getElementById(ident);
@@ -55,11 +61,6 @@ function submitBid(formElement, api){
 	window.location.href = "/complete.html?bid="+btoa(JSON.stringify(bid))+"&user="+btoa(user);
 }
 
-function setup(api){
-	getUserFrom(api);
-	setupSubmitBid("#bid-form", api);
-	setupDescriptionCharCountDisplay("#description", "#descriptionCharacterCount", "#descriptionCharacterCountContainer", 700);
-}
 
 function setupDescriptionCharCountDisplay(textAreaId, counter, container, max){
 	addListener($(textAreaId), "keyup", function(evt) {

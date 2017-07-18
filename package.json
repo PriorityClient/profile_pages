@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "webpack-dev-server --port=4200 --history-api-fallback",
     "test": "exit 0",
     "build": "webpack && cp -R src/default.png www/",
     "clean": "rm -rf www",
@@ -21,10 +21,8 @@
   },
   "homepage": "https://github.com/PriorityClient/profile_pages#readme",
   "devDependencies": {
-    "express": "^4.15.3",
     "html-webpack-plugin": "^2.29.0",
     "webpack": "^3.3.0",
-    "webpack-dev-middleware": "^1.11.0",
-    "webpack-hot-middleware": "^2.18.2"
+    "webpack-dev-server": "^2.5.1"
   }
 }
