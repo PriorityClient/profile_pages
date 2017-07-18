@@ -1,8 +1,8 @@
 version: 0.2
 env:
   variables:
-    API_ADDRESS: "https://staging.priorityclient.com/profiles/v1";
-    STRIPE_KEY:  "pk_test_zqRxEBrhmk4o4O0r2qVXmJCI";
+    API_ADDRESS: "https://staging.priorityclient.com/profiles/v1"
+    STRIPE_KEY:  "pk_test_zqRxEBrhmk4o4O0r2qVXmJCI"
 phases:
   install:
     commands:
