@@ -91,7 +91,7 @@ function showUser(result){
     $("#user-info").innerHTML=JSON.stringify(result);
   } catch(err){ }
 	$("#user-name").innerHTML=user.first_name+" "+user.last_name;
-	$("#user-avatar").src=(user.avatar_url || "/assets/img/default.png");
+	$("#user-avatar").src=(user.avatar_url || "/default.png");
 	$("#email-domain").innerHTML=user.privatized_email;
 	$("#user-bio").innerHTML=user.bio;
 	$("#company-name").innerHTML=(user.companyName||"");

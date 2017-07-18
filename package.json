@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "exit 0",
-    "build": "webpack && cp -R src/assets/img www/assets",
+    "build": "webpack && cp -R src/default.png www/",
     "clean": "rm -rf www",
     "build:clean": "npm run clean && npm run build"
   },
@@ -23,6 +23,8 @@
   "devDependencies": {
     "express": "^4.15.3",
     "html-webpack-plugin": "^2.29.0",
-    "webpack": "^3.3.0"
+    "webpack": "^3.3.0",
+    "webpack-dev-middleware": "^1.11.0",
+    "webpack-hot-middleware": "^2.18.2"
   }
 }
