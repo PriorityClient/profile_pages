@@ -3,7 +3,6 @@ var minify = require('gulp-minify');
 var replace = require('gulp-replace');
 var htmlmin = require('gulp-htmlmin');
 var express = require('express');
-var gutil = require('gulp-util');
 
 var server = express();
 server.use(express.static('./www'));
@@ -11,13 +10,11 @@ server.get("/profile/:user_id", function(req, res) {
   res.sendFile(__dirname + '/www/index.html')
 })
 
-gulp.task('default', ['envSetup', 'copyResources', 'compressJS', 'htmlminify']);
+gulp.task('default', ['envSetup', 'copyResources', 'compressJS'/*, 'htmlminify'*/]);
 gulp.task('serve', ['envSetup', 'copyResources', 'copyJS', 'startServer']);
 
 if(!process.env.API_ADDRESS) process.env.API_ADDRESS = "http://localhost:3000/profiles/v1";
 if(!process.env.STRIPE_KEY) process.env.STRIPE_KEY = "pk_test_6pRNASCoBOKtIshFeQd4XMUh";
-
-gutil.log("***********", "API ADDRESS", process.env.API_ADDRESS)
 
 gulp.task('copyResources', function(){
   gulp.src(['src/default.png'])
@@ -32,9 +29,7 @@ gulp.task('copyJS', function(){
 gulp.task('envSetup', function(){
   gulp.src(['src/index.html', 'src/complete.html'])
     .pipe(replace("{{{API_ADDRESS}}}", process.env.API_ADDRESS))
-    .on('end', function(){ gutil.log("replaced", "API_ADDRESS", process.env.API_ADDRESS); })
     .pipe(replace("{{{STRIPE_KEY}}}", process.env.STRIPE_KEY))
-    .on('end', function(){ gutil.log("replaced", "STRIPE_KEY", process.env.STRIPE_KEY); })
     .pipe(gulp.dest('www/'));
 });
 
