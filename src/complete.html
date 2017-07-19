@@ -28,6 +28,9 @@
            -moz-box-sizing: border-box;
                 box-sizing: border-box;
     }
+		.pending {
+			opacity: 0.4;
+		}
   </style>
 		<script src="/index.js"></script>
 		<script>
@@ -71,10 +74,9 @@
           </div>
 
 					<div class="mdl-cell mdl-cell--8-col content-column">
-            <div class="content-area">
-              <div id="bid-form-submit-pending" class="main-content ">Pending...</div>
+            <div class="content-area ">
               <div id="bid-form-submit-failure" class="main-content hidden">Failure :(</div>
-              <div id="bid-form-submit-success" class="main-content hidden ">
+              <div id="bid-form-submit-success" class="main-content pending">
                 <div class="mdl-card__title">
                   <h6 class="mdl-card__title-text">
                     Confirm Your Pitch

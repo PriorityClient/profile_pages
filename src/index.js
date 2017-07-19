@@ -127,12 +127,11 @@ function complete(api){
 			$("#description").innerHTML=pitchResponse.description
 			$("#bid-amount").innerHTML=pitchResponse.bid_amount
 
-			$("#bid-form-submit-pending").classList.add("hidden")
-			$("#bid-form-submit-success").classList.remove("hidden")
+			$("#bid-form-submit-success").classList.remove("pending")
 		})
 		.catch(function(err){
 			console.log(err);
-			$("#bid-form-submit-pending").classList.add("hidden")
+			$("#bid-form-submit-success").classList.add("hidden")
 			$("#bid-form-submit-failure").classList.remove("hidden")
 		})
 }
