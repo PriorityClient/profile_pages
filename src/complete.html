@@ -3,16 +3,34 @@
 	<head>
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+
 		<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-		<style>
-			body { background: #eee; }
-			.hidden { display:none; }
-			.mdl-card.main-content { width:100%; }
-    </style>
-  </head>
-	<!--<body onLoad="complete('https://staging.priorityclient.com/profiles/v1')">-->
-	<body onLoad="complete({{{API_ADDRESS}}})">
+  <style>
+    body { background: #eee; }
+    .content-area {
+      background-color: #fff;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    .content-column h2 {
+      font-size: 1.6em;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+    .error  { color:#f00; }
+    .hidden { display:none; }
+    .mdl-card.main-content { width:100%; }
+    .pitchArea {
+        border: 1px solid rgba(0,0,0,.12);;
+        width:100%;
+        -webkit-box-sizing: border-box;
+           -moz-box-sizing: border-box;
+                box-sizing: border-box;
+    }
+  </style>
+	</head>
+	<body onLoad="complete('{{{API_ADDRESS}}}')">
 		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 			<header class="mdl-layout__header">
 				<div class="mdl-layout__header-row">
@@ -22,42 +40,32 @@
 			</header>
 
 			<main class="mdl-layout__content">
+				<div class="mdl-grid content-grid">
+					<div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop content-column">
+            <div class="content-area">
+              <img id="user-avatar" alt="username profile image">
+              <div id="user-id" class="hidden"></div>
+              <div id="user-info" class="hidden"></div>
+              <div id="user-name"></div>
+              <div id="company-name"></div>
+              <div id="user-title"></div>
+              <div>Verified Email Address:</div>
+              <div>--------<span id="email-domain"></span></div>
+              <div id="user-bio"></div>
+            </div>
 
-				<div class="mdl-grid">
-					<div class="mdl-cell mdl-cell--3-col">
-
-						<div class="mdl-card">
-							<div>
-								<img id="user-avatar" alt="username profile image">
-							</div>
-							<div class="mdl-card__supporting-text">
-								<div id="user-id" class="hidden"></div>
-								<div id="user-name"></div>
-								<div id="company-name"></div>
-								<div id="user-title"></div>
-								<div>Verified Email Address:</div>
-								<div>--------<span id="email-domain"></span></div>
-								<div id="user-bio"></div>
-							</div>
-						</div><!-- profile description card -->
-
-						<div class="mdl-card" style="top:25px">
-							<div class="mdl-card__title">
-								<h6 class="mdl-card__title-text">
-									What is a Priority Pitch?
-								</h6>
-							</div>
-							<ul class='mdl-card__supporting-text mdl-list'>
+            <div class="content-area mdl-cell--hide-phone mdl-cell--hide-tablet">
+              <h6> What is a Priority Pitch?</h6>
+							<ul class='mdl-list'>
 								<li class="substitute-variable mdl-list__item">Fill out the form to submit your meeting to {{user-first-name}}</li>
 								<li class="mdl-list__item">$8 is charged to your card when you submit your bid</li>
 								<li class="substitute-variable mdl-list__item">Pitch is shown to {{user-first-name}}</li>
 							</ul>
-						</div><!-- service description card -->
+            </div>
+          </div>
 
-					</div><!-- left panel -->
-
-					<div class="mdl-cell mdl-cell--9-col">
-            <div id="bid-form-submit">
+					<div class="mdl-cell mdl-cell--8-col content-column">
+            <div class="content-area">
               <div id="bid-form-submit-pending" class="main-content mdl-card">Pending...</div>
               <div id="bid-form-submit-failure" class="main-content mdl-card hidden">Failure :(</div>
               <div id="bid-form-submit-success" class="main-content mdl-card hidden ">
@@ -70,38 +78,33 @@
                 <div class='mdl-card__supporting-text'>
                   <div class="mdl-grid">
                     <div class="mdl-cell mdl-cell--6-col">
-<h6>First Name</h6>
-<div id="pitcher-first-name">
-</div>
+                      <h6>First Name</h6>
+                      <div id="pitcher-first-name"> </div>
                     </div>
 
                     <div class="mdl-cell mdl-cell--6-col">
-<h6>Last Name</h6>
-<div id="pitcher-last-name">
-</div>
+                      <h6>Last Name</h6>
+                      <div id="pitcher-last-name"> </div>
                     </div>
 
                     <div class="mdl-cell mdl-cell--12-col">
-<h6>Email</h6>
-<div id="pitcher-email">
-</div>
+                      <h6>Email</h6>
+                      <div id="pitcher-email"> </div>
                     </div>
 
                     <div class="mdl-cell mdl-cell--12-col">
-<h6>Company Name</h6>
-<div id="pitcher-company-name">
-</div>
+                      <h6>Company Name</h6>
+                      <div id="pitcher-company-name"> </div>
                     </div>
 
                     <div class="mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield">
-<h6>description</h6>
-<div id="description">
-</div>
+                      <h6>description</h6>
+                      <div id="description"> </div>
                     </div>
+
                     <div class="mdl-cell mdl-cell--12-col">
-<h6>bid amount</h6>
-<div id="bid-amount">
-</div>
+                      <h6>bid amount</h6>
+                      <div id="bid-amount"> </div>
                     </div>
                   </div>
                   <div class="mdl-grid">
@@ -128,12 +131,19 @@
               </div>
 
             </div>
-					</div> <!-- 9-wide mdl cell -->
-				</div> <!-- mdl grid -->
-
-			</main> <!-- area under header -->
-		</div> <!-- mdl main content wrapper -->
-<script src="/index.js"></script>
-	</body>
+            <div class="content-area mdl-cell--hide-desktop">
+              <h6> What is a Priority Pitch?</h6>
+							<ul class='mdl-list'>
+								<li class="substitute-variable mdl-list__item">Fill out the form to submit your meeting to {{user-first-name}}</li>
+								<li class="mdl-list__item">$8 is charged to your card when you submit your bid</li>
+								<li class="substitute-variable mdl-list__item">Pitch is shown to {{user-first-name}}</li>
+							</ul>
+            </div>
+          </div>
+				</div>
+			</main>
+    </div>
+  <script src="/index.js"></script>
+	<body>
 </html>
 

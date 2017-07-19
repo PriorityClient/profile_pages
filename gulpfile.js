@@ -11,7 +11,7 @@ server.get("/profile/:user_id", function(req, res) {
 })
 
 gulp.task('default', ['envSetup', 'copyResources', 'compressJS'/*, 'htmlminify'*/]);
-gulp.task('serve', ['envSetup', 'copyResources', 'copyJS', 'startServer']);
+gulp.task('serve', ['envSetup', 'copyResources', 'copyJS', 'startServer', 'watch']);
 
 if(!process.env.API_ADDRESS) process.env.API_ADDRESS = "http://localhost:3000/profiles/v1";
 if(!process.env.STRIPE_KEY) process.env.STRIPE_KEY = "pk_test_6pRNASCoBOKtIshFeQd4XMUh";
@@ -27,7 +27,7 @@ gulp.task('copyJS', function(){
 });
 
 gulp.task('envSetup', function(){
-  gulp.src(['src/index.html', 'src/complete.html'])
+  gulp.src('src/*.html')
     .pipe(replace("{{{API_ADDRESS}}}", process.env.API_ADDRESS))
     .pipe(replace("{{{STRIPE_KEY}}}", process.env.STRIPE_KEY))
     .pipe(gulp.dest('www/'));
@@ -53,4 +53,17 @@ gulp.task('htmlminify', function() {
   return gulp.src('src/*.html')
     .pipe(htmlmin({collapseWhitespace: true, minifyCSS: true}))
     .pipe(gulp.dest('www'));
+});
+
+gulp.task('watch', function() {
+
+  //Add watching on js-files
+  gulp.watch('src/*.js', function() {
+    gulp.run('copyJS');
+  });
+
+  //Add watching on html-files
+  gulp.watch('src/*.html', function () {
+    gulp.run('envSetup');
+  });
 });
