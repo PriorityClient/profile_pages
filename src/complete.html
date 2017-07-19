@@ -11,7 +11,7 @@
     .content-area {
       background-color: #fff;
       padding: 10px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
     .content-column h2 {
       font-size: 1.6em;
@@ -29,8 +29,14 @@
                 box-sizing: border-box;
     }
   </style>
+		<script src="/index.js"></script>
+		<script>
+			document.addEventListener("DOMContentLoaded", function(event) {
+				complete('{{{API_ADDRESS}}}')
+			});
+		</script>
 	</head>
-	<body onLoad="complete('{{{API_ADDRESS}}}')">
+	<body>
 		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 			<header class="mdl-layout__header">
 				<div class="mdl-layout__header-row">
@@ -66,9 +72,9 @@
 
 					<div class="mdl-cell mdl-cell--8-col content-column">
             <div class="content-area">
-              <div id="bid-form-submit-pending" class="main-content mdl-card">Pending...</div>
-              <div id="bid-form-submit-failure" class="main-content mdl-card hidden">Failure :(</div>
-              <div id="bid-form-submit-success" class="main-content mdl-card hidden ">
+              <div id="bid-form-submit-pending" class="main-content ">Pending...</div>
+              <div id="bid-form-submit-failure" class="main-content hidden">Failure :(</div>
+              <div id="bid-form-submit-success" class="main-content hidden ">
                 <div class="mdl-card__title">
                   <h6 class="mdl-card__title-text">
                     Confirm Your Pitch
@@ -109,9 +115,9 @@
                   </div>
                   <div class="mdl-grid">
                     <div class="mdl-layout-spacer"></div>
-                    <div class="mdl-cell mdl-cell--2-col">
+                    <div class="mdl-cell mdl-cell--4-col">
                       <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <form action="/your-server-side-code" method="POST">
+                        <form id="stripe-form" action="/your-server-side-code" method="POST">
                           <script
                             src="https://checkout.stripe.com/checkout.js"
                             class="stripe-button"
@@ -121,7 +127,8 @@
                             data-description="Widget"
                             data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
                             data-locale="auto"
-                            data-zip-code="true">
+                            data-zip-code="true"
+														defer >
                           </script>
                         </form>
                       </div>
@@ -129,7 +136,6 @@
                   </div>
                 </div>
               </div>
-
             </div>
             <div class="content-area mdl-cell--hide-desktop">
               <h6> What is a Priority Pitch?</h6>
@@ -143,7 +149,6 @@
 				</div>
 			</main>
     </div>
-  <script src="/index.js"></script>
 	<body>
 </html>
 
