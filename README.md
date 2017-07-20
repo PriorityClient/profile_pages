@@ -24,9 +24,10 @@ two (soon to be three) pages. They are split into sections:
 
 
 1. Profile Page Functions - functions used only on the user profile page
-2. Bid Completion Page Functions - functions used only on the bid completion page
-3. Shared Functions - display oriented functions used on more than one page
-4. Helper Functions - a small library of functions intended to make jquery unnecessary
+2. Company Page Functions - functions used only on the company profile page
+3. Bid Completion Page Functions - functions used only on the bid completion page
+4. Shared Functions - display oriented functions used on more than one page
+5. Helper Functions - a small library of functions intended to make jquery unnecessary
 
 
 
