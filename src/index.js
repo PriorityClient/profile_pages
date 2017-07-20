@@ -1,4 +1,16 @@
-//# PROFILE PAGE FUNCTIONS
+//# PROFILE PAGES JAVASCRIPT DOCUMENTATION
+
+// the profile pages application is a very simple
+// vanilla javascript and html project. What follows
+// is all of the javascript that runs the project's
+// two (soon to be three) pages. They are split into sections:
+
+// 1. Profile Page Functions - functions used only on the user profile page
+// 2. Bid Completion Page Functions - functions used only on the bid completion page
+// 3. Shared Functions - display oriented functions used on more than one page
+// 4. Helper Functions - a small library of functions intended to make jquery unnecessary
+
+//## PROFILE PAGE FUNCTIONS
 
 // `setup` initiates the user profile page
 // Call out to the api, whose root address is passed in from
@@ -97,7 +109,7 @@ function submitBid(formElement, api){
 	window.location.href = "/complete.html?bid="+btoa(JSON.stringify(bid))+"&user="+btoa(user);
 }
 
-//# PAYMENT PAGE FUNCTIONS
+//## BID COMPLETION PAGE FUNCTIONS
 
 // `complete` is run on page load of `complete.html`. It retrieves
 // the pitch submission and user object from the query string as
@@ -137,7 +149,7 @@ function complete(api){
 		})
 }
 
-//# SHARED FUNCTIONS
+//## SHARED FUNCTIONS
 
 // `showUser` displays the given user information in the
 // user info card. This is used on both the user pitch page
@@ -166,7 +178,7 @@ function showUser(result){
 	}
 }
 
-//# HELPER FUNCTIONS
+//## HELPER FUNCTIONS
 
 // $ is a mini-jquery substitute that does very little.
 // if the passed argument starts with a `#` and does not

@@ -2,7 +2,40 @@
 
 
 
-# PROFILE PAGE FUNCTIONS
+# PROFILE PAGES JAVASCRIPT DOCUMENTATION
+
+
+
+
+
+
+
+
+the profile pages application is a very simple
+vanilla javascript and html project. What follows
+is all of the javascript that runs the project's
+two (soon to be three) pages. They are split into sections:
+
+
+
+
+
+
+
+
+1. Profile Page Functions - functions used only on the user profile page
+2. Bid Completion Page Functions - functions used only on the bid completion page
+3. Shared Functions - display oriented functions used on more than one page
+4. Helper Functions - a small library of functions intended to make jquery unnecessary
+
+
+
+
+
+
+
+
+## PROFILE PAGE FUNCTIONS
 
 
 
@@ -206,7 +239,7 @@ get second page
 
 
 
-# PAYMENT PAGE FUNCTIONS
+## BID COMPLETION PAGE FUNCTIONS
 
 
 
@@ -267,7 +300,7 @@ function complete(api){
 
 
 
-# SHARED FUNCTIONS
+## SHARED FUNCTIONS
 
 
 
@@ -331,7 +364,7 @@ $("user-title").innerHTML=user.title
 
 
 
-# HELPER FUNCTIONS
+## HELPER FUNCTIONS
 
 
 
