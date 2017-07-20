@@ -48,6 +48,7 @@
 				<div class="mdl-grid content-grid">
 
 					<div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop content-column">
+
             <div class="content-area">
               <img id="user-avatar" alt="username profile image">
               <div id="user-id" class="hidden"></div>
@@ -68,13 +69,17 @@
 								<li class="substitute-variable mdl-list__item">Pitch is shown to {{user-first-name}}</li>
 							</ul>
             </div>
-          </div>
+
+          </div> <!-- /left panel .content-column -->
 
 					<div class="mdl-cell mdl-cell--8-col content-column">
+
             <div class="content-area">
               <h2> Your Pitch </h2>
 							<form id="bid-form" autocomplete="on">
+
 									<div class="mdl-grid">
+
 										<div class="mdl-cell mdl-cell--6-col-desktop  mdl-cell--4-col-tablet ">
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 												<input type="text" id="pitcher-first-name" class="mdl-textfield__input">
@@ -82,6 +87,7 @@
 												<span class="mdl-textfield__error">First Name is required</span>
 											</div>
 										</div>
+
 										<div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--4-col-tablet">
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 												<input type="text" id="pitcher-last-name" class="mdl-textfield__input">
@@ -112,10 +118,12 @@
 										<div class="mdl-cell mdl-cell--1-col" id="descriptionCharacterCountContainer" >
 											(<span id="descriptionCharacterCount">0</span>/700)
 										</div>
+
 										<div class="mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield">
 											<textarea class="pitchArea mdl-textfield__input" rows="10" id="description" ></textarea>
 											<span class="mdl-textfield__error">You must enter a pitch</span>
 										</div>
+
 										<div class="mdl-cell mdl-cell--12-col">
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 												<input type="number" step="0.01" min="0" id="bid-amount" class="mdl-textfield__input" pattern="-?[0-9]*(\.[0-9]+)?">
@@ -123,10 +131,13 @@
 												<span class="mdl-textfield__error">Bid must be a valid dollar amount</span>
 											</div>
 										</div>
-									</div><!-- form grid -->
+
+									</div><!-- main input boxes .mdl-grid -->
 
 									<div class="mdl-grid">
+
 										<div class="mdl-layout-spacer"></div>
+
 										<div class="mdl-cell mdl-cell--2-col">
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 												<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
@@ -134,9 +145,11 @@
 												</button>
 											</div>
 										</div>
+
 									</div><!-- submit grid -->
 							</form>
-            </div>
+            </div><!-- main section form data .content-area -->
+
             <div class="content-area mdl-cell--hide-desktop">
               <h6> What is a Priority Pitch?</h6>
 							<ul class='mdl-list'>
@@ -144,12 +157,16 @@
 								<li class="mdl-list__item">$8 is charged to your card when you submit your bid</li>
 								<li class="substitute-variable mdl-list__item">Pitch is shown to {{user-first-name}}</li>
 							</ul>
-            </div>
-          </div>
-				</div>
+            </div><!-- do not show on desktop .content-area -->
+
+          </div> <!-- /main panel .content-column -->
+
+				</div> <!-- .content-grid -->
+
 			</main>
-    </div>
-  <script src="/index.js"></script>
+
+    </div> <!-- .mdl-layout -->
+		<script src="/index.js"></script>
 	<body>
 </html>
 

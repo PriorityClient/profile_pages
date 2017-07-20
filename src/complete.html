@@ -75,74 +75,78 @@
 								<li class="substitute-variable mdl-list__item">Pitch is shown to {{user-first-name}}</li>
 							</ul>
             </div>
-          </div>
+          </div> <!-- /left panel .content-column -->
 
 					<div class="mdl-cell mdl-cell--8-col content-column">
             <div class="content-area ">
+
               <div id="bid-form-submit-failure" class="main-content hidden">Failure :(</div>
+
               <div id="bid-form-submit-success" class="main-content pending">
-                <div class="mdl-card__title">
-                  <h6 class="mdl-card__title-text">
-                    Confirm Your Pitch
-                  </h6>
-                </div><!-- title -->
 
-                <div class='mdl-card__supporting-text'>
-                  <div class="mdl-grid">
-                    <div class="mdl-cell mdl-cell--6-col">
-                      <h6>First Name</h6>
-                      <div id="pitcher-first-name"> </div>
-                    </div>
+                <h6> Confirm Your Pitch </h2>
 
-                    <div class="mdl-cell mdl-cell--6-col">
-                      <h6>Last Name</h6>
-                      <div id="pitcher-last-name"> </div>
-                    </div>
-
-                    <div class="mdl-cell mdl-cell--12-col">
-                      <h6>Email</h6>
-                      <div id="pitcher-email"> </div>
-                    </div>
-
-                    <div class="mdl-cell mdl-cell--12-col">
-                      <h6>Company Name</h6>
-                      <div id="pitcher-company-name"> </div>
-                    </div>
-
-                    <div class="mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield">
-                      <h6>description</h6>
-                      <div id="description"> </div>
-                    </div>
-
-                    <div class="mdl-cell mdl-cell--12-col">
-                      <h6>bid amount</h6>
-                      <div id="bid-amount"> </div>
-                    </div>
+                <div class="mdl-grid">
+                  <div class="mdl-cell mdl-cell--6-col">
+                    <h6>First Name</h6>
+                    <div id="pitcher-first-name"> </div>
                   </div>
-                  <div class="mdl-grid">
-                    <div class="mdl-layout-spacer"></div>
-                    <div class="mdl-cell mdl-cell--4-col">
-                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <form id="stripe-form" action="/your-server-side-code" method="POST">
-                          <script
-                            src="https://checkout.stripe.com/checkout.js"
-                            class="stripe-button"
-                            data-key="{{{STRIPE_KEY}}}"
-                            data-amount="999"
-                            data-name="Stripe.com"
-                            data-description="Widget"
-                            data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-                            data-locale="auto"
-                            data-zip-code="true"
-														defer >
-                          </script>
-                        </form>
-                      </div>
-                    </div>
+
+                  <div class="mdl-cell mdl-cell--6-col">
+                    <h6>Last Name</h6>
+                    <div id="pitcher-last-name"> </div>
+                  </div>
+
+                  <div class="mdl-cell mdl-cell--12-col">
+                    <h6>Email</h6>
+                    <div id="pitcher-email"> </div>
+                  </div>
+
+                  <div class="mdl-cell mdl-cell--12-col">
+                    <h6>Company Name</h6>
+                    <div id="pitcher-company-name"> </div>
+                  </div>
+
+                  <div class="mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield">
+                    <h6>description</h6>
+                    <div id="description"> </div>
+                  </div>
+
+                  <div class="mdl-cell mdl-cell--12-col">
+                    <h6>bid amount</h6>
+                    <div id="bid-amount"> </div>
                   </div>
                 </div>
-              </div>
-            </div>
+
+                <div class="mdl-grid">
+                  <div class="mdl-layout-spacer"></div>
+                  <div class="mdl-cell mdl-cell--4-col">
+
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                      <form id="stripe-form" action="/your-server-side-code" method="POST">
+                        <script
+                          src="https://checkout.stripe.com/checkout.js"
+                          class="stripe-button"
+                          data-key="{{{STRIPE_KEY}}}"
+                          data-amount="999"
+                          data-name="Stripe.com"
+                          data-description="Widget"
+                          data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                          data-locale="auto"
+                          data-zip-code="true"
+                          defer >
+                        </script>
+                      </form>
+                    </div><!-- .mdl-textfield -->
+
+                  </div><!-- .mdl-cell -->
+
+                </div><!-- .mdl-grid -->
+
+              </div><!-- .main-content -->
+
+            </div><!-- main section submission display .content-area -->
+
             <div class="content-area mdl-cell--hide-desktop">
               <h6> What is a Priority Pitch?</h6>
 							<ul class='mdl-list'>
@@ -150,11 +154,15 @@
 								<li class="mdl-list__item">$8 is charged to your card when you submit your bid</li>
 								<li class="substitute-variable mdl-list__item">Pitch is shown to {{user-first-name}}</li>
 							</ul>
-            </div>
-          </div>
-				</div>
+            </div><!-- do not show on desktop .content-area -->
+
+          </div> <!-- /main panel .content-column -->
+
+				</div> <!-- .content-grid -->
+
 			</main>
-    </div>
+
+    </div> <!-- .mdl-layout -->
 	<body>
 </html>
 
