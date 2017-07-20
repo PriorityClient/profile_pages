@@ -12,6 +12,9 @@
 		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <style>
     body { background: #eee; }
+    .user-avatar {
+      padding: 20px;
+    }
     .content-area {
       background-color: #fff;
       padding: 10px;
@@ -24,6 +27,7 @@
     }
     .error  { color:#f00; }
     .hidden { display:none; }
+    .center-header { text-align: center; }
     .mdl-card.main-content { width:100%; }
     .pitchArea {
         border: 1px solid rgba(0,0,0,.12);;
@@ -44,20 +48,41 @@
 				</div>
 			</header>
 
-			<main class="mdl-layout__content">
+			<main class="mdl-layout__content hidden" id="company-page">
+        <div class="mdl-grid">
+          <div class="center-header mdl-cell mdl-cell--12-col">
+            <h2 class="mdl-card__title-text" id="company-name"></h2>
+          </div>
+          <ul id="company-user-list" class="demo-list-action mdl-list mdl-cell mdl-cell--12-col">
+
+            <li id="company-user-example" class="hidden content-area mdl-list__item mdl-list__item--three-line">
+              <a href="/profile/{{{userId}}}">
+                <img class="user-avatar" src="{{{avatar}}}" alt="{{{userName}}} profile image">
+              </a>
+              <span class="mdl-list__item-primary-content">
+                <span><a href="/profile/{{{userId}}}">{{{userName}}}</a></span>
+                <span class="mdl-list__item-text-body"> {{{bio}}} </span>
+              </span>
+            </li>
+
+          </ul>
+        </div>
+      </main>
+
+			<main class="mdl-layout__content hidden" id="profile-page">
 				<div class="mdl-grid content-grid">
 
 					<div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop content-column">
 
             <div class="content-area">
-              <img id="user-avatar" alt="username profile image">
+              <img id="user-avatar" alt="profile image">
               <div id="user-id" class="hidden"></div>
               <div id="user-info" class="hidden"></div>
               <div id="user-name"></div>
               <div id="company-name"></div>
               <div id="user-title"></div>
               <div>Verified Email Address:</div>
-              <div>--------<span id="email-domain"></span></div>
+              <div><a id="goto-company">--------<span id="email-domain"></span></a></div>
               <div id="user-bio"></div>
             </div>
 

@@ -6,19 +6,37 @@
 // two (soon to be three) pages. They are split into sections:
 
 // 1. Profile Page Functions - functions used only on the user profile page
-// 2. Bid Completion Page Functions - functions used only on the bid completion page
-// 3. Shared Functions - display oriented functions used on more than one page
-// 4. Helper Functions - a small library of functions intended to make jquery unnecessary
+// 2. Company Page Functions - functions used only on the company profile page
+// 3. Bid Completion Page Functions - functions used only on the bid completion page
+// 4. Shared Functions - display oriented functions used on more than one page
+// 5. Helper Functions - a small library of functions intended to make jquery unnecessary
+
 
 //## PROFILE PAGE FUNCTIONS
 
-// `setup` initiates the user profile page
+// the first function, setup, must choose whether we are
+// currently looking at a profile or company page
+// I realize this is gross, but it's easy and it works.
+// Each page by itself is small enough that combining
+// them into one page is still easily readable. In
+// the long run, ideally this would be dealt with by a
+// router at the server level so the whole project's
+// html doesn't have to be in a single file, but
+// for now this is the path. there are other solutions available.
+function setup(api){
+	var loc = window.location.href;
+	if(loc.match(/\/profile\//))	return setupProfile(api)
+	if(loc.match(/\/company\//))	return setupCompany(api)
+}
+
+// `setupProfile` initiates the user profile page
 // Call out to the api, whose root address is passed in from
 // the caller, prepare the submission form to prevent the
 // html submission default behavior, and prepare the
 // main pitch area to count the number of characters used
 // in writing the pitch
-function setup(api){
+function setupProfile(api){
+	$("#profile-page").classList.remove("hidden");
 	var url = window.location.href.split("/profile/");
 	var screen_name = url[url.length-1];
 	getUserFrom(api, screen_name);
@@ -109,6 +127,54 @@ function submitBid(formElement, api){
 	window.location.href = "/complete.html?bid="+btoa(JSON.stringify(bid))+"&user="+btoa(user);
 }
 
+//## COMPANY PROFILE PAGE FUNCTIONS
+
+// `setupCompany` retrieves the company information from the
+// api, and then call the function to show
+// the company's information on the page
+function setupCompany(api){
+	$("#company-page").classList.remove("hidden");
+	var url = window.location.href.split("/company/");
+	var company_name = url[url.length-1];
+	axios
+		.get(api+"/enterprises/"+company_name)
+		.then(showCompany)
+		.catch(function(err){
+			console.log(err);
+		})
+}
+
+// `showCompany` determines the company name and list of employees,
+// and then generates that list of employees as HTML. This is done
+// by retrieving the HTML for a sample element from within the page,
+// and then appending a duplication of that with alterations for the
+// given user within the unordered list element that contains all employees
+function showCompany(result){
+	var employees   = result.data.employees;
+	var companyName = result.data.enterprise.name;
+	var sample = $("#company-user-example")
+	for(var i=0; i<employees.length; i++){
+		var user = employees[i];
+		var userEl = sample.cloneNode(true)
+		userEl.id = '';
+		userEl.classList.remove('hidden');
+		var avatar = user.avatar_thumbnail_url || "/default.png";
+		var userName = user.first_name +" "+ user.last_name;
+		var userId = user.id;
+		var bio = user.bio||'[ no bio given ]';
+		$("#company-user-list").insertAdjacentHTML('beforeend',
+			userEl
+				.outerHTML
+				.replace(new RegExp("{{{userId}}}", 'g'), userId)
+				.replace(new RegExp("{{{userName}}}", 'g'), userName)
+				.replace(new RegExp("{{{avatar}}}", 'g'), avatar)
+				.replace(new RegExp("{{{bio}}}", 'g'), bio)
+		)
+
+	}
+	$("#company-name").innerHTML = companyName;
+}
+
 //## BID COMPLETION PAGE FUNCTIONS
 
 // `complete` is run on page load of `complete.html`. It retrieves
@@ -132,7 +198,6 @@ function complete(api){
 	axios.post(api+"/users/"+bid.id+"/pitch", bid)
 	 .then(function(response){
 			var pitchResponse = JSON.parse(response.data.pitch);
-			console.log(pitchResponse);
 			$("#pitcher-first-name").innerHTML=pitchResponse.pitcher_first_name
 			$("#pitcher-last-name").innerHTML=pitchResponse.pitcher_last_name
 			$("#pitcher-company-name").innerHTML=pitchResponse.pitcher_company_name
@@ -165,6 +230,7 @@ function showUser(result){
     $("#user-info").innerHTML=JSON.stringify(result);
   } catch(err){ /* completion page does not have these elements */ }
 
+	$("#goto-company").href="/company/"+user.enterprise_id;
 	$("#user-name").innerHTML=user.first_name+" "+user.last_name;
 	$("#user-avatar").src=(user.avatar_url || "/default.png");
 	$("#email-domain").innerHTML=user.privatized_email;

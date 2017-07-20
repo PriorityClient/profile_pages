@@ -6,6 +6,9 @@ var express = require('express');
 
 var server = express();
 server.use(express.static('./www'));
+server.get("/company/:company_id", function(req, res) {
+  res.sendFile(__dirname + '/www/index.html')
+})
 server.get("/profile/:user_id", function(req, res) {
   res.sendFile(__dirname + '/www/index.html')
 })
