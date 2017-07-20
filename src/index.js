@@ -1,6 +1,4 @@
-/******************************************************/
-//               PROFILE PAGE FUNCTIONS               //
-/******************************************************/
+//# PROFILE PAGE FUNCTIONS
 
 // `setup` initiates the user profile page
 // Call out to the api, whose root address is passed in from
@@ -99,9 +97,7 @@ function submitBid(formElement, api){
 	window.location.href = "/complete.html?bid="+btoa(JSON.stringify(bid))+"&user="+btoa(user);
 }
 
-/******************************************************/
-//              PAYMENT PAGE FUNCTIONS                //
-/******************************************************/
+//# PAYMENT PAGE FUNCTIONS
 
 // `complete` is run on page load of `complete.html`. It retrieves
 // the pitch submission and user object from the query string as
@@ -141,9 +137,7 @@ function complete(api){
 		})
 }
 
-/******************************************************/
-//                 SHARED FUNCTIONS                   //
-/******************************************************/
+//# SHARED FUNCTIONS
 
 // `showUser` displays the given user information in the
 // user info card. This is used on both the user pitch page
@@ -172,9 +166,7 @@ function showUser(result){
 	}
 }
 
-/******************************************************/
-//                 HELPER FUNCTIONS                   //
-/******************************************************/
+//# HELPER FUNCTIONS
 
 // $ is a mini-jquery substitute that does very little.
 // if the passed argument starts with a `#` and does not

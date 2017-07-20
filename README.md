@@ -1,1 +1,412 @@
-# profile_pages
+
+
+
+
+# PROFILE PAGE FUNCTIONS
+
+
+
+
+
+
+
+
+`setup` initiates the user profile page
+Call out to the api, whose root address is passed in from
+the caller, prepare the submission form to prevent the
+html submission default behavior, and prepare the
+main pitch area to count the number of characters used
+in writing the pitch
+
+
+  
+
+```
+function setup(api){
+	var url = window.location.href.split("/profile/");
+	var screen_name = url[url.length-1];
+	getUserFrom(api, screen_name);
+	setupSubmitBid("#bid-form", api);
+	setupDescriptionCharCountDisplay("#description", "#descriptionCharacterCount", "#descriptionCharacterCountContainer", 700);
+}
+
+
+```
+
+
+
+
+
+
+
+`getUserFrom` uses `axios` to retrieve the user
+from the api based on the screen name given.
+Once the information has been returned the
+information is displayed in the user's info card
+using the `showUser` method
+
+
+  
+
+```
+function getUserFrom(api, screen_name){
+	console.log("ready to retrieve");
+	axios
+		.get(api+"/users/"+screen_name)
+		.then(showUser)
+		.catch(function(err){
+			console.log('no user was found');
+		})
+}
+
+
+```
+
+
+
+
+
+
+
+`setupSubmitBid` is called from `setup` with an element ID
+and the path to the api. `setupSubmitBid` is intended to prevent
+the html submission default and then calls `submitBid` with
+the element found by the element ID passed in from `setup`
+as well as the location of the api
+
+
+  
+
+```
+function setupSubmitBid(formId, api){
+	var element = $(formId);
+	addListener(element, "submit", function(evt) {
+		evt.preventDefault();
+		submitBid(element, api);
+	})
+}
+
+
+```
+
+
+
+
+
+
+
+`setupDescriptionCharCountDisplay` is called from `setup` with the
+elements it is required to alter and track in order to display
+the current number of characters that have been added to the given
+text area. If the number of characters exceeds the given maximum,
+an error class is added to the counter's container
+
+
+  
+
+```
+function setupDescriptionCharCountDisplay(textAreaId, counter, container, max){
+	addListener($(textAreaId), "keyup", function(evt) {
+		var charCount = $(textAreaId).value.length;
+		$(counter).innerHTML = charCount;
+		if(charCount > max) $(container).classList.add("error");
+		if(charCount <= max) $(container).classList.remove("error");
+	})
+}
+
+
+```
+
+
+
+
+
+
+
+`checkRequired` ensures that all required fields are filled in and
+invalidates those that aren't by adding an `is-invalid` class into
+the parent of those that are missing. The parent element is used
+because [that is where mdl reads the invalidation class](https://getmdl.io/components/index.html#textfields-section)
+
+
+  
+
+```
+function checkRequired(firstName, lastName, description, bidAmount, emailAddress){
+	var first = $(firstName).value.trim() != ''
+	var last  = $(lastName).value.trim() != ''
+	var desc  = $(description).value.trim() != ''
+	var bid   = $(bidAmount).value.trim() != ''
+	var email = $(emailAddress).value.trim() != ''
+	if(!first)  $(firstName).parentElement.classList.add('is-invalid')
+	if(!last)   $(lastName).parentElement.classList.add('is-invalid')
+	if(!desc)   $(description).parentElement.classList.add('is-invalid')
+	if(!bid)    $(bidAmount).parentElement.classList.add('is-invalid')
+	if(!email)  $(emailAddress).parentElement.classList.add('is-invalid')
+
+	return first&&last&&desc&&bid&&email
+}
+
+
+```
+
+
+
+
+
+
+
+`submitBid` bundles the values in the form that is passed in as an
+object, grabs the user's info that is currently stored in html,
+and puts both of those as base64 encoded query string variables
+before sending the form to the submission completion page
+
+
+  
+
+```
+function submitBid(formElement, api){
+	if(!checkRequired( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email")) return false;
+
+	var user_id = $("#user-id").innerHTML;
+	var user = $("#user-info").innerHTML;
+	var bid = {
+		"id": user_id,
+		"pitcher_first_name": $("#pitcher-first-name").value,
+		"pitcher_last_name": $("#pitcher-last-name").value,
+		"pitcher_company_name": $("#pitcher-company-name").value,
+		"pitcher_email": $("#pitcher-email").value,
+		"description": $("#description").value,
+		"bid_amount": parseFloat($("#bid-amount").value)
+	}
+
+```
+
+
+
+
+
+
+
+get second page
+
+
+  
+
+```
+	window.location.href = "/complete.html?bid="+btoa(JSON.stringify(bid))+"&user="+btoa(user);
+}
+
+
+```
+
+
+
+
+
+
+
+# PAYMENT PAGE FUNCTIONS
+
+
+
+
+
+
+
+
+`complete` is run on page load of `complete.html`. It retrieves
+the pitch submission and user object from the query string as
+bundled by the `submitBid` function. Show the user data in the
+user info card, post the bid to the api, and display
+an error message if something goes wrong. There is a `pending`
+class that is removed after the response from the pitch
+has been put into the HTML for display
+
+
+  
+
+```
+function complete(api){
+	url = window.location.href.split("?");
+	queryString = url[url.length-1];
+	entities = queryString.split("&");
+	var elements = {};
+	for(var i=0; i<entities.length; i++){
+		var sep = entities[i].split("=");
+		elements[sep[0]] = sep[1]
+	}
+	bid = JSON.parse(atob(elements.bid));
+	showUser(JSON.parse(atob(elements.user)));
+	axios.post(api+"/users/"+bid.id+"/pitch", bid)
+	 .then(function(response){
+			var pitchResponse = JSON.parse(response.data.pitch);
+			console.log(pitchResponse);
+			$("#pitcher-first-name").innerHTML=pitchResponse.pitcher_first_name
+			$("#pitcher-last-name").innerHTML=pitchResponse.pitcher_last_name
+			$("#pitcher-company-name").innerHTML=pitchResponse.pitcher_company_name
+			$("#pitcher-email").innerHTML=pitchResponse.pitcher_email
+			$("#description").innerHTML=pitchResponse.description
+			$("#bid-amount").innerHTML=pitchResponse.bid_amount
+
+			$("#bid-form-submit-success").classList.remove("pending")
+		})
+		.catch(function(err){
+			console.log(err);
+			$("#bid-form-submit-success").classList.add("hidden")
+			$("#bid-form-submit-failure").classList.remove("hidden")
+		})
+}
+
+
+```
+
+
+
+
+
+
+
+# SHARED FUNCTIONS
+
+
+
+
+
+
+
+
+`showUser` displays the given user information in the
+user info card. This is used on both the user pitch page
+and the completion page. `showUser` also replaces the
+user's first name in several pages around the page by
+searching for the `substitute-variable` class and then
+replacing {{user-first-name}} for the user's first name
+
+
+  
+
+```
+function showUser(result){
+	var user = result.data;
+
+  try {
+    $("#user-id").innerHTML=user.id
+    $("#user-info").innerHTML=JSON.stringify(result);
+  } catch(err){ /* completion page does not have these elements */ }
+
+	$("#user-name").innerHTML=user.first_name+" "+user.last_name;
+	$("#user-avatar").src=(user.avatar_url || "/default.png");
+	$("#email-domain").innerHTML=user.privatized_email;
+	$("#user-bio").innerHTML=user.bio;
+	$("#company-name").innerHTML=(user.companyName||"");
+
+```
+
+
+
+
+
+
+
+$("user-title").innerHTML=user.title
+
+
+  
+
+```
+	var update_name = $(".substitute-variable")
+	for(var i=0; i<update_name.length; i++){
+		var body = update_name[i].innerHTML
+		update_name[i].innerHTML = body.replace("{{user-first-name}}", user.first_name);
+	}
+}
+
+
+```
+
+
+
+
+
+
+
+# HELPER FUNCTIONS
+
+
+
+
+
+
+
+
+$ is a mini-jquery substitute that does very little.
+if the passed argument starts with a `#` and does not
+contain a `.`, the element is found by ID and a single
+element is returned.
+
+
+
+
+
+
+
+
+if the passed argument starts with a `.`, the element
+is found by class, and a list of elements is returned
+
+
+
+
+
+
+
+
+if the passed argument does not abide by one of those
+conditions, the element is found by query selector and
+a list of elements is returned
+
+
+  
+
+```
+function $(id){
+	var ident = id.slice(1);
+	if(id.match(/^\#[^\.]*$/)) return document.getElementById(ident);
+	if(id.match(/^\.[^\#]*$/)) return document.getElementsByClassName(ident);
+	return document.querySelectorAll(ident);
+}
+
+
+```
+
+
+
+
+
+
+
+`addListener` cuts down on the boilerplate of adding
+an event listener and watching out for older browsers
+a very naive implementation, but seems to work
+for our purposes
+
+
+  
+
+```
+function addListener(el, action, fn){
+	if (el.addEventListener) {
+		el.addEventListener(action, fn, true);
+	}
+	else {
+		el.attachEvent("on"+action, fn);
+	}
+}
+
+
+```
+
+
+
+
