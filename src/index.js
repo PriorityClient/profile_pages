@@ -197,8 +197,7 @@ function complete(api){
 	showUser(JSON.parse(atob(elements.user)));
 	axios.post(api+"/users/"+bid.id+"/pitch", bid)
 	 .then(function(response){
-			console.log(response.data.pitch)
-			var pitchResponse = JSON.parse(response.data.pitch);
+			var pitchResponse = response.data.pitch;
 			$("#pitcher-first-name").innerHTML=pitchResponse.pitcher_first_name
 			$("#pitcher-last-name").innerHTML=pitchResponse.pitcher_last_name
 			$("#pitcher-company-name").innerHTML=pitchResponse.pitcher_company_name
