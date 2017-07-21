@@ -197,6 +197,7 @@ function complete(api){
 	showUser(JSON.parse(atob(elements.user)));
 	axios.post(api+"/users/"+bid.id+"/pitch", bid)
 	 .then(function(response){
+			console.log(response.data.pitch)
 			var pitchResponse = JSON.parse(response.data.pitch);
 			$("#pitcher-first-name").innerHTML=pitchResponse.pitcher_first_name
 			$("#pitcher-last-name").innerHTML=pitchResponse.pitcher_last_name
@@ -208,6 +209,7 @@ function complete(api){
 			$("#bid-form-submit-success").classList.remove("pending")
 		})
 		.catch(function(err){
+			console.log(err);
 			console.log(err);
 			$("#bid-form-submit-success").classList.add("hidden")
 			$("#bid-form-submit-failure").classList.remove("hidden")

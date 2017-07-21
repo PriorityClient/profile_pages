@@ -13,7 +13,7 @@ server.get("/profile/:user_id", function(req, res) {
   res.sendFile(__dirname + '/www/index.html')
 })
 
-gulp.task('default', ['envSetup', 'copyResources', 'copyJS'/*, 'compressJS', 'htmlminify'*/]);
+gulp.task('default', ['envSetup', 'copyResources', 'compressJS'/*, 'htmlminify'*/]);
 gulp.task('serve', ['envSetup', 'copyResources', 'copyJS', 'startServer', 'watch']);
 
 if(!process.env.API_ADDRESS) process.env.API_ADDRESS = "http://localhost:3000/profiles/v1";
