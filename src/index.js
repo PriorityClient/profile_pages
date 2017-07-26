@@ -55,6 +55,7 @@ function getUserFrom(api, screen_name){
 		.get(api+"/users/"+screen_name)
 		.then(showUser)
 		.catch(function(err){
+      console.log(err);
 			console.log('no user was found');
 		})
 }
@@ -161,14 +162,14 @@ function showCompany(result){
 		var avatar = user.avatar_thumbnail_url || "/default.png";
 		var userName = user.first_name +" "+ user.last_name;
 		var userId = user.id;
-		var bio = user.bio||'[ no bio given ]';
+		var job_desciption = user.job_description||'[ no job description given ]';
 		$("#company-user-list").insertAdjacentHTML('beforeend',
 			userEl
 				.outerHTML
 				.replace(new RegExp("{{{userId}}}", 'g'), userId)
 				.replace(new RegExp("{{{userName}}}", 'g'), userName)
 				.replace(new RegExp("{{{avatar}}}", 'g'), avatar)
-				.replace(new RegExp("{{{bio}}}", 'g'), bio)
+				.replace(new RegExp("{{{job-desciption}}}", 'g'), job_desciption)
 		)
 
 	}
@@ -184,7 +185,7 @@ function showCompany(result){
 // an error message if something goes wrong. There is a `pending`
 // class that is removed after the response from the pitch
 // has been put into the HTML for display
-function complete(api){
+function complete(api, stripeKey){
 	url = window.location.href.split("?");
 	queryString = url[url.length-1];
 	entities = queryString.split("&");
@@ -194,7 +195,8 @@ function complete(api){
 		elements[sep[0]] = sep[1]
 	}
 	bid = JSON.parse(atob(elements.bid));
-	showUser(JSON.parse(atob(elements.user)));
+  user = JSON.parse(atob(elements.user));
+	showUser(user);
 	axios.post(api+"/users/"+bid.id+"/pitch", bid)
 	 .then(function(response){
 			var pitchResponse = response.data.pitch;
@@ -202,17 +204,48 @@ function complete(api){
 			$("#pitcher-last-name").innerHTML=pitchResponse.pitcher_last_name
 			$("#pitcher-company-name").innerHTML=pitchResponse.pitcher_company_name
 			$("#pitcher-email").innerHTML=pitchResponse.pitcher_email
-			$("#description").innerHTML=pitchResponse.description
+			$("#description").innerHTML=bid.description
 			$("#bid-amount").innerHTML=pitchResponse.bid_amount
+
+      setupStripe(api, stripeKey, pitchResponse);
 
 			$("#bid-form-submit-success").classList.remove("pending")
 		})
 		.catch(function(err){
 			console.log(err);
-			console.log(err);
 			$("#bid-form-submit-success").classList.add("hidden")
 			$("#bid-form-submit-failure").classList.remove("hidden")
 		})
+}
+
+function setupStripe(api, stripeKey, pitch){
+  var handler = StripeCheckout.configure({
+    key: stripeKey,
+    image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+    locale: 'auto',
+    token: function(token) {
+      var paymentInfo = {
+        token: token,
+        pitchEid: pitch.id
+      };
+      axios.post(api+"/stripe_payments", paymentInfo);
+    }
+  });
+
+  document.getElementById('customButton').addEventListener('click', function(e) {
+    // Open Checkout with further options:
+    handler.open({
+      zipCode: false,
+      email: pitch.pitcher_email,
+      amount: 8000
+    });
+    e.preventDefault();
+  });
+
+  // Close Checkout on page navigation:
+  window.addEventListener('popstate', function() {
+    handler.close();
+  });
 }
 
 //## SHARED FUNCTIONS
@@ -235,9 +268,9 @@ function showUser(result){
 	$("#user-name").innerHTML=user.first_name+" "+user.last_name;
 	$("#user-avatar").src=(user.avatar_url || "/default.png");
 	$("#email-domain").innerHTML=user.privatized_email;
-	$("#user-bio").innerHTML=user.bio;
+	$("#user-job-description").innerHTML=user.job_description;
 	$("#company-name").innerHTML=(user.companyName||"");
-	//$("user-title").innerHTML=user.title
+	$("#job-title").innerHTML=user.job_title
 	var update_name = $(".substitute-variable")
 	for(var i=0; i<update_name.length; i++){
 		var body = update_name[i].innerHTML

@@ -37,9 +37,10 @@
 		}
   </style>
 		<script src="/index.js"></script>
+		<script src="https://checkout.stripe.com/checkout.js"></script>
 		<script>
 			document.addEventListener("DOMContentLoaded", function(event) {
-				complete('{{{API_ADDRESS}}}')
+				complete('{{{API_ADDRESS}}}', '{{{STRIPE_KEY}}}')
 			});
 		</script>
 	</head>
@@ -61,10 +62,10 @@
               <div id="user-info" class="hidden"></div>
               <div id="user-name"></div>
               <div id="company-name"></div>
-              <div id="user-title"></div>
+              <div id="job-title"></div>
               <div>Verified Email Address:</div>
               <div><a id="goto-company">--------<span id="email-domain"></span></a></div>
-              <div id="user-bio"></div>
+              <div id="user-job-description"></div>
             </div>
 
             <div class="content-area mdl-cell--hide-phone mdl-cell--hide-tablet">
@@ -123,20 +124,9 @@
                   <div class="mdl-cell mdl-cell--4-col">
 
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                      <form id="stripe-form" action="/your-server-side-code" method="POST">
-                        <script
-                          src="https://checkout.stripe.com/checkout.js"
-                          class="stripe-button"
-                          data-key="{{{STRIPE_KEY}}}"
-                          data-amount="999"
-                          data-name="Stripe.com"
-                          data-description="Widget"
-                          data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-                          data-locale="auto"
-                          data-zip-code="true"
-                          defer >
-                        </script>
-                      </form>
+<button id="customButton" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">
+  Pay With Card
+</button>
                     </div><!-- .mdl-textfield -->
 
                   </div><!-- .mdl-cell -->
