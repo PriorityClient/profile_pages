@@ -159,7 +159,7 @@ function showCompany(result){
 		var userEl = sample.cloneNode(true)
 		userEl.id = '';
 		userEl.classList.remove('hidden');
-		var avatar = user.avatar_thumbnail_url || "/default.png";
+		var avatar = user.avatar_thumbnail_url || "/default_sm.png";
 		var userName = user.first_name +" "+ user.last_name;
 		var userId = user.id;
 		var job_desciption = user.job_description||'[ no job description given ]';
@@ -232,7 +232,7 @@ function setupStripe(api, stripeKey, pitch){
     }
   });
 
-  document.getElementById('customButton').addEventListener('click', function(e) {
+  $('customButton').addEventListener('click', function(e) {
     // Open Checkout with further options:
     handler.open({
       zipCode: false,
@@ -264,17 +264,19 @@ function showUser(result){
     $("#user-info").innerHTML=JSON.stringify(result);
   } catch(err){ /* completion page does not have these elements */ }
 
-	$("#goto-company").href="/company/"+user.enterprise_id;
+console.log(user.enterprise_id);
+	$("#sidebar-company-name").href="/company/"+user.enterprise_id;
+	$("#sidebar-company-name").innerHTML=(user.company_name||user.enterprise_id||"");
 	$("#user-name").innerHTML=user.first_name+" "+user.last_name;
 	$("#user-avatar").src=(user.avatar_url || "/default.png");
-	$("#email-domain").innerHTML=user.privatized_email;
 	$("#user-job-description").innerHTML=user.job_description;
-	$("#company-name").innerHTML=(user.companyName||"");
+	$("#user-email-domain").innerHTML=user.privatized_email;
 	$("#job-title").innerHTML=user.job_title
 	var update_name = $(".substitute-variable")
 	for(var i=0; i<update_name.length; i++){
 		var body = update_name[i].innerHTML
-		update_name[i].innerHTML = body.replace("{{user-first-name}}", user.first_name);
+    var regex = new RegExp("{{user-first-name}}", "g")
+		update_name[i].innerHTML = body.replace(regex, user.first_name);
 	}
 }
 

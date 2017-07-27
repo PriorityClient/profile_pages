@@ -20,7 +20,7 @@ if(!process.env.API_ADDRESS) process.env.API_ADDRESS = "http://localhost:3000/pr
 if(!process.env.STRIPE_KEY) process.env.STRIPE_KEY = "pk_test_zqRxEBrhmk4o4O0r2qVXmJCI";
 
 gulp.task('copyResources', function(){
-  gulp.src(['src/default.png'])
+  gulp.src(['src/*.png'])
     .pipe(gulp.dest('www/'));
 });
 
