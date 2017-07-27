@@ -95,17 +95,19 @@ function setupDescriptionCharCountDisplay(textAreaId, counter, container, max){
 // invalidates those that aren't by adding an `is-invalid` class into
 // the parent of those that are missing. The parent element is used
 // because [that is where mdl reads the invalidation class](https://getmdl.io/components/index.html#textfields-section)
-function checkRequired(firstName, lastName, description, bidAmount, emailAddress){
+function checkRequired(firstName, lastName, description, bidAmount, emailAddress, companyName){
 	var first = $(firstName).value.trim() != ''
 	var last  = $(lastName).value.trim() != ''
 	var desc  = $(description).value.trim() != ''
 	var bid   = $(bidAmount).value.trim() != ''
 	var email = $(emailAddress).value.trim() != ''
+	var company = $(companyName).value.trim() != ''
 	if(!first)  $(firstName).parentElement.classList.add('is-invalid')
 	if(!last)   $(lastName).parentElement.classList.add('is-invalid')
 	if(!desc)   $(description).parentElement.classList.add('is-invalid')
 	if(!bid)    $(bidAmount).parentElement.classList.add('is-invalid')
 	if(!email)  $(emailAddress).parentElement.classList.add('is-invalid')
+	if(!company)  $(companyName).parentElement.classList.add('is-invalid')
 
 	return first&&last&&desc&&bid&&email
 }
@@ -115,7 +117,7 @@ function checkRequired(firstName, lastName, description, bidAmount, emailAddress
 // and puts both of those as base64 encoded query string variables
 // before sending the form to the submission completion page
 function submitBid(formElement, api){
-	if(!checkRequired( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email")) return false;
+	if(!checkRequired( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email", "#pitcher-company-name")) return false;
 
 	var user_id = $("#user-id").innerHTML;
 	var user = $("#user-info").innerHTML;
@@ -245,13 +247,15 @@ function setupStripe(api, stripeKey, pitch){
     handler.open({
       zipCode: false,
       email: pitch.pitcher_email,
-      amount: 800
+      amount: 800,
+      description: "Pitch delivery fee"
     });
     e.preventDefault();
   });
 
   // Close Checkout on page navigation:
-  window.addEventListener('popstate', function() {
+  window.addEventListener('popstate', function(result) {
+    console.log(result);
     handler.close();
   });
 }
