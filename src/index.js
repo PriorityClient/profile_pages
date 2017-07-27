@@ -163,13 +163,17 @@ function showCompany(result){
 		var userName = user.first_name +" "+ user.last_name;
 		var userId = user.id;
 		var job_desciption = user.job_description||'[ no job description given ]';
+		var job_title = user.job_title||'[ no job title given ]';
+		var min_bid = user.bid_amount||'30.00';
 		$("#company-user-list").insertAdjacentHTML('beforeend',
 			userEl
 				.outerHTML
 				.replace(new RegExp("{{{userId}}}", 'g'), userId)
 				.replace(new RegExp("{{{userName}}}", 'g'), userName)
 				.replace(new RegExp("{{{avatar}}}", 'g'), avatar)
-				.replace(new RegExp("{{{job-desciption}}}", 'g'), job_desciption)
+				.replace(new RegExp("{{{jobDescription}}}", 'g'), job_desciption)
+				.replace(new RegExp("{{{jobTitle}}}", 'g'), job_title)
+				.replace(new RegExp("{{{minBid}}}", 'g'), min_bid)
 		)
 
 	}

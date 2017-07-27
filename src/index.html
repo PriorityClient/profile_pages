@@ -36,11 +36,13 @@
     .error  { color:#f00; }
     .hidden { display:none; }
     .bold   { font-weight:bold; font-size:1.1em }
+    .user-listing-info { border-bottom:1px solid #eee; }
     #user-info-panel { text-align:center ; }
     #user-info-panel h3, #user-info-panel h4 {margin-top:0px; margin-bottom:10px; }
     #sidebar-company-name {text-decoration: none;}
     #user-job-description {margin-bottom:15px;margin-top:15px;}
     .mdl-card.main-content { width:100%; }
+    .main-content { width:90%; }
     .pitchArea {
         border: 1px solid rgba(0,0,0,.12);;
         width:100%;
@@ -48,6 +50,10 @@
            -moz-box-sizing: border-box;
                 box-sizing: border-box;
     }
+.user-listing-info h4 { border-bottom: 1px solid #eee; margin-bottom:0px; width:100%}
+.individual-user {  border-bottom: 1px solid #eee; width:100%}
+.individual-user a { text-decoration: none; }
+.individual-user h6 {margin:0px;}
   </style>
 	</head>
 	<body onLoad="setup('{{{API_ADDRESS}}}')">
@@ -61,24 +67,32 @@
 			</header>
 
 			<main class="mdl-layout__content hidden" id="company-page">
-        <div class="mdl-grid">
-          <div class="mdl-cell mdl-cell--12-col">
-            <h2 class="mdl-card__title-text" id="company-name"></h2>
-          </div>
-          <ul id="company-user-list" class="demo-list-action mdl-list mdl-cell mdl-cell--12-col">
 
-            <li id="company-user-example" class="hidden content-area mdl-list__item mdl-list__item--three-line">
-              <a href="/profile/{{{userId}}}">
-                <img class="user-avatar" src="{{{avatar}}}" alt="{{{userName}}} profile image">
-              </a>
-              <span class="mdl-list__item-primary-content">
-                <span><a href="/profile/{{{userId}}}">{{{userName}}}</a></span>
-                <span class="mdl-list__item-text-body"> {{{job-desciption}}} </span>
-              </span>
-            </li>
+				<div class="mdl-grid main-content content-area" id="company-user-list">
+					<div class="user-listing-info mdl-cell mdl-cell--12-col">
+					<h4><span id="company-name"></span> employees on VIP Crowd</h4>
+					</div>
+					<div id="company-user-example" class="hidden individual-user mdl-grid mdl-cell mdl-cell--12-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
+						<div class="mdl-cell mdl-cell--2-col mdl-cell--8-col-tablet mdl-cell--2-col-phone">
+							<img class="user-avatar" src="{{{avatar}}}" alt="{{{userName}}} profile image">
+						</div>
+						<div class="mdl-cell mdl-cell--2-col mdl-cell--8-col-tablet mdl-cell--2-col-phone">
+							<h6 class="bold"><a href="/profile/{{{userId}}}">{{{userName}}}</a></h6>
+							<div>{{{jobTitle}}}</div>
+							<p>Minimum Bid: ${{{minBid}}}</p>
+						</div>
+						<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+							{{{jobDescription}}}
+						</div>
+						<div class="mdl-layout-spacer"></div>
+						<div class="mdl-cell mdl-cell--2-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+							<a href="/profile/{{{userId}}}" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-color-text--white">
+								View Profile
+							</a>
+						</div>
+					</div>
+				</div>
 
-          </ul>
-        </div>
       </main>
 
 			<main class="mdl-layout__content hidden" id="profile-page">
