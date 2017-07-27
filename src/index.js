@@ -39,7 +39,11 @@ function setupProfile(api){
 	$("#profile-page").classList.remove("hidden");
 	var url = window.location.href.split("/profile/");
 	var screen_name = url[url.length-1];
-	getUserFrom(api, screen_name);
+	getUserFrom(api, screen_name)
+    .then(function(u){
+      $("#bid-amount").parentElement.classList.add("is-dirty");
+      $("#bid-amount").value = u.minimum_bid
+    });
 	setupSubmitBid("#bid-form", api);
 	setupDescriptionCharCountDisplay("#description", "#descriptionCharacterCount", "#descriptionCharacterCountContainer", 700);
 }
@@ -51,7 +55,7 @@ function setupProfile(api){
 // using the `showUser` method
 function getUserFrom(api, screen_name){
 	console.log("ready to retrieve");
-	axios
+	return axios
 		.get(api+"/users/"+screen_name)
 		.then(showUser)
 		.catch(function(err){
@@ -241,7 +245,7 @@ function setupStripe(api, stripeKey, pitch){
     handler.open({
       zipCode: false,
       email: pitch.pitcher_email,
-      amount: 8000
+      amount: 800
     });
     e.preventDefault();
   });
@@ -268,7 +272,6 @@ function showUser(result){
     $("#user-info").innerHTML=JSON.stringify(result);
   } catch(err){ /* completion page does not have these elements */ }
 
-console.log(user.enterprise_id);
 	$("#sidebar-company-name").href="/company/"+user.enterprise_id;
 	$("#sidebar-company-name").innerHTML=(user.company_name||user.enterprise_id||"");
 	$("#user-name").innerHTML=user.first_name+" "+user.last_name;
@@ -281,6 +284,26 @@ console.log(user.enterprise_id);
 		var body = update_name[i].innerHTML
     var regex = new RegExp("{{user-first-name}}", "g")
 		update_name[i].innerHTML = body.replace(regex, user.first_name);
+	}
+  showChips(user.responsibilities)
+  return user;
+}
+
+function showChips(interests){
+  if(!interests.length) return false ;
+  $("#no-interests").classList.add("hidden");
+	var sample = $("#chip-example")
+	for(var i=0; i<interests.length; i++){
+		var interest = interests[i];
+		var interestEl = sample.cloneNode(true)
+		interestEl.removeAttribute('id');
+		interestEl.classList.remove('hidden');
+		$("#interest-container").insertAdjacentHTML('afterbegin',
+			interestEl
+				.outerHTML
+				.replace(new RegExp("{{{interestName}}}", 'g'), interest.name)+" "
+		)
+
 	}
 }
 

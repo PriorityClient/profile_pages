@@ -43,6 +43,7 @@
     #user-job-description {margin-bottom:15px;margin-top:15px;}
     .mdl-card.main-content { width:100%; }
     .main-content { width:90%; }
+    .pitchArea-parent { padding-top: 0;margin-top: 0; }
     .pitchArea {
         border: 1px solid rgba(0,0,0,.12);;
         width:100%;
@@ -50,11 +51,11 @@
            -moz-box-sizing: border-box;
                 box-sizing: border-box;
     }
-#company-page { margin-top:15px; margin-left:15px; margin-right:15px; }
-.user-listing-info h4 { border-bottom: 1px solid #eee; margin-bottom:0px; width:100%}
-.individual-user {  border-bottom: 1px solid #eee; width:100%}
-.individual-user a { text-decoration: none; }
-.individual-user h6 {margin:0px;}
+		#company-page { margin-top:15px; margin-left:15px; margin-right:15px; }
+		.user-listing-info h4 { border-bottom: 1px solid #eee; margin-bottom:0px; width:100%}
+		.individual-user {  border-bottom: 1px solid #eee; width:100%}
+		.individual-user a { text-decoration: none; }
+		.individual-user h6 {margin:0px;}
   </style>
 	</head>
 	<body onLoad="setup('{{{API_ADDRESS}}}')">
@@ -111,17 +112,12 @@
 							<div id="user-email-domain" class="bold" ></div>
               <p id="user-job-description"></p>
               <h5>Involved in:</h5>
-<div>
-<span class="mdl-chip">
-    <span class="mdl-chip__text">Basic Chip</span>
-</span>
-<span class="mdl-chip">
-    <span class="mdl-chip__text">Basic Chip</span>
-</span>
-<span class="mdl-chip">
-    <span class="mdl-chip__text">Basic Chip</span>
-</span>
-</div>
+							<p id="no-interests">[ no interests given ]</p>
+							<div id="interest-container">
+								<span id="chip-example" class="hidden mdl-chip">
+									<span class="mdl-chip__text">{{{interestName}}}</span>
+								</span>
+							</div>
 
 
               <div id="user-id" class="hidden"></div>
@@ -145,6 +141,8 @@
                   </ul>
                 </li>
 							</ul>
+              <p class="bold">Where does the money go?</p>
+							<p class="substitute-variable">Funds go to an IRS approved charity designated by {{user-first-name}}. VIP Crowd charges a small fee to process payments and administer the program. </p>
             </div>
 
           </div> <!-- /left panel .content-column -->
@@ -196,7 +194,7 @@
 											(<span id="descriptionCharacterCount">0</span>/700)
 										</div>
 
-										<div class="mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield">
+										<div class="pitchArea-parent mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield">
 											<textarea class="pitchArea mdl-textfield__input" rows="10" id="description" ></textarea>
 											<span class="mdl-textfield__error">You must enter a pitch</span>
 										</div>
