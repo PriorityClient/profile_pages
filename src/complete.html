@@ -15,7 +15,7 @@
 		<script src="/index.js"></script>
 		<script>
 			document.addEventListener("DOMContentLoaded", function(event) {
-				complete('{{{API_ADDRESS}}}', '{{{STRIPE_KEY}}}')
+				complete('{{{API_ADDRESS}}}', '{{{EMAIL_DOMAIN}}}', '{{{STRIPE_KEY}}}')
 			});
 		</script>
   <style>
@@ -44,7 +44,7 @@
     .hidden { display:none; }
     .bold   { font-weight:bold; font-size:1.1em }
     .user-listing-info { border-bottom:1px solid #eee; }
-    #user-info-panel { text-align:center ; }
+    .center-text { text-align:center ; }
     #user-info-panel h3, #user-info-panel h4 {margin-top:0px; margin-bottom:10px; }
     #sidebar-company-name {text-decoration: none;}
     #user-job-description {margin-bottom:15px;margin-top:15px;}
@@ -61,6 +61,25 @@
     .individual-user {  border-bottom: 1px solid #eee; width:100%}
     .individual-user a { text-decoration: none; }
     .individual-user h6 {margin:0px;}
+    #pitch-preview h6 { margin:0; font-size:1.2em; font-weight:bold;}
+    .section-header { margin:0}
+    #stripe-response {
+      border-radius:4px;
+      border: 1px solid;
+      font-weight:bold;
+      font-size:1em;
+      padding:10px;
+    }
+    #stripe-response.failure-message {
+      border-color: #900;
+      background-color: #f00;
+      color: #eee;
+    }
+    #stripe-response.success-message {
+      border-color: #090;
+      background-color: #0f0;
+      color: #333;
+    }
   </style>
 	</head>
 	<body>
@@ -77,7 +96,7 @@
 
 					<div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop content-column">
 
-            <div id="user-info-panel" class="content-area">
+            <div id="user-info-panel" class="center-text content-area">
               <img id="user-avatar" alt="profile image">
               <h3 id="user-name"></h3>
               <a class="bold" id="sidebar-company-name"></a>
@@ -119,13 +138,13 @@
           </div> <!-- /left panel .content-column -->
 
 					<div class="mdl-cell mdl-cell--8-col content-column">
-            <div class="content-area ">
+            <div id="pitch-preview" class="content-area ">
 
               <div id="bid-form-submit-failure" class="main-content hidden">Failure :(</div>
 
               <div id="bid-form-submit-success" class="main-content pending">
 
-                <h6> Confirm Your Pitch </h2>
+                <h3 class="section-header"> Confirm Your Pitch </h3>
 
                 <div class="mdl-grid">
                   <div class="mdl-cell mdl-cell--6-col">
@@ -160,6 +179,7 @@
                 </div>
 
                 <div class="mdl-grid">
+                  <div id="stripe-response" class="hidden center-text mdl-cell mdl-cell--12-col">test text </div>
                   <div class="mdl-layout-spacer"></div>
                   <div class="mdl-cell mdl-cell--4-col">
 
@@ -170,6 +190,7 @@
                     </div><!-- .mdl-textfield -->
 
                   </div><!-- .mdl-cell -->
+
 
                 </div><!-- .mdl-grid -->
 

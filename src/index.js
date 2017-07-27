@@ -195,7 +195,7 @@ function showCompany(result){
 // an error message if something goes wrong. There is a `pending`
 // class that is removed after the response from the pitch
 // has been put into the HTML for display
-function complete(api, stripeKey){
+function complete(api, emailDomain, stripeKey){
 	url = window.location.href.split("?");
 	queryString = url[url.length-1];
 	entities = queryString.split("&");
@@ -217,7 +217,7 @@ function complete(api, stripeKey){
 			$("#description").innerHTML=bid.description
 			$("#bid-amount").innerHTML=pitchResponse.bid_amount
 
-      setupStripe(api, stripeKey, pitchResponse);
+      setupStripe(api, emailDomain, user, stripeKey, pitchResponse);
 
 			$("#bid-form-submit-success").classList.remove("pending")
 		})
@@ -228,17 +228,31 @@ function complete(api, stripeKey){
 		})
 }
 
-function setupStripe(api, stripeKey, pitch){
+function setupStripe(api, emailDomain, user, stripeKey, pitch){
   var handler = StripeCheckout.configure({
     key: stripeKey,
     image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
     locale: 'auto',
     token: function(token) {
+			$("#customButton").disabled = true;
       var paymentInfo = {
         token: token,
         pitchEid: pitch.id
       };
-      axios.post(api+"/stripe_payments", paymentInfo);
+      axios
+				.post(api+"/stripe_payments", paymentInfo)
+				.then(function(payment){
+					$("#customButton").classList.add("hidden");
+					$("#stripe-response").innerHTML = "Your pitch has been sent to "+user.data.first_name+". Their messages regarding this pitch will come to you from the address "+bid.id+"@"+emailDomain
+					$("#stripe-response").classList.add("success-message");
+					$("#stripe-response").classList.remove("hidden");
+				})
+				.catch(function(error){
+					$("#customButton").classList.add("hidden");
+					$("#stripe-response").innerHTML = "Something has gone wrong with sending your pitch. The developers at VIP Crowd have been made aware of the issue. You may refresh this page to try again, or contact support@vipcrowd.com for more information"
+					$("#stripe-response").classList.add("failure-message");
+					$("#stripe-response").classList.remove("hidden");
+				});
     }
   });
 
