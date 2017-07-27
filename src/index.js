@@ -236,7 +236,7 @@ function setupStripe(api, stripeKey, pitch){
     }
   });
 
-  $('customButton').addEventListener('click', function(e) {
+  $('#customButton').addEventListener('click', function(e) {
     // Open Checkout with further options:
     handler.open({
       zipCode: false,
