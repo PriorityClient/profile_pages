@@ -13,8 +13,13 @@
 		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 		<script src="https://checkout.stripe.com/checkout.js"></script>
   <style>
+.bid-text-label {
+padding-top:5px;
+}
+
 .bid-text {
   position: relative;
+	padding:0px;
 }
 
 .bid-text > i {
@@ -56,7 +61,7 @@
       margin-top: 0;
       margin-bottom: 10px;
     }
-    .error  { color:#f00; }
+    .error  { color:#d50000; }
     .hidden { display:none; }
     .bold   { font-weight:bold; font-size:1.1em; }
     .user-listing-info { border-bottom:1px solid #eee; }
@@ -241,9 +246,11 @@
 											<span class="mdl-textfield__error">You must enter a pitch that is less than 700 characters</span>
 										</div>
 
-										<div class="mdl-cell mdl-cell--4-col">
+										<div class="bid-text-label mdl-cell mdl-cell--3-col">
 											<label for="user" class="substitute-minimum-bid">Bid Amount (Minimum ${{user-minimum-bid}})</label>
-											<div class="bid-text mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+										</div>
+										<div class="mdl-cell mdl-cell--4-col">
+											<div class="bid-text mdl-textfield mdl-js-textfield">
 												<i>$</i><input type="number" step="0.01" min="0" id="bid-amount" class="mdl-textfield__input" pattern="-?[0-9]*(\.[0-9]+)?">
 												<span class="mdl-textfield__error substitute-minimum-bid">Bid must be a valid dollar amount over ${{user-minimum-bid}}</span>
 											</div>
@@ -253,8 +260,13 @@
 								</form>
 
                 <div class="mdl-grid">
-                  <div id="stripe-response" class="hidden center-text mdl-cell mdl-cell--12-col">test text </div>
-                  <div class="mdl-layout-spacer"></div>
+                  <div id="stripe-response" class="hidden center-text mdl-cell mdl-cell--12-col"></div>
+                  <div class="mdl-cell mdl-cell--8-col">
+<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="tos-checkbox">
+  <span class="mdl-checkbox__label">You must abide by our terms of service which are conveniently laid out here for you to read them and approve</span>
+  <input type="checkbox" id="tos-checkbox" class="mdl-checkbox__input">
+</label>
+									</div>
                   <div id="stripe-button-container" class="mdl-cell mdl-cell--4-col">
 										<button id="stripe-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-color-text--white">
 											Submit Pitch
