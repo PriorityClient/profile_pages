@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.grey-light_blue.min.css" />
+		<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.grey-light_blue.min.css" />
 
 
 		<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<script src="https://checkout.stripe.com/checkout.js"></script>
   <style>
     body { background: #eee; }
     .section-header { margin:0}
@@ -44,7 +45,7 @@
     #user-job-description {margin-bottom:15px;margin-top:15px;}
     .mdl-card.main-content { width:100%; }
     .main-content { width:90%; }
-    .pitchArea-parent { padding-top: 0;margin-top: 0; }
+    .pitchArea-parent { padding-top: 0; margin-top: 0; }
     .pitchArea {
         border: 1px solid rgba(0,0,0,.12);;
         width:100%;
@@ -57,9 +58,26 @@
 		.individual-user {  border-bottom: 1px solid #eee; width:100%}
 		.individual-user a { text-decoration: none; }
 		.individual-user h6 {margin:0px;}
+    #stripe-response {
+      border-radius:4px;
+      border: 1px solid;
+      font-weight:bold;
+      font-size:1em;
+      padding:10px;
+    }
+    #stripe-response.failure-message {
+      border-color: #900;
+      background-color: #f00;
+      color: #eee;
+    }
+    #stripe-response.success-message {
+      border-color: #090;
+      background-color: #0f0;
+      color: #333;
+    }
   </style>
 	</head>
-	<body onLoad="setup('{{{API_ADDRESS}}}')">
+	<body onLoad="setup('{{{API_ADDRESS}}}','{{{EMAIL_DOMAIN}}}', '{{{STRIPE_KEY}}}')">
 
 		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 			<header class="mdl-layout__header">
@@ -129,7 +147,7 @@
               <h4> What is a VIP Crowd?</h4>
               <p>VIP Crowd is a better way for vendors to get prospects’ attention without annoying them with cold calls and emails</p>
               <hr class="short-break" />
-              <p class="bold">Here's how it works:</p>
+              <p class="bold">How it works:</p>
 							<ul>
 								<li class="substitute-variable">Fill out the form to submit a request for a 20 minute call with {{user-first-name}}</li>
 								<li>$8 is charged to your credit card when you submit the meeting request.</li>
@@ -152,7 +170,6 @@
 
             <div class="content-area">
               <h3 class="section-header"> Your Pitch </h3>
-							<form id="bid-form" autocomplete="on">
 
 									<div class="mdl-grid">
 
@@ -198,7 +215,7 @@
 
 										<div class="pitchArea-parent mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield">
 											<textarea class="pitchArea mdl-textfield__input" rows="10" id="description" ></textarea>
-											<span class="mdl-textfield__error">You must enter a pitch</span>
+											<span class="mdl-textfield__error">You must enter a pitch that is less than 700 characters</span>
 										</div>
 
 										<div class="mdl-cell mdl-cell--12-col">
@@ -211,27 +228,26 @@
 
 									</div><!-- main input boxes .mdl-grid -->
 
-									<div class="mdl-grid">
+                <div class="mdl-grid">
+                  <div id="stripe-response" class="hidden center-text mdl-cell mdl-cell--12-col">test text </div>
+                  <div class="mdl-layout-spacer"></div>
+                  <div class="mdl-cell mdl-cell--2-col">
 
-										<div class="mdl-layout-spacer"></div>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                      <button id="stripe-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-color-text--white">
+                        Submit Pitch
+                      </button>
+                    </div><!-- .mdl-textfield -->
+                  </div><!-- .mdl-cell -->
+                </div><!-- .mdl-grid -->
 
-										<div class="mdl-cell mdl-cell--2-col">
-											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-color-text--white">
-  Submit Pitch
-</button>
-											</div>
-										</div>
-
-									</div><!-- submit grid -->
-							</form>
             </div><!-- main section form data .content-area -->
 
             <div class="content-area mdl-cell--hide-desktop">
               <h4> What is a VIP Crowd?</h4>
               <p>VIP Crowd is a better way for vendors to get prospects’ attention without annoying them with cold calls and emails</p>
               <hr class="short-break" />
-              <h6>Here's how it works:</h6>
+              <h6>How it works:</h6>
 							<ul>
 								<li class="substitute-variable">Fill out the form to submit a request for a 20 minute call with {{user-first-name}}</li>
 								<li>$8 is charged to your credit card when you submit the meeting request.</li>
@@ -244,6 +260,8 @@
                   </ul>
                 </li>
 							</ul>
+							<p class="bold">Where does the money go?</p>
+							<p class="substitute-variable">Funds go to an IRS approved charity designated by {{user-first-name}}. VIP Crowd charges a small fee to process payments and administer the program. </p>
             </div><!-- do not show on desktop .content-area -->
 
           </div> <!-- /main panel .content-column -->

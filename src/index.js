@@ -23,9 +23,9 @@
 // router at the server level so the whole project's
 // html doesn't have to be in a single file, but
 // for now this is the path. there are other solutions available.
-function setup(api){
+function setup(api, emailDomain, stripeKey){
 	var loc = window.location.href;
-	if(loc.match(/\/profile\//))	return setupProfile(api)
+	if(loc.match(/\/profile\//))	return setupProfile(api, emailDomain, stripeKey)
 	if(loc.match(/\/company\//))	return setupCompany(api)
 }
 
@@ -35,7 +35,7 @@ function setup(api){
 // html submission default behavior, and prepare the
 // main pitch area to count the number of characters used
 // in writing the pitch
-function setupProfile(api){
+function setupProfile(api, emailDomain, stripeKey){
 	$("#profile-page").classList.remove("hidden");
 	var url = window.location.href.split("/profile/");
 	var screen_name = url[url.length-1];
@@ -43,8 +43,8 @@ function setupProfile(api){
     .then(function(u){
       $("#bid-amount").parentElement.classList.add("is-dirty");
       $("#bid-amount").value = u.minimum_bid
+      setupStripe(api, emailDomain, u, stripeKey);
     });
-	setupSubmitBid("#bid-form", api);
 	setupDescriptionCharCountDisplay("#description", "#descriptionCharacterCount", "#descriptionCharacterCountContainer", 700);
 }
 
@@ -62,19 +62,6 @@ function getUserFrom(api, screen_name){
       console.log(err);
 			console.log('no user was found');
 		})
-}
-
-// `setupSubmitBid` is called from `setup` with an element ID
-// and the path to the api. `setupSubmitBid` is intended to prevent
-// the html submission default and then calls `submitBid` with
-// the element found by the element ID passed in from `setup`
-// as well as the location of the api
-function setupSubmitBid(formId, api){
-	var element = $(formId);
-	addListener(element, "submit", function(evt) {
-		evt.preventDefault();
-		submitBid(element, api);
-	})
 }
 
 // `setupDescriptionCharCountDisplay` is called from `setup` with the
@@ -98,7 +85,7 @@ function setupDescriptionCharCountDisplay(textAreaId, counter, container, max){
 function checkRequired(firstName, lastName, description, bidAmount, emailAddress, companyName){
 	var first = $(firstName).value.trim() != ''
 	var last  = $(lastName).value.trim() != ''
-	var desc  = $(description).value.trim() != ''
+	var desc  = $(description).value.trim() != '' && $(description).value.length < 700
 	var bid   = $(bidAmount).value.trim() != ''
 	var email = $(emailAddress).value.trim() != ''
 	var company = $(companyName).value.trim() != ''
@@ -206,7 +193,6 @@ function complete(api, emailDomain, stripeKey){
 	}
 	bid = JSON.parse(atob(elements.bid));
   user = JSON.parse(atob(elements.user));
-	showUser(user);
 	axios.post(api+"/users/"+bid.id+"/pitch", bid)
 	 .then(function(response){
 			var pitchResponse = response.data.pitch;
@@ -228,27 +214,27 @@ function complete(api, emailDomain, stripeKey){
 		})
 }
 
-function setupStripe(api, emailDomain, user, stripeKey, pitch){
+function setupStripe(api, emailDomain, user, stripeKey){
   var handler = StripeCheckout.configure({
     key: stripeKey,
     image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
     locale: 'auto',
     token: function(token) {
-			$("#customButton").disabled = true;
+			$("#stripe-button").disabled = true;
       var paymentInfo = {
-        token: token,
-        pitchEid: pitch.id
+        token: token//,
+        //pitchEid: pitch.id
       };
       axios
 				.post(api+"/stripe_payments", paymentInfo)
 				.then(function(payment){
-					$("#customButton").classList.add("hidden");
+					$("#stripe-button").classList.add("hidden");
 					$("#stripe-response").innerHTML = "Your pitch has been sent to "+user.data.first_name+". Their messages regarding this pitch will come to you from the address "+bid.id+"@"+emailDomain
 					$("#stripe-response").classList.add("success-message");
 					$("#stripe-response").classList.remove("hidden");
 				})
 				.catch(function(error){
-					$("#customButton").classList.add("hidden");
+					$("#stripe-button").classList.add("hidden");
 					$("#stripe-response").innerHTML = "Something has gone wrong with sending your pitch. The developers at VIP Crowd have been made aware of the issue. You may refresh this page to try again, or contact support@vipcrowd.com for more information"
 					$("#stripe-response").classList.add("failure-message");
 					$("#stripe-response").classList.remove("hidden");
@@ -256,11 +242,12 @@ function setupStripe(api, emailDomain, user, stripeKey, pitch){
     }
   });
 
-  $('#customButton').addEventListener('click', function(e) {
+  $('#stripe-button').addEventListener('click', function(e) {
     // Open Checkout with further options:
+    if(!checkRequired( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email", "#pitcher-company-name")) return false;
     handler.open({
       zipCode: false,
-      email: pitch.pitcher_email,
+      email: $("#pitcher-email").value,
       amount: 800,
       description: "Pitch delivery fee"
     });
