@@ -13,6 +13,26 @@
 		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 		<script src="https://checkout.stripe.com/checkout.js"></script>
   <style>
+.bid-text {
+  position: relative;
+}
+
+.bid-text > i {
+  position: absolute;
+  display: block;
+  transform: translate(0, -50%);
+  top: 50%;
+  pointer-events: none;
+  width: 25px;
+  text-align: center;
+  font-style: normal;
+}
+
+.bid-text > input {
+  padding-left: 25px;
+  padding-right: 0;
+	width: 75px;
+}
     body { background: #eee; }
 		.main-page { max-width: 1366px; margin:auto; }
     .section-header { margin:0}
@@ -77,6 +97,7 @@
       background-color: #0f0;
       color: #333;
     }
+		#stripe-button { width: 100%; }
   </style>
 	</head>
 	<body onLoad="setup('{{{API_ADDRESS}}}','{{{EMAIL_DOMAIN}}}', '{{{STRIPE_KEY}}}')">
@@ -220,11 +241,11 @@
 											<span class="mdl-textfield__error">You must enter a pitch that is less than 700 characters</span>
 										</div>
 
-										<div class="mdl-cell mdl-cell--12-col">
-											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-												<input type="number" step="0.01" min="0" id="bid-amount" class="mdl-textfield__input" pattern="-?[0-9]*(\.[0-9]+)?">
-												<label for="user" class="mdl-textfield__label">Bid Amount</label>
-												<span class="mdl-textfield__error">Bid must be a valid dollar amount</span>
+										<div class="mdl-cell mdl-cell--4-col">
+											<label for="user" class="substitute-minimum-bid">Bid Amount (Minimum ${{user-minimum-bid}})</label>
+											<div class="bid-text mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+												<i>$</i><input type="number" step="0.01" min="0" id="bid-amount" class="mdl-textfield__input" pattern="-?[0-9]*(\.[0-9]+)?">
+												<span class="mdl-textfield__error substitute-minimum-bid">Bid must be a valid dollar amount over ${{user-minimum-bid}}</span>
 											</div>
 										</div>
 
@@ -234,13 +255,10 @@
                 <div class="mdl-grid">
                   <div id="stripe-response" class="hidden center-text mdl-cell mdl-cell--12-col">test text </div>
                   <div class="mdl-layout-spacer"></div>
-                  <div class="mdl-cell mdl-cell--2-col">
-
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                      <button id="stripe-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-color-text--white">
-                        Submit Pitch
-                      </button>
-                    </div><!-- .mdl-textfield -->
+                  <div id="stripe-button-container" class="mdl-cell mdl-cell--4-col">
+										<button id="stripe-button" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-color-text--white">
+											Submit Pitch
+										</button>
                   </div><!-- .mdl-cell -->
                 </div><!-- .mdl-grid -->
 

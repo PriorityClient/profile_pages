@@ -42,8 +42,13 @@ function setupProfile(api, emailDomain, stripeKey){
 	getUserFrom(api, screen_name)
     .then(function(u){
       $("#bid-amount").parentElement.classList.add("is-dirty");
-      $("#bid-amount").value = u.minimum_bid
       setupStripe(api, emailDomain, u, stripeKey);
+      var update_name = $(".substitute-minimum-bid")
+      for(var i=0; i<update_name.length; i++){
+        var body = update_name[i].innerHTML
+        var min_bid_regex = new RegExp("{{user-minimum-bid}}", "g")
+        update_name[i].innerHTML = body.replace(min_bid_regex, u.minimum_bid.toFixed(2));
+      }
     });
 	setupDescriptionCharCountDisplay("#description", "#descriptionCharacterCount", "#descriptionCharacterCountContainer", 700);
 }
@@ -82,11 +87,11 @@ function setupDescriptionCharCountDisplay(textAreaId, counter, container, max){
 // invalidates those that aren't by adding an `is-invalid` class into
 // the parent of those that are missing. The parent element is used
 // because [that is where mdl reads the invalidation class](https://getmdl.io/components/index.html#textfields-section)
-function checkRequired(firstName, lastName, description, bidAmount, emailAddress, companyName){
+function checkRequired(firstName, lastName, description, bidAmount, emailAddress, companyName, user){
 	var first = $(firstName).value.trim() != ''
 	var last  = $(lastName).value.trim() != ''
 	var desc  = $(description).value.trim() != '' && $(description).value.length < 700
-	var bid   = $(bidAmount).value.trim() != ''
+	var bid   = $(bidAmount).value.trim() != '' && user.minimum_bid <= parseFloat($(bidAmount).value)
 	var email = $(emailAddress).value.trim() != ''
 	var company = $(companyName).value.trim() != ''
 	if(!first)  $(firstName).parentElement.classList.add('is-invalid')
@@ -100,8 +105,6 @@ function checkRequired(firstName, lastName, description, bidAmount, emailAddress
 }
 
 function getBid(){
-	if(!checkRequired( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email", "#pitcher-company-name")) return false;
-
 	var user_id = $("#user-id").innerHTML;
 	var user = $("#user-info").innerHTML;
 	var bid = {
@@ -152,7 +155,8 @@ function showCompany(result){
 		var userId = user.id;
 		var job_desciption = user.job_description||'[ no job description given ]';
 		var job_title = user.job_title||'[ no job title given ]';
-		var min_bid = user.bid_amount||'30.00';
+		var min_bid = user.bid_amount.toFixed(2)||'30.00';
+console.log(user.bid_amount.toFixed(2));
 		$("#company-user-list").insertAdjacentHTML('beforeend',
 			userEl
 				.outerHTML
@@ -227,7 +231,8 @@ function setupStripe(api, emailDomain, user, stripeKey){
 
   $('#stripe-button').addEventListener('click', function(e) {
     // Open Checkout with further options:
-    if(!checkRequired( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email", "#pitcher-company-name")) return false;
+    if(!checkRequired( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email", "#pitcher-company-name", user)) return false;
+
     handler.open({
       zipCode: false,
       email: $("#pitcher-email").value,
