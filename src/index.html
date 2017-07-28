@@ -38,8 +38,9 @@
     }
     .error  { color:#f00; }
     .hidden { display:none; }
-    .bold   { font-weight:bold; font-size:1.1em }
+    .bold   { font-weight:bold; font-size:1.1em; }
     .user-listing-info { border-bottom:1px solid #eee; }
+		.pending { opacity: 0.8; }
     #user-info-panel { text-align:center ; }
     #user-info-panel h3, #user-info-panel h4 {margin-top:0px; margin-bottom:10px; }
     #sidebar-company-name {text-decoration: none;}
@@ -171,7 +172,7 @@
 
             <div class="content-area">
               <h3 class="section-header"> Your Pitch </h3>
-
+								<form autocomplete="on">
 									<div class="mdl-grid">
 
 										<div class="mdl-cell mdl-cell--6-col-desktop  mdl-cell--4-col-tablet ">
@@ -228,6 +229,7 @@
 										</div>
 
 									</div><!-- main input boxes .mdl-grid -->
+								</form>
 
                 <div class="mdl-grid">
                   <div id="stripe-response" class="hidden center-text mdl-cell mdl-cell--12-col">test text </div>

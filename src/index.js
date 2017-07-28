@@ -187,26 +187,17 @@ function complete(api, emailDomain, stripeKey){
 		elements[sep[0]] = sep[1]
 	}
 	bid = JSON.parse(atob(elements.bid));
+console.log(bid);
   user = JSON.parse(atob(elements.user));
-	axios.post(api+"/users/"+bid.id+"/pitch", bid)
-	 .then(function(response){
-			var pitchResponse = response.data.pitch;
-			$("#pitcher-first-name").innerHTML=pitchResponse.pitcher_first_name
-			$("#pitcher-last-name").innerHTML=pitchResponse.pitcher_last_name
-			$("#pitcher-company-name").innerHTML=pitchResponse.pitcher_company_name
-			$("#pitcher-email").innerHTML=pitchResponse.pitcher_email
-			$("#description").innerHTML=bid.description
-			$("#bid-amount").innerHTML=pitchResponse.bid_amount
-
-      setupStripe(api, emailDomain, user, stripeKey, pitchResponse);
-
-			$("#bid-form-submit-success").classList.remove("pending")
-		})
-		.catch(function(err){
-			console.log(err);
-			$("#bid-form-submit-success").classList.add("hidden")
-			$("#bid-form-submit-failure").classList.remove("hidden")
-		})
+	var update_name = $(".substitute-variable")
+	for(var i=0; i<update_name.length; i++){
+		var body = update_name[i].innerHTML
+    var regex = new RegExp("{{pitcher-email}}", "g")
+		update_name[i].innerHTML = body.replace(regex, bid.pitcher_email);
+	}
+console.log(bid)
+console.log(user)
+  showUser(user);
 }
 
 function setupStripe(api, emailDomain, user, stripeKey){
@@ -215,7 +206,7 @@ function setupStripe(api, emailDomain, user, stripeKey){
     image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
     locale: 'auto',
     token: function(token) {
-			$("#stripe-button").disabled = true;
+			//$("#stripe-button").disabled = true;
       var bid = getBid()
       var paymentInfo = {
         token: token,
@@ -224,10 +215,9 @@ function setupStripe(api, emailDomain, user, stripeKey){
       axios
 				.post(api+"/stripe_payments", paymentInfo)
 				.then(function(payment){
-          window.location.href = "/complete.html?bid="+btoa(JSON.stringify(bid))+"&user="+btoa(user);
+          window.location.href = "/complete.html?bid="+btoa(JSON.stringify(bid))+"&user="+btoa(JSON.stringify(user));
 				})
 				.catch(function(error){
-					$("#stripe-button").classList.add("hidden");
 					$("#stripe-response").innerHTML = "Something has gone wrong with sending your pitch. The developers at VIP Crowd have been made aware of the issue. You may refresh this page to try again, or contact support@vipcrowd.com for more information"
 					$("#stripe-response").classList.add("failure-message");
 					$("#stripe-response").classList.remove("hidden");
@@ -263,7 +253,7 @@ function setupStripe(api, emailDomain, user, stripeKey){
 // searching for the `substitute-variable` class and then
 // replacing {{user-first-name}} for the user's first name
 function showUser(result){
-	var user = result.data;
+	var user = result.data||result;
 
   try {
     $("#user-id").innerHTML=user.id

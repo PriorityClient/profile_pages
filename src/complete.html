@@ -140,59 +140,11 @@
 					<div class="mdl-cell mdl-cell--8-col content-column">
             <div id="pitch-preview" class="content-area ">
 
-              <div id="bid-form-submit-failure" class="main-content hidden">Failure :(</div>
-
-              <div id="bid-form-submit-success" class="main-content pending">
-
-                <h3 class="section-header"> Confirm Your Pitch </h3>
-
-                <div class="mdl-grid">
-                  <div class="mdl-cell mdl-cell--6-col">
-                    <h6>First Name</h6>
-                    <div id="pitcher-first-name"> </div>
-                  </div>
-
-                  <div class="mdl-cell mdl-cell--6-col">
-                    <h6>Last Name</h6>
-                    <div id="pitcher-last-name"> </div>
-                  </div>
-
-                  <div class="mdl-cell mdl-cell--12-col">
-                    <h6>Email</h6>
-                    <div id="pitcher-email"> </div>
-                  </div>
-
-                  <div class="mdl-cell mdl-cell--12-col">
-                    <h6>Company Name</h6>
-                    <div id="pitcher-company-name"> </div>
-                  </div>
-
-                  <div class="mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield">
-                    <h6>description</h6>
-                    <div id="description"> </div>
-                  </div>
-
-                  <div class="mdl-cell mdl-cell--12-col">
-                    <h6>bid amount</h6>
-                    <div id="bid-amount"> </div>
-                  </div>
-                </div>
-
-                <div class="mdl-grid">
-                  <div id="stripe-response" class="hidden center-text mdl-cell mdl-cell--12-col">test text </div>
-                  <div class="mdl-layout-spacer"></div>
-                  <div class="mdl-cell mdl-cell--4-col">
-
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                      <button id="customButton" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-color-text--white">
-                        Pay With Card
-                      </button>
-                    </div><!-- .mdl-textfield -->
-
-                  </div><!-- .mdl-cell -->
-
-
-                </div><!-- .mdl-grid -->
+              <div id="bid-form-submit-success" class="main-content">
+                <h1>Success</h1>
+                <p class="substitute-variable">Your meeting request has been sent to {{user-first-name}} and your confirmation number is 123456.</p>
+                <p class="substitute-variable">A receipt has been sent to {{pitcher-email}}</p>
+                <p class="substitute-variable">{{user-first-name}}'s response will come from an @{{{EMAIL_DOMAIN}}} email address, so please ensure those do not go into a spam folder.  A good test is to make sure you received the receipt email.</p>
 
               </div><!-- .main-content -->
 
