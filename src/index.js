@@ -99,11 +99,7 @@ function checkRequired(firstName, lastName, description, bidAmount, emailAddress
 	return first&&last&&desc&&bid&&email
 }
 
-// `submitBid` bundles the values in the form that is passed in as an
-// object, grabs the user's info that is currently stored in html,
-// and puts both of those as base64 encoded query string variables
-// before sending the form to the submission completion page
-function submitBid(formElement, api){
+function getBid(){
 	if(!checkRequired( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email", "#pitcher-company-name")) return false;
 
 	var user_id = $("#user-id").innerHTML;
@@ -117,8 +113,7 @@ function submitBid(formElement, api){
 		"description": $("#description").value,
 		"bid_amount": parseFloat($("#bid-amount").value)
 	}
-	// get second page
-	window.location.href = "/complete.html?bid="+btoa(JSON.stringify(bid))+"&user="+btoa(user);
+  return bid
 }
 
 //## COMPANY PROFILE PAGE FUNCTIONS
@@ -221,17 +216,15 @@ function setupStripe(api, emailDomain, user, stripeKey){
     locale: 'auto',
     token: function(token) {
 			$("#stripe-button").disabled = true;
+      var bid = getBid()
       var paymentInfo = {
-        token: token//,
-        //pitchEid: pitch.id
+        token: token,
+        pitch: bid
       };
       axios
 				.post(api+"/stripe_payments", paymentInfo)
 				.then(function(payment){
-					$("#stripe-button").classList.add("hidden");
-					$("#stripe-response").innerHTML = "Your pitch has been sent to "+user.data.first_name+". Their messages regarding this pitch will come to you from the address "+bid.id+"@"+emailDomain
-					$("#stripe-response").classList.add("success-message");
-					$("#stripe-response").classList.remove("hidden");
+          window.location.href = "/complete.html?bid="+btoa(JSON.stringify(bid))+"&user="+btoa(user);
 				})
 				.catch(function(error){
 					$("#stripe-button").classList.add("hidden");
