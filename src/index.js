@@ -218,7 +218,9 @@ function setupStripe(api, emailDomain, user, stripeKey){
     image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
     locale: 'auto',
     token: function(token) {
-			//$("#stripe-button").disabled = true;
+			$("#stripe-button").disabled = true;
+      $("#main-form").classList.add("pending");
+      $("#progress-bar").classList.remove("hidden");
       var bid = getBid()
       var paymentInfo = {
         token: token,

@@ -13,6 +13,7 @@
 		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 		<script src="https://checkout.stripe.com/checkout.js"></script>
   <style>
+#progress-bar { width:100%; }
 .bid-text-label {
 padding-top:5px;
 }
@@ -65,7 +66,7 @@ padding-top:5px;
     .hidden { display:none; }
     .bold   { font-weight:bold; font-size:1.1em; }
     .user-listing-info { border-bottom:1px solid #eee; }
-		.pending { opacity: 0.8; }
+		.pending { opacity: 0.3; background-image: url(""); }
     #user-info-panel { text-align:center ; }
     #user-info-panel h3, #user-info-panel h4 {margin-top:0px; margin-bottom:10px; }
     #sidebar-company-name {text-decoration: none;}
@@ -195,8 +196,9 @@ padding-top:5px;
           </div> <!-- /left panel .content-column -->
 
 					<div class="mdl-cell mdl-cell--8-col content-column">
+					<div id="progress-bar" class="hidden mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
 
-            <div class="content-area">
+            <div id="main-form" class="content-area">
               <h3 class="section-header"> Your Pitch </h3>
 									<div class="mdl-grid">
 
@@ -245,10 +247,10 @@ padding-top:5px;
 											<span class="mdl-textfield__error">You must enter a pitch that is less than 700 characters</span>
 										</div>
 
-										<div class="bid-text-label mdl-cell mdl-cell--3-col">
+										<div class="bid-text-label mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-cell--2-col-phone">
 											<label for="user" class="substitute-minimum-bid">Bid Amount (Minimum ${{user-minimum-bid}})</label>
 										</div>
-										<div class="mdl-cell mdl-cell--4-col">
+										<div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-tablet mdl-cell--2-col-phone">
 											<div class="bid-text mdl-textfield mdl-js-textfield">
 												<i>$</i><input type="number" step="0.01" min="0" id="bid-amount" class="mdl-textfield__input" pattern="-?[0-9]*(\.[0-9]+)?">
 												<span class="mdl-textfield__error substitute-minimum-bid">Bid must be a valid dollar amount over ${{user-minimum-bid}}</span>
