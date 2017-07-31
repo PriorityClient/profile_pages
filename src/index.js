@@ -204,8 +204,9 @@ console.log(bid);
 	var update_name = $(".substitute-variable")
 	for(var i=0; i<update_name.length; i++){
 		var body = update_name[i].innerHTML
-    var regex = new RegExp("{{pitcher-email}}", "g")
-		update_name[i].innerHTML = body.replace(regex, bid.pitcher_email);
+    var regex =
+		update_name[i].innerHTML = body.replace(new RegExp("{{pitcher-email}}", "g"), bid.pitcher_email)
+.replace(new RegExp("{{charge-id}}", "g"), elements.charge);
 	}
 console.log(bid)
 console.log(user)
@@ -229,10 +230,13 @@ function setupStripe(api, emailDomain, user, stripeKey){
       axios
 				.post(api+"/stripe_payments", paymentInfo)
 				.then(function(payment){
-          window.location.href = "/complete.html?bid="+btoa(JSON.stringify(bid))+"&user="+btoa(JSON.stringify(user));
+          window.location.href = "/complete.html?bid="+btoa(JSON.stringify(bid))+"&user="+btoa(JSON.stringify(user))+"&charge="+payment.data.charge;
 				})
 				.catch(function(error){
-					$("#stripe-response").innerHTML = "Something has gone wrong with sending your pitch. The developers at VIP Crowd have been made aware of the issue. You may refresh this page to try again, or contact support@vipcrowd.com for more information"
+          $("#progress-bar").classList.add("hidden");
+          $("#main-form").classList.remove("pending");
+          $("#stripe-button").disabled = false;
+					$("#stripe-response").innerHTML = "Something has gone wrong with sending your pitch. The developers at VIP Crowd have been made aware of the issue. You may try again, or contact support@vipcrowd.com for more information"
 					$("#stripe-response").classList.add("failure-message");
 					$("#stripe-response").classList.remove("hidden");
 				});
