@@ -19,6 +19,7 @@ gulp.task('serve', ['envSetup', 'copyResources', 'copyJS', 'startServer', 'watch
 if(!process.env.API_ADDRESS) process.env.API_ADDRESS = "http://localhost:3000/profiles/v1";
 if(!process.env.STRIPE_KEY) process.env.STRIPE_KEY = "pk_test_zqRxEBrhmk4o4O0r2qVXmJCI";
 if(!process.env.EMAIL_DOMAIN) process.env.EMAIL_DOMAIN = "staging-message.vipcrowd.com";
+if(!process.env.HOME_DOMAIN) process.env.HOME_DOMAIN = "https://hello.vipcrowd.com";
 
 gulp.task('copyResources', function(){
   gulp.src(['src/*.png'])
@@ -35,6 +36,7 @@ gulp.task('envSetup', function(){
     .pipe(replace("{{{API_ADDRESS}}}", process.env.API_ADDRESS))
     .pipe(replace("{{{EMAIL_DOMAIN}}}", process.env.EMAIL_DOMAIN))
     .pipe(replace("{{{STRIPE_KEY}}}", process.env.STRIPE_KEY))
+    .pipe(replace("{{{HOME_DOMAIN}}}", process.env.HOME_DOMAIN))
     .pipe(gulp.dest('www/'));
 });
 

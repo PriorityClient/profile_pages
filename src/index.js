@@ -23,10 +23,11 @@
 // router at the server level so the whole project's
 // html doesn't have to be in a single file, but
 // for now this is the path. there are other solutions available.
-function setup(api, emailDomain, stripeKey){
+function setup(api, emailDomain, stripeKey, altDomain){
 	var loc = window.location.href;
 	if(loc.match(/\/profile\//))	return setupProfile(api, emailDomain, stripeKey)
 	if(loc.match(/\/company\//))	return setupCompany(api)
+	window.location.href = altDomain;
 }
 
 // `setupProfile` initiates the user profile page
