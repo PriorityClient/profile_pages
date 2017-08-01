@@ -38,7 +38,7 @@ function setup(api, emailDomain, stripeKey, altDomain){
 // in writing the pitch
 function setupProfile(api, emailDomain, stripeKey){
 	$("#profile-page").classList.remove("hidden");
-	var url = window.location.href.split("/profile/");
+	var url = window.location.href.split("/");
 	var screen_name = url[url.length-1];
   addListener($("#tos-checkbox"), "click", function(){ setCheckboxError("#tos-checkbox") });
 	getUserFrom(api, screen_name)
