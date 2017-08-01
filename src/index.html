@@ -13,6 +13,7 @@
 		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 		<script src="https://checkout.stripe.com/checkout.js"></script>
   <style>
+.involved-label { margin:auto; }
 #progress-bar { width:100%; }
 .bid-text-label {
 padding-top:5px;
@@ -41,15 +42,19 @@ padding-top:5px;
 }
     body { background: #eee; }
 		.main-page { max-width: 1366px; margin:auto; }
-    .section-header { margin:0}
+    .section-header { margin:0;margin-left:15px; font-size:1.8em;}
     li ul  { padding-left: 10px; }
 		.short-break {
 			width: 30%;
 		}
 		.mdl-layout__header-row {
-			background: #000;
+			background: #2e2e2e;
 			padding: 0 20px 0 20px;
 		}
+.mdl-button--accent.mdl-button--accent.mdl-button--raised, .mdl-button--accent.mdl-button--accent.mdl-button--fab {
+background-color: #0cb4ce
+}
+		a { color: #0cb4ce }
     .user-avatar {
       padding: 20px;
     }
@@ -131,8 +136,13 @@ padding-top:5px;
 							<div>{{{jobTitle}}}</div>
 							<p>Minimum Bid: ${{{minBid}}}</p>
 						</div>
-						<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-							{{{jobDescription}}}
+						<div class="mdl-grid mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+						<div class="mdl-cell--12-col">
+													{{{jobDescription}}}
+						</div>
+						<div class="involved-in-container mdl-cell--12-col">
+							<span class="involved-label">Involved In:</span>
+						</div>
 						</div>
 						<div class="mdl-layout-spacer"></div>
 						<div class="mdl-cell mdl-cell--2-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
@@ -199,7 +209,7 @@ padding-top:5px;
 					<div id="progress-bar" class="hidden mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
 
             <div id="main-form" class="content-area">
-              <h3 class="section-header"> Your Pitch </h3>
+              <h3 class="substitute-variable section-header">Request a 20 Minute Call With {{user-first-name}}</h3>
 									<div class="mdl-grid">
 
 										<div class="mdl-cell mdl-cell--6-col-desktop  mdl-cell--4-col-tablet ">

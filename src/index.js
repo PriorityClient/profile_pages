@@ -145,6 +145,7 @@ function setupCompany(api){
 		})
 }
 
+
 // `showCompany` determines the company name and list of employees,
 // and then generates that list of employees as HTML. This is done
 // by retrieving the HTML for a sample element from within the page,
@@ -165,6 +166,13 @@ function showCompany(result){
 		var job_desciption = user.job_description||'[ no job description given ]';
 		var job_title = user.job_title||'[ no job title given ]';
 		var min_bid = (user.bid_amount&&user.bid_amount.toFixed(2))||'30.00';
+
+var chips = '';
+for(var j=0; j<user.responsibilities.length; j++){
+chips += '<span class="mdl-chip"> <span class="mdl-chip__text">'+user.responsibilities[j].name+'</span> </span> '
+}
+
+    userEl.querySelector(".involved-in-container").insertAdjacentHTML('beforeend', chips)
 		$("#company-user-list").insertAdjacentHTML('beforeend',
 			userEl
 				.outerHTML
