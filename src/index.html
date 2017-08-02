@@ -13,7 +13,22 @@
 		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 		<script src="https://checkout.stripe.com/checkout.js"></script>
   <style>
-.involved-label { margin:auto; }
+[data-letters]:before {
+  content:attr(data-letters);
+  display:inline-block;
+  font-size:1em;
+  width:2.5em;
+  height:2.5em;
+  line-height:2.5em;
+  text-align:center;
+  border-radius:50%;
+  background:plum;
+  vertical-align:middle;
+  margin-right:1em;
+  color:white;
+  }
+.small { font-size:0.9em; }
+.involved-label { margin:auto; color:#333; }
 #progress-bar { width:100%; }
 .bid-text-label {
 padding-top:5px;
@@ -24,7 +39,7 @@ padding-top:5px;
 	padding:0px;
 }
 
-.bid-text > i {
+.bid-text > .currency {
   position: absolute;
   display: block;
   transform: translate(0, -50%);
@@ -33,6 +48,11 @@ padding-top:5px;
   width: 25px;
   text-align: center;
   font-style: normal;
+}
+
+.bid-text-label > .material-icons {
+font-size:1.0em;
+color:#999;
 }
 
 .bid-text > input {
@@ -109,6 +129,8 @@ background-color: #0cb4ce
       color: #333;
     }
 		#stripe-button { width: 100%; margin-bottom: 10px;}
+header img { max-height: 45px; }
+header .logo {margin-left: 25px; max-width: 1366px ;}
   </style>
 	</head>
 	<body onLoad="setup('{{{API_ADDRESS}}}','{{{EMAIL_DOMAIN}}}', '{{{STRIPE_KEY}}}', '{{{HOME_DOMAIN}}}')">
@@ -117,7 +139,9 @@ background-color: #0cb4ce
 			<header class="mdl-layout__header">
 				<div class="mdl-layout__header-row">
 					<!-- Title -->
-					<span class="mdl-layout-title mdl-color-text--white">VIP Crowd</span>
+<div class="logo">
+					<img src="/VIP-Crowd-logo-white-358x100.png" alt="VIP Crowd" />
+</div>
 				</div>
 			</header>
 
@@ -161,7 +185,7 @@ background-color: #0cb4ce
 					<div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop content-column">
 
             <div id="user-info-panel" class="content-area">
-              <img id="user-avatar" alt="profile image">
+              <img data-letters="ES" id="user-avatar" alt="profile image">
               <h3 id="user-name"></h3>
               <a class="bold" id="sidebar-company-name"></a>
 
@@ -259,11 +283,15 @@ background-color: #0cb4ce
                     <div id="stripe-response" class="hidden center-text mdl-cell mdl-cell--12-col"></div>
 
 										<div class="bid-text-label mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-cell--2-col-phone">
-											<label for="user" class="substitute-minimum-bid">Bid Amount (Minimum ${{user-minimum-bid}})</label>
+<i id="bid-info" class="material-icons">info</i>
+<div class="mdl-tooltip" for="bid-info">
+information that goes<br/>with the bid info
+</div>
+											<label for="user" class="substitute-minimum-bid">Bid Amount <span class="small">(Minimum ${{user-minimum-bid}})</span></label>
 										</div>
 										<div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-tablet mdl-cell--2-col-phone">
 											<div class="bid-text mdl-textfield mdl-js-textfield">
-												<i>$</i><input type="number" step="0.01" min="0" id="bid-amount" class="mdl-textfield__input" pattern="-?[0-9]*(\.[0-9]+)?">
+												<i class="currency">$</i><input type="number" step="0.01" min="0" id="bid-amount" class="mdl-textfield__input" pattern="-?[0-9]*(\.[0-9]+)?" />
 												<span class="mdl-textfield__error substitute-minimum-bid">Bid must be a valid dollar amount over ${{user-minimum-bid}}</span>
 											</div>
 										</div>
@@ -275,7 +303,7 @@ background-color: #0cb4ce
 											Submit Pitch
 										</button>
 										<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="tos-checkbox">
-											<span class="mdl-checkbox__label">I agree to the <a href="#">Terms of Service</a></span>
+											<span class="mdl-checkbox__label">I agree to the <a href="https://hello.vipcrowd.com/terms-of-use/" target="_blank">Terms of Service</a></span>
 											<input type="checkbox" id="tos-checkbox" class="mdl-checkbox__input">
 										</label>
                   </div><!-- .mdl-cell -->
