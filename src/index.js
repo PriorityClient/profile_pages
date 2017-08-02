@@ -162,6 +162,13 @@ function showCompany(result){
 		userEl.id = '';
 		userEl.classList.remove('hidden');
 		var avatar = user.avatar_thumbnail_url || "/default_sm.png";
+  if(!user.avatar_thumbnail_url){
+userEl.querySelector(".user-avatar").setAttribute("data-letters", user.first_name.charAt(0)+user.last_name.charAt(0));
+  }else{
+    userEl.querySelector(".user-avatar").insertAdjacentHTML('afterbegin', '<img src="'+user.avatar_url+'" />');
+
+  }
+
 		var userName = user.first_name +" "+ user.last_name;
 		var userId = user.id;
 		var job_desciption = user.job_description||'[ no job description given ]';

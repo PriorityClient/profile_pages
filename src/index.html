@@ -26,6 +26,10 @@
   vertical-align:middle;
   color:white;
   }
+[data-letters].thumbnail:before {
+  font-size:4em;
+}
+
 .small { font-size:0.9em; }
 .involved-label { margin:auto; color:#333; }
 #progress-bar { width:100%; }
@@ -152,7 +156,7 @@ header .logo {margin-left: 25px; max-width: 1366px ;}
 					</div>
 					<div id="company-user-example" class="hidden individual-user mdl-grid mdl-cell mdl-cell--12-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
 						<div class="mdl-cell mdl-cell--2-col mdl-cell--8-col-tablet mdl-cell--2-col-phone">
-							<img class="user-avatar" src="{{{avatar}}}" alt="{{{userName}}} profile image">
+							<div class="thumbnail user-avatar"></div>
 						</div>
 						<div class="mdl-cell mdl-cell--2-col mdl-cell--8-col-tablet mdl-cell--2-col-phone">
 							<h6 class="bold"><a href="/{{{userId}}}">{{{userName}}}</a></h6>
