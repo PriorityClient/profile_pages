@@ -158,19 +158,22 @@ function showCompany(result){
 	var sample = $("#company-user-example")
 	for(var i=0; i<employees.length; i++){
 		var user = employees[i];
+console.log(user.id);
 		var userEl = sample.cloneNode(true)
 		userEl.id = '';
 		userEl.classList.remove('hidden');
-		var avatar = user.avatar_thumbnail_url || "/default_sm.png";
   if(!user.avatar_thumbnail_url){
 userEl.querySelector(".user-avatar").setAttribute("data-letters", user.first_name.charAt(0)+user.last_name.charAt(0));
+userEl.querySelector(".user-avatar").classList.add(user.screen_name)
+    document.head.insertAdjacentHTML('beforeend', '<style> [data-letters].'+user.screen_name+':before {background: '+randomColor({seed: user.id})+'; }</style>');
   }else{
-    userEl.querySelector(".user-avatar").insertAdjacentHTML('afterbegin', '<img src="'+user.avatar_url+'" />');
+    userEl.querySelector(".user-avatar").insertAdjacentHTML('afterbegin', '<img src="'+user.avatar_thumbnail_url+'" />');
 
   }
 
 		var userName = user.first_name +" "+ user.last_name;
 		var userId = user.id;
+		var userScreenName = user.screen_name;
 		var job_desciption = user.job_description||'[ no job description given ]';
 		var job_title = user.job_title||'[ no job title given ]';
 		var min_bid = (user.bid_amount&&user.bid_amount.toFixed(2))||'30.00';
@@ -185,8 +188,8 @@ chips += '<span class="mdl-chip"> <span class="mdl-chip__text">'+user.responsibi
 			userEl
 				.outerHTML
 				.replace(new RegExp("{{{userId}}}", 'g'), userId)
+				.replace(new RegExp("{{{userScreenName}}}", 'g'), userScreenName)
 				.replace(new RegExp("{{{userName}}}", 'g'), userName)
-				.replace(new RegExp("{{{avatar}}}", 'g'), avatar)
 				.replace(new RegExp("{{{jobDescription}}}", 'g'), job_desciption)
 				.replace(new RegExp("{{{jobTitle}}}", 'g'), job_title)
 				.replace(new RegExp("{{{minBid}}}", 'g'), min_bid)
@@ -261,13 +264,17 @@ function setupStripe(api, emailDomain, user, stripeKey){
 
   $('#stripe-button').addEventListener('click', function(e) {
     // Open Checkout with further options:
-    if(!checkRequired( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email", "#pitcher-company-name", "#tos-checkbox", user)) return false;
+    //if(!checkRequired( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email", "#pitcher-company-name", "#tos-checkbox", user)) return false;
 
     handler.open({
       zipCode: false,
       email: $("#pitcher-email").value,
       amount: 800,
-      description: "Pitch delivery fee"
+image: "/logo-icon.png",
+name: "Pay $8 Now",
+      description: "Remainder when call is completed"//,
+      //panelLabel: "Submit"
+
     });
     e.preventDefault();
   });
@@ -289,6 +296,7 @@ function setupStripe(api, emailDomain, user, stripeKey){
 // replacing {{user-first-name}} for the user's first name
 function showUser(result){
 	var user = result.data||result;
+console.log(user.id);
 
   try {
     $("#user-id").innerHTML=user.id
@@ -300,6 +308,7 @@ function showUser(result){
 	$("#user-name").innerHTML=user.first_name+" "+user.last_name;
   if(!user.avatar_url){
     $("#user-avatar").setAttribute("data-letters", user.first_name.charAt(0)+user.last_name.charAt(0));
+    document.head.insertAdjacentHTML('beforeend', '<style>[data-letters]:before {background: '+randomColor({seed: user.id})+'; }</style>');
   }else{
     $("#user-avatar").insertAdjacentHTML('afterbegin', '<img src="'+user.avatar_url+'" />');
 
