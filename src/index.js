@@ -264,7 +264,7 @@ function setupStripe(api, emailDomain, user, stripeKey){
 
   $('#stripe-button').addEventListener('click', function(e) {
     // Open Checkout with further options:
-    //if(!checkRequired( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email", "#pitcher-company-name", "#tos-checkbox", user)) return false;
+    if(!checkRequired( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email", "#pitcher-company-name", "#tos-checkbox", user)) return false;
 
     handler.open({
       zipCode: false,
