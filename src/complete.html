@@ -89,6 +89,21 @@ background-color: #0cb4ce
       background-color: #0f0;
       color: #333;
     }
+header img { max-height: 45px; }
+header .logo {margin-left: 25px; max-width: 1366px ;}
+[data-letters]:before {
+  content:attr(data-letters);
+  display:inline-block;
+  font-size:5em;
+  width:2.0em;
+  height:2.0em;
+  line-height:2.1em;
+  text-align:center;
+  border-radius:50%;
+  background:plum;
+  vertical-align:middle;
+  color:white;
+  }
   </style>
 	</head>
 	<body>
@@ -97,7 +112,9 @@ background-color: #0cb4ce
 			<header class="mdl-layout__header">
 				<div class="mdl-layout__header-row">
 					<!-- Title -->
-					<span class="mdl-layout-title mdl-color-text--white">VIP Crowd</span>
+<div class="logo">
+					<img src="/VIP-Crowd-logo-white-358x100.png" alt="VIP Crowd" />
+</div>
 				</div>
 			</header>
 			<main class="main-page mdl-layout__content">
@@ -106,7 +123,7 @@ background-color: #0cb4ce
 					<div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop content-column">
 
             <div id="user-info-panel" class="center-text content-area">
-              <img id="user-avatar" alt="profile image">
+              <div id="user-avatar"></div>
               <h3 id="user-name"></h3>
               <a class="bold" id="sidebar-company-name"></a>
 
