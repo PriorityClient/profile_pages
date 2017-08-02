@@ -291,7 +291,12 @@ function showUser(result){
 	$("#sidebar-company-name").href="/company/"+user.enterprise_id;
 	$("#sidebar-company-name").innerHTML=(user.company_name||user.enterprise_id||"");
 	$("#user-name").innerHTML=user.first_name+" "+user.last_name;
-	$("#user-avatar").src=(user.avatar_url || "/default.png");
+  if(!user.avatar_url){
+    $("#user-avatar").setAttribute("data-letters", user.first_name.charAt(0)+user.last_name.charAt(0));
+  }else{
+    $("#user-avatar").insertAdjacentHTML('afterbegin', '<img src="'+user.avatar_url+'" />');
+
+  }
 	$("#user-job-description").innerHTML=user.job_description;
 	$("#user-email-domain").innerHTML=user.privatized_email;
 	$("#job-title").innerHTML=user.job_title
