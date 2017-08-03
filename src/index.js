@@ -233,33 +233,48 @@ console.log(user)
 }
 
 function setupStripe(api, emailDomain, user, stripeKey){
+var stripe = Stripe(stripeKey);
+var elements = stripe.elements();
+var style = {
+  base: {
+    // Add your base input styles here. For example:
+    fontSize: '16px',
+    lineHeight: '24px'
+  }
+};
+var card = elements.create('card', {style: style});
+
+// Add an instance of the card Element into the `card-element` <div>
+card.mount('#card-element');
+card.addEventListener('change', function(event) {
+  var displayError = document.getElementById('card-errors');
+  if (event.error) {
+    displayError.textContent = event.error.message;
+  } else {
+    displayError.textContent = '';
+  }
+});
+$("#stripe-element-button").addEventListener('click', function(e){
+    if(!checkRequired( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email", "#pitcher-company-name", "#tos-checkbox", user)) return false;
+stripe.createToken(card).then(function(result) {
+  if (result.error) {
+    // Inform the user if there was an error
+    var errorElement = document.getElementById('card-errors');
+    errorElement.textContent = result.error.message;
+  } else {
+    // Send the token to your server
+    stripeHandler(result.token, user, api);
+  }
+});
+})
+
+
+
   var handler = StripeCheckout.configure({
     key: stripeKey,
     image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
     locale: 'auto',
-    token: function(token) {
-			$("#stripe-button").disabled = true;
-      $("#main-form").classList.add("pending");
-      $("#progress-bar").classList.remove("hidden");
-      var bid = getBid()
-      var paymentInfo = {
-        token: token,
-        pitch: bid
-      };
-      axios
-				.post(api+"/stripe_payments", paymentInfo)
-				.then(function(payment){
-          window.location.href = "/complete.html?bid="+btoa(JSON.stringify(bid))+"&user="+btoa(JSON.stringify(user))+"&charge="+payment.data.charge;
-				})
-				.catch(function(error){
-          $("#progress-bar").classList.add("hidden");
-          $("#main-form").classList.remove("pending");
-          $("#stripe-button").disabled = false;
-					$("#stripe-response").innerHTML = "Something has gone wrong with sending your pitch. The developers at VIP Crowd have been made aware of the issue. You may try again, or contact support@vipcrowd.com for more information"
-					$("#stripe-response").classList.add("failure-message");
-					$("#stripe-response").classList.remove("hidden");
-				});
-    }
+    token: function(token){ stripeHandler(token, user, api) }
   });
 
   $('#stripe-button').addEventListener('click', function(e) {
@@ -285,6 +300,30 @@ name: "Pay $8 Now",
     handler.close();
   });
 }
+function stripeHandler(token, user, api) {
+			$("#stripe-button").disabled = true;
+      $("#main-form").classList.add("pending");
+      $("#progress-bar").classList.remove("hidden");
+      var bid = getBid()
+      var paymentInfo = {
+        token: token,
+        pitch: bid
+      };
+      axios
+				.post(api+"/stripe_payments", paymentInfo)
+				.then(function(payment){
+          window.location.href = "/complete.html?bid="+btoa(JSON.stringify(bid))+"&user="+btoa(JSON.stringify(user))+"&charge="+payment.data.charge;
+				})
+				.catch(function(error){
+console.log(error);
+          $("#progress-bar").classList.add("hidden");
+          $("#main-form").classList.remove("pending");
+          $("#stripe-button").disabled = false;
+					$("#stripe-response").innerHTML = "Something has gone wrong with sending your pitch. The developers at VIP Crowd have been made aware of the issue. You may try again, or contact support@vipcrowd.com for more information"
+					$("#stripe-response").classList.add("failure-message");
+					$("#stripe-response").classList.remove("hidden");
+				});
+    }
 
 //## SHARED FUNCTIONS
 
