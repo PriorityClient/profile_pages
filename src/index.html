@@ -27,7 +27,7 @@ margin-top:20px;
 [data-letters]:before {
   content:attr(data-letters);
   display:inline-block;
-  font-size:5em;
+	font-size:5.0em;
   width:2.0em;
   height:2.0em;
   line-height:2.1em;
@@ -36,14 +36,25 @@ margin-top:20px;
   background:plum;
   vertical-align:middle;
   color:white;
-  }
-[data-letters].thumbnail:before {
-  font-size:4em;
 }
+
+
+@media (min-width:0px)  {
+	[data-letters].thumbnail:before {
+		font-size:2.5em;
+	}
+}
+@media (min-width:841px) {
+	[data-letters].thumbnail:before {
+		font-size:5.0em;
+	}
+}
+
 
 .small { font-size:0.9em; }
 .involved-label { margin:auto; color:#333; }
 #progress-bar { width:100%; }
+
 .bid-text-label {
 padding-top:5px;
 }
@@ -165,26 +176,26 @@ header .logo {margin-left: 25px; max-width: 1366px ;}
 					<div class="user-listing-info mdl-cell mdl-cell--12-col">
 					<h4><span id="company-name"></span> employees on VIP Crowd</h4>
 					</div>
-					<div id="company-user-example" class="hidden individual-user mdl-grid mdl-cell mdl-cell--12-col mdl-cell--4-col-tablet mdl-cell--4-col-phone">
-						<div class="mdl-cell mdl-cell--2-col mdl-cell--8-col-tablet mdl-cell--2-col-phone">
-							<div class="thumbnail user-avatar"></div>
+					<div id="company-user-example" class="hidden individual-user mdl-grid">
+						<div class="mdl-cell mdl-cell--2-col mdl-cell--2-col-tablet mdl-cell--1-col-phone">
+							<a href="/{{{userScreenName}}}" class="thumbnail user-avatar"></a>
 						</div>
-						<div class="mdl-cell mdl-cell--2-col mdl-cell--8-col-tablet mdl-cell--2-col-phone">
-							<h6 class="bold"><a href="/{{{userScreenName}}}">{{{userName}}}</a></h6>
-							<div>{{{jobTitle}}}</div>
-							<p>Minimum Bid: ${{{minBid}}}</p>
-						</div>
-						<div class="mdl-grid mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-						<div class="mdl-cell--12-col">
-													{{{jobDescription}}}
-						</div>
-						<div class="involved-in-container mdl-cell--12-col">
-							<span class="involved-label">Involved In:</span>
-						</div>
+						<div class="mdl-grid mdl-cell mdl-cell--8-col mdl-cell--4-col-tablet mdl-cell--3-col-phone">
+							<div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+								<h6 class="bold"><a href="/{{{userScreenName}}}">{{{userName}}}</a></h6>
+								<div>{{{jobTitle}}}</div>
+								<p>Minimum Bid: ${{{minBid}}}</p>
+							</div>
+							<div class="mdl-cell mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+									{{{jobDescription}}}
+									<div class="involved-in-container">
+										<span class="involved-label">Involved In:</span>
+									</div>
+							</div>
 						</div>
 						<div class="mdl-layout-spacer"></div>
-						<div class="mdl-cell mdl-cell--2-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-							<a href="/{{{userScreenName}}}" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-color-text--white">
+						<div class="mdl-cell mdl-cell--2-col mdl-cell--2-col-tablet mdl-cell--hide-phone">
+							<a href="/{{{userScreenName}}}" class="profile-button mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-color-text--white">
 								View Profile
 							</a>
 						</div>
