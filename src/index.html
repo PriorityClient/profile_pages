@@ -43,10 +43,14 @@ margin-top:20px;
 	[data-letters].thumbnail:before {
 		font-size:2.5em;
 	}
+	.avatar-parent {
+		margin-top:15px;
+		margin-right:0;
+	}
 }
-@media (min-width:841px) {
+@media (min-width:600px) {
 	[data-letters].thumbnail:before {
-		font-size:5.0em;
+		font-size:4.0em;
 	}
 }
 
@@ -100,9 +104,6 @@ color:#999;
 background-color: #0cb4ce
 }
 		a { color: #0cb4ce }
-    .user-avatar {
-      padding: 20px;
-    }
     .content-area {
       background-color: #fff;
       padding: 10px;
@@ -115,6 +116,8 @@ background-color: #0cb4ce
     .error  { color:#d50000; }
     .hidden { display:none; }
     .bold   { font-weight:bold; font-size:1.1em; }
+    .small-bold   { font-weight:bold; font-size:0.8em; }
+    .large   { font-size:1.3em; line-height:1.4em;}
     .user-listing-info { border-bottom:1px solid #eee; }
 		.pending { opacity: 0.3; background-image: url(""); }
     #user-info-panel { text-align:center ; }
@@ -135,7 +138,8 @@ background-color: #0cb4ce
 		.user-listing-info h4 { border-bottom: 1px solid #eee; margin-bottom:0px; width:100%}
 		.individual-user {  border-bottom: 1px solid #eee; width:100%}
 		.individual-user a { text-decoration: none; }
-		.individual-user h6 {margin:0px;}
+		.individual-user h6 {margin:0px; padding:0px;}
+		.inner-grid { margin:0; border-left:0; padding:0; }
     #stripe-response {
       border-radius:4px;
       border: 1px solid;
@@ -154,8 +158,8 @@ background-color: #0cb4ce
       color: #333;
     }
 		.stripe-button { width: 100%; margin-bottom: 10px;}
-header img { max-height: 45px; }
-header .logo {margin-left: 25px; max-width: 1366px ;}
+		header img { max-height: 45px; }
+		header .logo {margin-left: 25px; max-width: 1366px ;}
   </style>
 	</head>
 	<body onLoad="setup('{{{API_ADDRESS}}}','{{{EMAIL_DOMAIN}}}', '{{{STRIPE_KEY}}}', '{{{HOME_DOMAIN}}}')">
@@ -176,20 +180,20 @@ header .logo {margin-left: 25px; max-width: 1366px ;}
 					<div class="user-listing-info mdl-cell mdl-cell--12-col">
 					<h4><span id="company-name"></span> employees on VIP Crowd</h4>
 					</div>
-					<div id="company-user-example" class="hidden individual-user mdl-grid">
-						<div class="mdl-cell mdl-cell--2-col mdl-cell--2-col-tablet mdl-cell--1-col-phone">
+					<div id="company-user-example" class="hidden mdl-grid inner-grid individual-user">
+						<div class="avatar-parent mdl-cell mdl-cell--2-col mdl-cell--2-col-tablet mdl-cell--1-col-phone">
 							<a href="/{{{userScreenName}}}" class="thumbnail user-avatar"></a>
 						</div>
-						<div class="mdl-grid mdl-cell mdl-cell--8-col mdl-cell--4-col-tablet mdl-cell--3-col-phone">
-							<div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+						<div class="mdl-grid inner-grid mdl-cell mdl-cell--8-col mdl-cell--4-col-tablet mdl-cell--3-col-phone">
+							<div class="mdl-cell inner-grid mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
 								<h6 class="bold"><a href="/{{{userScreenName}}}">{{{userName}}}</a></h6>
-								<div>{{{jobTitle}}}</div>
-								<p>Minimum Bid: ${{{minBid}}}</p>
+								<div class="large">{{{jobTitle}}}</div>
+								<div class="large">Minimum Bid: ${{{minBid}}}</div>
 							</div>
-							<div class="mdl-cell mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+							<div class="mdl-cell inner-grid mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
 									{{{jobDescription}}}
 									<div class="involved-in-container">
-										<span class="involved-label">Involved In:</span>
+										<span class="involved-label small-bold">Involved In:</span>
 									</div>
 							</div>
 						</div>
