@@ -134,12 +134,12 @@ background-color: #0cb4ce
            -moz-box-sizing: border-box;
                 box-sizing: border-box;
     }
-		#company-page { margin-top:15px;}
+		#company-page { margin-top:15px; }
 		.user-listing-info h4 { border-bottom: 1px solid #eee; margin-bottom:0px; width:100%}
-		.individual-user {  border-bottom: 1px solid #eee; width:100%}
+		.individual-user {  border-bottom: 1px solid #eee; width:100%; margin-bottom: 10px; }
 		.individual-user a { text-decoration: none; }
 		.individual-user h6 {margin:0px; padding:0px;}
-		.inner-grid { margin:0; border-left:0; padding:0; }
+		.inner-grid { margin-left:5px; margin-top:0px; margin-bottom:0px; border-left:0; padding:0; }
     #stripe-response {
       border-radius:4px;
       border: 1px solid;
@@ -159,6 +159,11 @@ background-color: #0cb4ce
     }
 		.stripe-button { width: 100%; margin-bottom: 10px;}
 		header img { max-height: 45px; }
+span.mdl-chip { border: 1px solid rgba(0,0,0,.25);
+background-color: transparent;
+border-radius: 8px;
+ font-size:0.8em;
+padding: 0 8px; }
   </style>
 	</head>
 	<body onLoad="setup('{{{API_ADDRESS}}}','{{{EMAIL_DOMAIN}}}', '{{{STRIPE_KEY}}}', '{{{HOME_DOMAIN}}}')">
@@ -179,24 +184,23 @@ background-color: #0cb4ce
 					<div class="user-listing-info mdl-cell mdl-cell--12-col">
 					<h4><span id="company-name"></span> employees on VIP Crowd</h4>
 					</div>
-					<div id="company-user-example" class="hidden mdl-grid inner-grid individual-user">
+					<div id="company-user-example" class="hidden mdl-grid individual-user">
 						<div class="avatar-parent mdl-cell mdl-cell--2-col mdl-cell--2-col-tablet mdl-cell--1-col-phone">
 							<a href="/{{{userScreenName}}}" class="thumbnail user-avatar"></a>
 						</div>
 						<div class="mdl-grid inner-grid mdl-cell mdl-cell--8-col mdl-cell--4-col-tablet mdl-cell--3-col-phone">
 							<div class="mdl-cell inner-grid mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-								<h6 class="bold"><a href="/{{{userScreenName}}}">{{{userName}}}</a></h6>
+								<h6 class="large bold"><a href="/{{{userScreenName}}}">{{{userName}}}</a></h6>
 								<div class="large">{{{jobTitle}}}</div>
 								<div class="large">Minimum Bid: ${{{minBid}}}</div>
 							</div>
 							<div class="mdl-cell inner-grid mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
 									{{{jobDescription}}}
 									<div class="involved-in-container">
-										<span class="involved-label small-bold">Involved In:</span>
 									</div>
 							</div>
 						</div>
-						<div class="mdl-layout-spacer"></div>
+						<div class="mdl-layout-spacer mdl-cell--hide-phone"></div>
 						<div class="mdl-cell mdl-cell--2-col mdl-cell--2-col-tablet mdl-cell--hide-phone">
 							<a href="/{{{userScreenName}}}" class="profile-button mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-color-text--white">
 								View Profile
