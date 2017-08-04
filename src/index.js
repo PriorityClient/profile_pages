@@ -217,7 +217,6 @@ function complete(api, emailDomain, stripeKey){
 		elements[sep[0]] = sep[1]
 	}
 	bid = JSON.parse(atob(elements.bid));
-console.log(bid);
   user = JSON.parse(atob(elements.user));
 	var update_name = $(".substitute-variable")
 	for(var i=0; i<update_name.length; i++){
@@ -226,8 +225,8 @@ console.log(bid);
 		update_name[i].innerHTML = body.replace(new RegExp("{{pitcher-email}}", "g"), bid.pitcher_email)
 .replace(new RegExp("{{charge-id}}", "g"), elements.charge);
 	}
-console.log(bid)
-console.log(user)
+	console.log(bid)
+	console.log(user)
   showUser(user);
 }
 
@@ -311,7 +310,7 @@ function stripeHandler(token, user, api) {
       axios
 				.post(api+"/stripe_payments", paymentInfo)
 				.then(function(payment){
-          window.location.href = "/complete.html?bid="+btoa(JSON.stringify(bid))+"&user="+btoa(JSON.stringify(user))+"&charge="+payment.data.charge;
+          window.location.href = "/complete.html?bid="+btoa(JSON.stringify(Object.assign({}, bid, {pitch_id: payment.data.pitch.id})))+"&user="+btoa(JSON.stringify(user))+"&charge="+payment.data.charge;
 				})
 				.catch(function(error){
 console.log(error);
