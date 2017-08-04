@@ -158,7 +158,6 @@ function showCompany(result){
 	var sample = $("#company-user-example")
 	for(var i=0; i<employees.length; i++){
 		var user = employees[i];
-console.log(user.id);
 		var userEl = sample.cloneNode(true)
 		userEl.id = '';
 		userEl.classList.remove('hidden');
