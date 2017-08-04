@@ -274,7 +274,7 @@ padding: 0 8px; }
 
 										<div class="mdl-cell mdl-cell--6-col-desktop  mdl-cell--4-col-tablet ">
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-												<input type="text" id="pitcher-first-name" class="mdl-textfield__input">
+												<input tabIndex="1" type="text" id="pitcher-first-name" class="mdl-textfield__input">
 												<label for="pitcher-first-name" class="mdl-textfield__label">First Name</label>
 												<span class="mdl-textfield__error">First Name is required</span>
 											</div>
@@ -282,7 +282,7 @@ padding: 0 8px; }
 
 										<div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--4-col-tablet">
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-												<input type="text" id="pitcher-last-name" class="mdl-textfield__input">
+												<input tabIndex="2" type="text" id="pitcher-last-name" class="mdl-textfield__input">
 												<label for="pitcher-last-name" class="mdl-textfield__label">Last Name</label>
 												<span class="mdl-textfield__error">Last Name is required</span>
 											</div>
@@ -290,7 +290,7 @@ padding: 0 8px; }
 
 										<div class="mdl-cell mdl-cell--12-col">
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-												<input type="text" id="pitcher-email" class="mdl-textfield__input" pattern="[a-zA-Z0-9!#\$%&'\*\+-\/=\?\^_`\{\|\}~\.]+@[a-zA-Z0-9\-]+\.[a-zA-Z]+">
+												<input tabIndex="3" type="text" id="pitcher-email" class="mdl-textfield__input" pattern="[a-zA-Z0-9!#\$%&'\*\+-\/=\?\^_`\{\|\}~\.]+@[a-zA-Z0-9\-]+\.[a-zA-Z]+">
 												<label for="pitcher-email" class="mdl-textfield__label">Email Address</label>
 												<span class="mdl-textfield__error">A valid email address is required</span>
 											</div>
@@ -298,7 +298,7 @@ padding: 0 8px; }
 
 										<div class="mdl-cell mdl-cell--12-col">
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-												<input type="text" id="pitcher-company-name" class="mdl-textfield__input">
+												<input tabIndex="4" type="text" id="pitcher-company-name" class="mdl-textfield__input">
 												<label for="pitcher-company-name" class="mdl-textfield__label">Company Name</label>
 												<span class="mdl-textfield__error">Company Name is required</span>
 											</div>
@@ -313,7 +313,7 @@ padding: 0 8px; }
 										</div>
 
 										<div class="pitchArea-parent mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield">
-											<textarea class="pitchArea mdl-textfield__input" rows="10" id="description" ></textarea>
+											<textarea tabIndex="5" class="pitchArea mdl-textfield__input" rows="10" id="description" ></textarea>
 											<span class="mdl-textfield__error">You must enter a pitch that is less than 700 characters</span>
 										</div>
                     <div id="stripe-response" class="hidden center-text mdl-cell mdl-cell--12-col"></div>
@@ -332,7 +332,7 @@ your call has been completed.<br />
 										</div>
 										<div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-tablet mdl-cell--2-col-phone">
 											<div class="bid-text mdl-textfield mdl-js-textfield">
-												<i class="currency">$</i><input type="number" step="0.01" min="0" id="bid-amount" class="mdl-textfield__input" pattern="-?[0-9]*(\.[0-9]+)?" />
+												<i class="currency">$</i><input tabIndex="6" type="number" step="0.01" min="0" id="bid-amount" class="mdl-textfield__input" pattern="-?[0-9]*(\.[0-9]+)?" />
 												<span class="mdl-textfield__error substitute-minimum-bid">Bid must be a valid dollar amount over ${{user-minimum-bid}}</span>
 											</div>
 										</div>
@@ -353,14 +353,14 @@ your call has been completed.<br />
 										<h5 class="credit-header mdl-cell--hide-tablet mdl-cell--hide-desktop">Credit or debit card</h5>
 										<div id="card-element" class="mdl-cell--hide-tablet mdl-cell--hide-desktop"></div>
 										<div id="card-errors"  class="error mdl-cell--hide-tablet mdl-cell--hide-desktop"></div>
-										<button id="stripe-element-button" class="stripe-button mdl-cell--hide-desktop mdl-cell--hide-tablet mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-color-text--white">
+										<button tabIndex="8" id="stripe-element-button" class="stripe-button mdl-cell--hide-desktop mdl-cell--hide-tablet mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-color-text--white">
 											Submit Pitch
 										</button>
 <!-- /phone stripe button  -->
 
 										<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="tos-checkbox">
-											<span class="mdl-checkbox__label">I agree to the <a href="https://hello.vipcrowd.com/terms-of-use/" target="_blank">Terms of Service</a></span>
-											<input type="checkbox" id="tos-checkbox" class="mdl-checkbox__input">
+											<span class="mdl-checkbox__label">I agree to the <a tabIndex="9" href="https://hello.vipcrowd.com/terms-of-use/" target="_blank">Terms of Service</a></span>
+											<input tabIndex="7" type="checkbox" id="tos-checkbox" class="mdl-checkbox__input">
 										</label>
                   </div><!-- .mdl-cell -->
 								</div><!-- main input boxes .mdl-grid -->
