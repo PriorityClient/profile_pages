@@ -21,6 +21,11 @@
 			});
 		</script>
   <style>
+span.mdl-chip { border: 1px solid rgba(0,0,0,.25);
+background-color: transparent;
+border-radius: 8px;
+ font-size:0.8em;
+padding: 0 8px; }
 .mdl-button--accent.mdl-button--accent.mdl-button--raised, .mdl-button--accent.mdl-button--accent.mdl-button--fab {
 background-color: #0cb4ce
 }
@@ -179,13 +184,25 @@ header .logo {margin-left: 25px; max-width: 1366px ;}
             </div><!-- main section submission display .content-area -->
 
             <div class="content-area mdl-cell--hide-desktop">
-              <h6> What is a Priority Pitch?</h6>
-							<ul class='mdl-list'>
-								<li class="substitute-variable mdl-list__item">Fill out the form to submit your meeting to {{user-first-name}}</li>
-								<li class="mdl-list__item">$8 is charged to your card when you submit your bid</li>
-								<li class="substitute-variable mdl-list__item">Pitch is shown to {{user-first-name}}</li>
+              <h4> What is VIP Crowd?</h4>
+              <p>VIP Crowd is a better way for vendors to get prospects’ attention without annoying them with cold calls and emails</p>
+              <hr class="short-break" />
+              <p class="bold">Here's how it works:</p>
+							<ul>
+								<li class="substitute-variable">Fill out the form to submit a request for a 20 minute call with {{user-first-name}}</li>
+								<li>$8 is charged to your credit card when you submit the meeting request.</li>
+								<li class="substitute-variable">Requests are shown to {{user-first-name}} with the highest bid amount on the top of the list.</li>
+								<li class="mdl-list__item" >
+                  <ul>
+                    <li class="substitute-variable">If {{user-first-name}} is interested in your request, you will receive an email notification to set up the call. Once the call occurs, the bid amount (less the $8 already paid) will be charged to your credit card.</li>
+                    <li class="substitute-variable">If {{user-first-name}} is not interested, you will be notified via email with a personalized explanation from {{user-first-name}}. </li>
+                    <li class="substitute-variable">Typically VIP users respond to meeting requests once per week, but if {{user-first-name}} does not respond within 30 days, the $8 will be refunded to your account.</li>
+                  </ul>
+                </li>
 							</ul>
-            </div><!-- do not show on desktop .content-area -->
+              <p class="bold">Where does the money go?</p>
+							<p class="substitute-variable">Funds go to an IRS approved charity designated by {{user-first-name}}. VIP Crowd charges a small fee to process payments and administer the program. </p>
+            </div>
 
           </div> <!-- /main panel .content-column -->
 
