@@ -49,7 +49,7 @@ function setupProfile(api, emailDomain, stripeKey){
       for(var i=0; i<update_name.length; i++){
         var body = update_name[i].innerHTML
         var min_bid_regex = new RegExp("{{user-minimum-bid}}", "g")
-        update_name[i].innerHTML = body.replace(min_bid_regex, u.minimum_bid.toFixed(2));
+        update_name[i].innerHTML = body.replace(min_bid_regex, parseFloat(u.minimum_bid).toFixed(2));
       }
     });
 	setupDescriptionCharCountDisplay("#description", "#descriptionCharacterCount", "#descriptionCharacterCountContainer", 700);
