@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
+
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.grey-light_blue.min.css" />
+
+
+		<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<script src="https://checkout.stripe.com/checkout.js"></script>
+		<script src="https://js.stripe.com/v3/"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.5.2/randomColor.min.js"></script>
+
+  <style>
+.involved-in-container { margin-top: 10px; }
+#card-element {
+border-bottom: 1px solid rgba(0,0,0,.12);
+}
+.credit-header { margin-bottom:5px; margin-top:10px; }
+#stripe-element-button {
+margin-top:20px;
+}
+[data-letters]:before {
+  content:attr(data-letters);
+  display:inline-block;
+	font-size:5.0em;
+  width:2.0em;
+  height:2.0em;
+  line-height:2.1em;
+  text-align:center;
+  border-radius:50%;
+  background:plum;
+  vertical-align:middle;
+  color:white;
+}
+
+
+@media (min-width:0px)  {
+	[data-letters].thumbnail:before {
+		font-size:2.5em;
+	}
+	.avatar-parent {
+		margin-top:15px;
+	}
+}
+@media (min-width:600px) {
+	[data-letters].thumbnail:before {
+		font-size:3.5em;
+	}
+	.avatar-parent {
+		margin-right:0;
+		margin-top:0;
+	}
+}
+
+
+.small { font-size:0.9em; }
+.involved-label { margin:auto; color:#333; }
+#progress-bar { width:100%; }
+
+.bid-text-label {
+padding-top:5px;
+}
+
+.bid-text {
+  position: relative;
+	padding:0px;
+}
+
+.bid-text > .currency {
+  position: absolute;
+  display: block;
+  transform: translate(0, -50%);
+  top: 50%;
+  pointer-events: none;
+  width: 25px;
+  text-align: center;
+  font-style: normal;
+}
+
+.bid-text-label > .material-icons {
+font-size:1.0em;
+color:#999;
+}
+
+.bid-text > input {
+  padding-left: 25px;
+  padding-right: 0;
+	width: 75px;
+}
+    body { background: #eee; }
+		.main-page { max-width: 1366px; margin:auto; }
+    .section-header { margin:0;margin-left:15px; font-size:1.8em;}
+    li ul  { padding-left: 10px; }
+		.short-break {
+			width: 30%;
+		}
+		.mdl-layout__header-row {
+			background: #2e2e2e;
+			padding: 0 20px 0 20px;
+		}
+.mdl-button--accent.mdl-button--accent.mdl-button--raised, .mdl-button--accent.mdl-button--accent.mdl-button--fab {
+background-color: #0cb4ce
+}
+		a { color: #0cb4ce }
+    .content-area {
+      background-color: #fff;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    .content-column h2 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+    .error  { color:#d50000; }
+    .hidden { display:none; }
+    .bold   { font-weight:bold; font-size:1.1em; }
+    .small-bold   { font-weight:bold; font-size:0.8em; }
+    .large   { font-size:1.3em; line-height:1.4em;}
+    .user-listing-info { border-bottom:1px solid #eee; }
+		.pending { opacity: 0.3; background-image: url(""); }
+    #user-info-panel { text-align:center ; }
+    #user-info-panel h3, #user-info-panel h4 {margin-top:0px; margin-bottom:10px; }
+    #sidebar-company-name {text-decoration: none;}
+    #user-job-description {margin-bottom:15px;margin-top:15px;}
+    .mdl-card.main-content { width:100%; }
+    .main-content { width:90%; }
+    .pitchArea-parent { padding-top: 0; margin-top: 0; padding-right:0; margin-right:0; }
+    .pitchArea {
+        border: 1px solid rgba(0,0,0,.12);;
+        width:100%;
+        -webkit-box-sizing: border-box;
+           -moz-box-sizing: border-box;
+                box-sizing: border-box;
+    }
+		#company-page { margin-top:15px; }
+		.user-listing-info h4 { border-bottom: 1px solid #eee; margin-bottom:0px; width:100%}
+		.individual-user {  border-bottom: 1px solid #eee; width:100%; margin-bottom: 10px; }
+		.individual-user a { text-decoration: none; }
+		.individual-user h6 {margin:0px; padding:0px;}
+		.inner-grid { margin-left:5px; margin-top:0px; margin-bottom:0px; border-left:0; padding:0; }
+    #stripe-response {
+      border-radius:4px;
+      border: 1px solid;
+      font-weight:bold;
+      font-size:1em;
+      padding:10px;
+    }
+    #stripe-response.failure-message {
+      border-color: #900;
+      background-color: #f00;
+      color: #eee;
+    }
+    #stripe-response.success-message {
+      border-color: #090;
+      background-color: #0f0;
+      color: #333;
+    }
+		.stripe-button { width: 100%; margin-bottom: 10px;}
+		header img { max-height: 45px; }
+span.mdl-chip { border: 1px solid rgba(0,0,0,.25);
+background-color: transparent;
+border-radius: 8px;
+ font-size:0.8em;
+padding: 0 8px; }
+  </style>
+	</head>
+	<body onLoad="setup('{{{API_ADDRESS}}}','{{{EMAIL_DOMAIN}}}', '{{{STRIPE_KEY}}}', '{{{HOME_DOMAIN}}}')">
+
+		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+			<header class="mdl-layout__header">
+				<div class="mdl-layout__header-row">
+					<!-- Title -->
+<div class="logo">
+					<img src="/VIP-Crowd-logo-white-358x100.png" alt="VIP Crowd" />
+</div>
+				</div>
+			</header>
+
+			<main class="main-page mdl-layout__content hidden" id="company-page">
+
+				<div class="mdl-grid content-area" id="company-user-list">
+					<div class="user-listing-info mdl-cell mdl-cell--12-col">
+					<h4><span id="company-name"></span> employees on VIP Crowd</h4>
+					</div>
+					<div id="company-user-example" class="hidden mdl-grid individual-user">
+						<div class="avatar-parent mdl-cell mdl-cell--2-col mdl-cell--2-col-tablet mdl-cell--1-col-phone">
+							<a href="/{{{userScreenName}}}" class="thumbnail user-avatar"></a>
+						</div>
+						<div class="mdl-grid inner-grid mdl-cell mdl-cell--8-col mdl-cell--4-col-tablet mdl-cell--3-col-phone">
+							<div class="mdl-cell inner-grid mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+								<h6 class="large bold"><a href="/{{{userScreenName}}}">{{{userName}}}</a></h6>
+								<div class="large">{{{jobTitle}}}</div>
+								<div class="large">Minimum Bid: ${{{minBid}}}</div>
+							</div>
+							<div class="mdl-cell inner-grid mdl-cell--8-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
+									{{{jobDescription}}}
+									<div class="involved-in-container">
+									</div>
+							</div>
+						</div>
+						<div class="mdl-layout-spacer mdl-cell--hide-phone"></div>
+						<div class="mdl-cell mdl-cell--2-col mdl-cell--2-col-tablet mdl-cell--hide-phone">
+							<a href="/{{{userScreenName}}}" class="profile-button mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-color-text--white">
+								View Profile
+							</a>
+						</div>
+					</div>
+				</div>
+
+      </main>
+
+			<main class="main-page mdl-layout__content hidden" id="profile-page">
+				<div class="mdl-grid content-grid">
+
+					<div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop content-column">
+
+            <div id="user-info-panel" class="content-area">
+              <div id="user-avatar"></div>
+              <h3 id="user-name"></h3>
+              <a class="bold" id="sidebar-company-name"></a>
+
+              <h4 id="job-title"></h4>
+              <div>Verified email ends with:</div>
+							<div id="user-email-domain" class="bold" ></div>
+              <p id="user-job-description"></p>
+              <h5>Involved in:</h5>
+							<p id="no-interests">[ no interests given ]</p>
+							<div id="interest-container">
+								<span id="chip-example" class="hidden mdl-chip">
+									<span class="mdl-chip__text">{{{interestName}}}</span>
+								</span>
+							</div>
+
+
+              <div id="user-id" class="hidden"></div>
+              <div id="user-info" class="hidden"></div>
+            </div>
+
+            <div class="content-area mdl-cell--hide-phone mdl-cell--hide-tablet">
+              <h4> What is VIP Crowd?</h4>
+              <p>VIP Crowd is a better way for vendors to get prospects’ attention without annoying them with cold calls and emails</p>
+              <hr class="short-break" />
+              <p class="bold">How it works:</p>
+							<ul>
+								<li class="substitute-variable">Fill out the form to submit a request for a 20 minute call with {{user-first-name}}</li>
+								<li>$8 is charged to your credit card when you submit the meeting request.</li>
+								<li class="substitute-variable">Requests are shown to {{user-first-name}} with the highest bid amount on the top of the list.</li>
+								<li class="mdl-list__item" >
+                  <ul>
+                    <li class="substitute-variable">If {{user-first-name}} is interested in your request, you will receive an email notification to set up the call. Once the call occurs, the bid amount (less the $8 already paid) will be charged to your credit card.</li>
+                    <li class="substitute-variable">If {{user-first-name}} is not interested, you will be notified via email with a personalized explanation from {{user-first-name}}. </li>
+                    <li class="substitute-variable">Typically VIP users respond to meeting requests once per week, but if {{user-first-name}} does not respond within 30 days, the $8 will be refunded to your account.</li>
+                  </ul>
+                </li>
+							</ul>
+              <p class="bold">Where does the money go?</p>
+							<p class="substitute-variable">Funds go to an IRS approved charity designated by {{user-first-name}}. VIP Crowd charges a small fee to process payments and administer the program. </p>
+            </div>
+
+          </div> <!-- /left panel .content-column -->
+
+					<div class="mdl-cell mdl-cell--8-col content-column">
+					<div id="progress-bar" class="hidden mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+
+            <div id="main-form" class="content-area">
+<form id="main-form">
+              <h3 class="substitute-variable section-header">Request a 20 Minute Call With {{user-first-name}}</h3>
+									<div class="mdl-grid">
+
+										<div class="mdl-cell mdl-cell--6-col-desktop  mdl-cell--4-col-tablet ">
+											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+												<input tabIndex="1" type="text" id="pitcher-first-name" class="mdl-textfield__input">
+												<label for="pitcher-first-name" class="mdl-textfield__label">First Name</label>
+												<span class="mdl-textfield__error">First Name is required</span>
+											</div>
+										</div>
+
+										<div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--4-col-tablet">
+											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+												<input tabIndex="2" type="text" id="pitcher-last-name" class="mdl-textfield__input">
+												<label for="pitcher-last-name" class="mdl-textfield__label">Last Name</label>
+												<span class="mdl-textfield__error">Last Name is required</span>
+											</div>
+										</div>
+
+										<div class="mdl-cell mdl-cell--12-col">
+											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+												<input tabIndex="3" type="text" id="pitcher-email" class="mdl-textfield__input" pattern="[a-zA-Z0-9!#\$%&'\*\+-\/=\?\^_`\{\|\}~\.]+@[a-zA-Z0-9\-]+\.[a-zA-Z]+">
+												<label for="pitcher-email" class="mdl-textfield__label">Email Address</label>
+												<span class="mdl-textfield__error">A valid email address is required</span>
+											</div>
+										</div>
+
+										<div class="mdl-cell mdl-cell--12-col">
+											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+												<input tabIndex="4" type="text" id="pitcher-company-name" class="mdl-textfield__input">
+												<label for="pitcher-company-name" class="mdl-textfield__label">Company Name</label>
+												<span class="mdl-textfield__error">Company Name is required</span>
+											</div>
+										</div>
+
+										<div class="mdl-cell mdl-cell--9-col">
+											<label class="substitute-variable">Explain your product or service and why {{user-first-name}} might be interested</label>
+										</div>
+										<div class="mdl-layout-spacer"></div>
+										<div class="mdl-cell mdl-cell--1-col" id="descriptionCharacterCountContainer" >
+											(<span id="descriptionCharacterCount">0</span>/700)
+										</div>
+
+										<div class="pitchArea-parent mdl-cell mdl-cell--12-col mdl-textfield mdl-js-textfield">
+											<textarea tabIndex="5" class="pitchArea mdl-textfield__input" rows="10" id="description" ></textarea>
+											<span class="mdl-textfield__error">You must enter a pitch that is less than 700 characters</span>
+										</div>
+                    <div id="stripe-response" class="hidden center-text mdl-cell mdl-cell--12-col"></div>
+
+										<div class="bid-text-label mdl-cell mdl-cell--3-col mdl-cell--2-col-tablet mdl-cell--2-col-phone">
+<i id="bid-info" class="material-icons">info</i>
+<div class="substitute-variable mdl-tooltip" for="bid-info">
+$8 will be charged to your<br />
+account when you submit<br />
+your pitch. If {{user-first-name}} is interested <br />
+in your pitch, the remaining bid<br />
+amount will be charged after <br />
+your call has been completed.<br />
+</div>
+											<label for="user" class="substitute-minimum-bid">Bid Amount <span class="small">(Minimum ${{user-minimum-bid}})</span></label>
+										</div>
+										<div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-tablet mdl-cell--2-col-phone">
+											<div class="bid-text mdl-textfield mdl-js-textfield">
+												<i class="currency">$</i><input tabIndex="6" type="number" step="0.01" min="0" id="bid-amount" class="mdl-textfield__input" pattern="-?[0-9]*(\.[0-9]+)?" />
+												<span class="mdl-textfield__error substitute-minimum-bid">Bid must be a valid dollar amount over ${{user-minimum-bid}}</span>
+											</div>
+										</div>
+
+									<div class="mdl-layout-spacer"></div>
+
+<!-- desktop stripe button  -->
+                  <div id="stripe-button-container" class="mdl-cell mdl-cell--4-col">
+										<button id="stripe-button" class="stripe-button mdl-cell--hide-tablet mdl-cell--hide-phone mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-color-text--white">
+											Submit Pitch
+										</button>
+<!-- /desktop stripe button  -->
+
+
+
+
+<!-- /phone&tablet stripe button  -->
+										<h5 class="credit-header mdl-cell--hide-desktop">Credit or debit card</h5>
+										<div id="card-element" class="mdl-cell--hide-desktop"></div>
+										<div id="card-errors"  class="error mdl-cell--hide-desktop"></div>
+										<button type="submit" tabIndex="8" id="stripe-element-button" class="stripe-button mdl-cell--hide-desktop mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-color-text--white">
+											Submit Pitch
+										</button>
+<!-- /phone&tablet stripe button  -->
+
+										<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="tos-checkbox">
+											<span class="mdl-checkbox__label">I agree to the <a tabIndex="9" href="https://hello.vipcrowd.com/terms-of-use/" target="_blank">Terms of Service</a></span>
+											<input tabIndex="7" type="checkbox" id="tos-checkbox" class="mdl-checkbox__input">
+										</label>
+                  </div><!-- .mdl-cell -->
+								</div><!-- main input boxes .mdl-grid -->
+
+</form>
+            </div><!-- main section form data .content-area -->
+
+            <div class="content-area mdl-cell--hide-desktop">
+              <h4> What is VIP Crowd?</h4>
+              <p>VIP Crowd is a better way for vendors to get prospects’ attention without annoying them with cold calls and emails</p>
+              <hr class="short-break" />
+              <h6>How it works:</h6>
+							<ul>
+								<li class="substitute-variable">Fill out the form to submit a request for a 20 minute call with {{user-first-name}}</li>
+								<li>$8 is charged to your credit card when you submit the meeting request.</li>
+								<li class="substitute-variable">Requests are shown to {{user-first-name}} with the highest bid amount on the top of the list.</li>
+								<li class="mdl-list__item" >
+                  <ul>
+                    <li class="substitute-variable">If {{user-first-name}} is interested in your request, you will receive an email notification to set up the call. Once the call occurs, the bid amount (less the $8 already paid) will be charged to your credit card.</li>
+                    <li class="substitute-variable">If {{user-first-name}} is not interested, you will be notified via email with a personalized explanation from Alexa. </li>
+                    <li class="substitute-variable">Typically VIP users respond to meeting requests once per week, but if {{user-first-name}} does not respond within 30 days, the $8 will be refunded to your account.</li>
+                  </ul>
+                </li>
+							</ul>
+							<p class="bold">Where does the money go?</p>
+							<p class="substitute-variable">Funds go to an IRS approved charity designated by {{user-first-name}}. VIP Crowd charges a small fee to process payments and administer the program. </p>
+            </div><!-- do not show on desktop .content-area -->
+
+          </div> <!-- /main panel .content-column -->
+
+				</div> <!-- .content-grid -->
+
+			</main>
+
+    </div> <!-- .mdl-layout -->
+		<script src="/index.js"></script>
+	<body>
+</html>
+

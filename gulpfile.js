@@ -1,0 +1,79 @@
+var gulp = require('gulp');
+var minify = require('gulp-minify');
+var replace = require('gulp-replace');
+var htmlmin = require('gulp-htmlmin');
+var express = require('express');
+
+var server = express();
+server.use(express.static('./www'));
+server.get("/company/:company_id", function(req, res) {
+  res.sendFile(__dirname + '/www/index.html')
+})
+server.get("/:user_id", function(req, res) {
+  res.sendFile(__dirname + '/www/index.html')
+})
+server.get("/profile/:user_id", function(req, res) {
+  res.sendFile(__dirname + '/www/index.html')
+})
+
+gulp.task('default', ['envSetup', 'copyResources', 'compressJS'/*, 'htmlminify'*/]);
+gulp.task('serve', ['envSetup', 'copyResources', 'copyJS', 'startServer', 'watch']);
+
+if(!process.env.API_ADDRESS) process.env.API_ADDRESS = "http://localhost:3000/profiles/v1";
+if(!process.env.STRIPE_KEY) process.env.STRIPE_KEY = "pk_test_zqRxEBrhmk4o4O0r2qVXmJCI";
+if(!process.env.EMAIL_DOMAIN) process.env.EMAIL_DOMAIN = "staging-message.vipcrowd.com";
+if(!process.env.HOME_DOMAIN) process.env.HOME_DOMAIN = "https://hello.vipcrowd.com";
+
+gulp.task('copyResources', function(){
+  gulp.src(['src/*.png'])
+    .pipe(gulp.dest('www/'));
+});
+
+gulp.task('copyJS', function(){
+  gulp.src(['src/index.js'])
+    .pipe(gulp.dest('www/'));
+});
+
+gulp.task('envSetup', function(){
+  gulp.src('src/*.html')
+    .pipe(replace("{{{API_ADDRESS}}}", process.env.API_ADDRESS))
+    .pipe(replace("{{{EMAIL_DOMAIN}}}", process.env.EMAIL_DOMAIN))
+    .pipe(replace("{{{STRIPE_KEY}}}", process.env.STRIPE_KEY))
+    .pipe(replace("{{{HOME_DOMAIN}}}", process.env.HOME_DOMAIN))
+    .pipe(gulp.dest('www/'));
+});
+
+gulp.task('compressJS', function() {
+  gulp.src('src/*.js')
+    .pipe(minify({
+        ext:{
+            src:'-debug.js',
+            min:'.js'
+        }
+    }))
+    .pipe(gulp.dest('www'))
+});
+
+gulp.task('startServer', function() {
+  //Set up your static fileserver, which serves files in the build dir
+  server.listen(8000);
+});
+
+gulp.task('htmlminify', function() {
+  return gulp.src('src/*.html')
+    .pipe(htmlmin({collapseWhitespace: true, minifyCSS: true}))
+    .pipe(gulp.dest('www'));
+});
+
+gulp.task('watch', function() {
+
+  //Add watching on js-files
+  gulp.watch('src/*.js', function() {
+    gulp.run('copyJS');
+  });
+
+  //Add watching on html-files
+  gulp.watch('src/*.html', function () {
+    gulp.run('envSetup');
+  });
+});

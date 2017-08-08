@@ -1,0 +1,24 @@
+version: 0.2
+env:
+  variables:
+    API_ADDRESS: "https://staging.priorityclient.com/profiles/v1"
+    STRIPE_KEY:  "pk_test_zqRxEBrhmk4o4O0r2qVXmJCI"
+phases:
+  install:
+    commands:
+      - npm install
+  pre_build:
+    commands:
+      - echo Nothing to do in the pre_build phase...
+  build:
+    commands:
+      - echo Build started on `date`
+      - npm run build
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - "**/*"
+  discard-paths: yes
+  base-directory: "www"
