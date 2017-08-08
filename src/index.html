@@ -269,6 +269,7 @@ padding: 0 8px; }
 					<div id="progress-bar" class="hidden mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
 
             <div id="main-form" class="content-area">
+<form id="main-form">
               <h3 class="substitute-variable section-header">Request a 20 Minute Call With {{user-first-name}}</h3>
 									<div class="mdl-grid">
 
@@ -353,7 +354,7 @@ your call has been completed.<br />
 										<h5 class="credit-header mdl-cell--hide-desktop">Credit or debit card</h5>
 										<div id="card-element" class="mdl-cell--hide-desktop"></div>
 										<div id="card-errors"  class="error mdl-cell--hide-desktop"></div>
-										<button tabIndex="8" id="stripe-element-button" class="stripe-button mdl-cell--hide-desktop mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-color-text--white">
+										<button type="submit" tabIndex="8" id="stripe-element-button" class="stripe-button mdl-cell--hide-desktop mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-color-text--white">
 											Submit Pitch
 										</button>
 <!-- /phone&tablet stripe button  -->
@@ -365,6 +366,7 @@ your call has been completed.<br />
                   </div><!-- .mdl-cell -->
 								</div><!-- main input boxes .mdl-grid -->
 
+</form>
             </div><!-- main section form data .content-area -->
 
             <div class="content-area mdl-cell--hide-desktop">

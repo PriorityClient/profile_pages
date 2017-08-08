@@ -252,7 +252,8 @@ card.addEventListener('change', function(event) {
     displayError.textContent = '';
   }
 });
-$("#stripe-element-button").addEventListener('click', function(e){
+$("#main-form").addEventListener('submit', function(e){
+e.preventDefault();
     if(!checkRequired( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email", "#pitcher-company-name", "#tos-checkbox", user)) return false;
 stripe.createToken(card).then(function(result) {
   if (result.error) {
