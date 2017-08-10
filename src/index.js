@@ -162,11 +162,11 @@ function showCompany(result){
 		userEl.id = '';
 		userEl.classList.remove('hidden');
   if(!user.avatar_thumbnail_url){
-userEl.querySelector(".user-avatar").setAttribute("data-letters", user.first_name.charAt(0)+user.last_name.charAt(0));
-userEl.querySelector(".user-avatar").classList.add(user.screen_name)
-    document.head.insertAdjacentHTML('beforeend', '<style> [data-letters].'+user.screen_name+':before {background: '+randomColor({seed: user.id})+'; }</style>');
+userEl.querySelector(".user-avatar").innerHTML= user.first_name.charAt(0)+user.last_name.charAt(0);
+userEl.querySelector(".user-avatar").style.backgroundColor = randomColor({seed: user.id});
   }else{
-    userEl.querySelector(".user-avatar").insertAdjacentHTML('afterbegin', '<img src="'+user.avatar_thumbnail_url+'" />');
+    userEl.querySelector(".user-avatar").insertAdjacentHTML('afterbegin', '<img src="'+user.avatar_large_url+'" />');
+    userEl.querySelector(".user-avatar").style['line-height'] = 1;
 
   }
 
@@ -345,10 +345,11 @@ console.log(user.id);
 	$("#sidebar-company-name").innerHTML=(user.company_name||user.enterprise_id||"");
 	$("#user-name").innerHTML=user.first_name+" "+user.last_name;
   if(!user.avatar_url){
-    $("#user-avatar").setAttribute("data-letters", user.first_name.charAt(0)+user.last_name.charAt(0));
-    document.head.insertAdjacentHTML('beforeend', '<style>[data-letters]:before {background: '+randomColor({seed: user.id})+'; }</style>');
+    $("#user-avatar").innerHTML=user.first_name.charAt(0)+user.last_name.charAt(0);
+    $("#user-avatar").style.backgroundColor = randomColor({seed: user.id});
   }else{
     $("#user-avatar").insertAdjacentHTML('afterbegin', '<img src="'+user.avatar_url+'" />');
+    $("#user-avatar").style['line-height'] = 1;
 
   }
 	$("#user-job-description").innerHTML=user.job_description;
