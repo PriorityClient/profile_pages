@@ -175,7 +175,7 @@ userEl.querySelector(".user-avatar").style.backgroundColor = randomColor({seed: 
 		var userScreenName = user.screen_name;
 		var job_desciption = user.job_description||'[ no job description given ]';
 		var job_title = user.job_title||'[ no job title given ]';
-		var min_bid = (user.bid_amount&&user.bid_amount.toFixed(2))||'30.00';
+		var min_bid = (user.minimum_bid&&user.minimum_bid.toFixed(2))||'30.00';
 
 var chips = '';
 for(var j=0; j<user.responsibilities.length; j++){
