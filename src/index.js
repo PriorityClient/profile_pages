@@ -163,7 +163,7 @@ function showCompany(result){
 		userEl.classList.remove('hidden');
   if(!user.avatar_thumbnail_url){
 userEl.querySelector(".user-avatar").innerHTML= user.first_name.charAt(0)+user.last_name.charAt(0);
-userEl.querySelector(".user-avatar").style.backgroundColor = randomColor({seed: user.id});
+userEl.querySelector(".user-avatar").style.backgroundColor = randomColor({seed: user.id, luminosity: 'bright'});
   }else{
     userEl.querySelector(".user-avatar").insertAdjacentHTML('afterbegin', '<img src="'+user.avatar_large_url+'" />');
     userEl.querySelector(".user-avatar").style['line-height'] = 1;
@@ -346,7 +346,7 @@ console.log(user.id);
 	$("#user-name").innerHTML=user.first_name+" "+user.last_name;
   if(!user.avatar_url){
     $("#user-avatar").innerHTML=user.first_name.charAt(0)+user.last_name.charAt(0);
-    $("#user-avatar").style.backgroundColor = randomColor({seed: user.id});
+    $("#user-avatar").style.backgroundColor = randomColor({seed: user.id, luminosity: 'bright'});
   }else{
     $("#user-avatar").insertAdjacentHTML('afterbegin', '<img src="'+user.avatar_url+'" />');
     $("#user-avatar").style['line-height'] = 1;

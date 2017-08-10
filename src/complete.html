@@ -21,6 +21,47 @@
 			});
 		</script>
   <style>
+.user-avatar {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+
+		display:inline-block;
+		font-size:5.0em;
+		width:2.0em;
+		height:2.0em;
+		line-height:2;
+		text-align:center;
+		vertical-align:middle;
+		color:white;
+}
+
+.user-avatar img {
+    display: inline;
+    margin: 0 auto;
+    height: 100%;
+    width: auto;
+}
+
+@media (min-width:0px)  {
+	.user-avatar.thumbnail {
+		font-size:2.5em;
+	}
+	.avatar-parent {
+		margin-top:15px;
+	}
+}
+@media (min-width:600px) {
+	.user-avatar.thumbnail {
+		font-size:3.5em;
+	}
+	.avatar-parent {
+		margin-right:0;
+		margin-top:0;
+	}
+}
 span.mdl-chip { border: 1px solid rgba(0,0,0,.25);
 background-color: transparent;
 border-radius: 8px;
