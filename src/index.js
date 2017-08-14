@@ -5,28 +5,78 @@
 // is all of the javascript that runs the project's
 // two (soon to be three) pages. They are split into sections:
 
-// 1. Profile Page Functions - functions used only on the user profile page
-// 2. Company Page Functions - functions used only on the company profile page
-// 3. Bid Completion Page Functions - functions used only on the bid completion page
-// 4. Shared Functions - display oriented functions used on more than one page
-// 5. Helper Functions - a small library of functions intended to make jquery unnecessary
+// 1. Installation and Usage for Development
+// 2. Staging and Production Deployment Instructions
+// 3. Project Structure and Libraries
+// 4. Profile Page Functions - functions used only on the user profile page
+// 5. Company Page Functions - functions used only on the company profile page
+// 6. Bid Completion Page Functions - functions used only on the bid completion page
+// 7. Shared Functions - display oriented functions used on more than one page
+// 8. Helper Functions - a small library of functions intended to make jquery unnecessary
 
+
+//## INSTALLATION AND USAGE FOR DEVELOPMENT
+
+//```
+//  git clone https://github.com/PriorityClient/profile_pages.git
+//  npm install
+//  npm start
+//```
+
+//## STAGING AND PRODUCTION DEPLOYMENT INSTRUCTIONS
+
+// AWS Codebuild is used to deploy these projects
+// The instructions for how the Codebuild service interracts
+// with this project can be seen in buildspec.yml
+// further information on the buildspec.yml file can be seen here
+// http://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html
+
+// To deploy go to the link that corresponds to the environment you are deploying
+// and click `start build`. No further action is required. Deploys are very fast,
+// but take a few minutes to show up because of cache invalidations.
+
+// Staging Deploy:
+// https://console.aws.amazon.com/codebuild/home?region=us-east-1#/projects/ProfilePages/view
+
+// Production Deploy:
+// https://console.aws.amazon.com/codebuild/home?region=us-east-1#/projects/Production-ProfilePages/view
+
+//## PROJECT STRUCTURE AND LIBRARIES
+
+// The project has 2 HTML (`index.html` and `complete.html`) pages which each
+// have their own CSS defined in the head, the majority of which is duplicated on both pages.
+
+// `index.html` is both the company listing and profile page. The elements for each of these are
+// `#company-page` and `#profile-page` respectively. This does mean that some care has
+// to be taken in using IDs that may be appropriate in both places
+
+// `complete.html` shows a success message if the pitch was successfully sent. Unsuccessful
+// pitches do not leave the form page
+
+// a few libraries are used, all of which are currently loaded via CDN
+
+// MDL - Material Design Light, the wonderful style package which made this whole thing possible
+// https://code.getmdl.io
+
+// Axios - a simple promise-based cross-browser library for ajax requests
+// https://www.npmjs.com/package/axios
+
+// stripe checkout for desktop, stripe v3 api for mobile
+// stripe.com
+
+// randomcolor for generating default background images
+// https://github.com/davidmerfield/randomColor
 
 //## PROFILE PAGE FUNCTIONS
 
 // the first function, setup, must choose whether we are
-// currently looking at a profile or company page
-// I realize this is gross, but it's easy and it works.
-// Each page by itself is small enough that combining
-// them into one page is still easily readable. In
-// the long run, ideally this would be dealt with by a
-// router at the server level so the whole project's
-// html doesn't have to be in a single file, but
-// for now this is the path. there are other solutions available.
+// currently looking at a profile or company page.
+// A simple router for a simple situation
 function setup(api, emailDomain, stripeKey, altDomain){
 	var loc = window.location.href;
 	if(loc.match(/\/company\//))	return setupCompany(api)
-	if(loc.match(/https?:\/\/[^\/]+\/.+$/))	return setupProfile(api, emailDomain, stripeKey)
+	if(loc.match(/https?:\/\/[^\/]+\/.+$/))	return setupProfile(api, emailDomain, stripeKey) // https?:\/\/[^\/]+\/[^\/]+\/?$
+
 	window.location.href = altDomain;
 }
 
@@ -56,6 +106,8 @@ function setupProfile(api, emailDomain, stripeKey){
 }
 
 
+// `setCheckboxError` manages the error state of the TOS checkbox
+// because MDL doesn't seem to want to do it for me
 function setCheckboxError(tosCheckbox){
 	var tos     = $(tosCheckbox).checked
 	if(!tos)  $(tosCheckbox).parentElement.classList.add('error')
@@ -114,20 +166,6 @@ function checkRequired(firstName, lastName, description, bidAmount, emailAddress
 	return first&&last&&desc&&bid&&email&&company&&setCheckboxError(tosCheckbox)
 }
 
-function getBid(){
-	var user_id = $("#user-id").innerHTML;
-	var user = $("#user-info").innerHTML;
-	var bid = {
-		"id": user_id,
-		"pitcher_first_name": $("#pitcher-first-name").value,
-		"pitcher_last_name": $("#pitcher-last-name").value,
-		"pitcher_company_name": $("#pitcher-company-name").value,
-		"pitcher_email": $("#pitcher-email").value,
-		"description": $("#description").value,
-		"bid_amount": parseFloat($("#bid-amount").value)
-	}
-  return bid
-}
 
 //## COMPANY PROFILE PAGE FUNCTIONS
 
@@ -162,28 +200,28 @@ function showCompany(result){
 		userEl.id = '';
 		userEl.classList.remove('hidden');
   if(!user.avatar_thumbnail_url){
-userEl.querySelector(".user-avatar").innerHTML= user.first_name.charAt(0)+user.last_name.charAt(0);
-userEl.querySelector(".user-avatar").style.backgroundColor = randomColor({seed: user.id, luminosity: 'bright'});
+    userEl.querySelector(".user-avatar").innerHTML= user.first_name.charAt(0)+user.last_name.charAt(0);
+    userEl.querySelector(".user-avatar").style.backgroundColor = randomColor({seed: user.id, luminosity: 'bright'});
   }else{
     userEl.querySelector(".user-avatar").insertAdjacentHTML('afterbegin', '<img src="'+user.avatar_large_url+'" />');
     userEl.querySelector(".user-avatar").style['line-height'] = 1;
 
   }
 
-		var userName = user.first_name +" "+ user.last_name;
-		var userId = user.id;
-		var userScreenName = user.screen_name;
-		var job_desciption = user.job_description||'[ no job description given ]';
-		var job_title = user.job_title||'[ no job title given ]';
-		var min_bid = (user.minimum_bid&&user.minimum_bid.toFixed(2))||'30.00';
+	var userName = user.first_name +" "+ user.last_name;
+	var userId = user.id;
+	var userScreenName = user.screen_name;
+	var job_desciption = user.job_description||'[ no job description given ]';
+	var job_title = user.job_title||'[ no job title given ]';
+	var min_bid = (user.minimum_bid&&user.minimum_bid.toFixed(2))||'30.00';
 
-var chips = '';
-for(var j=0; j<user.responsibilities.length; j++){
-chips += '<span class="mdl-chip"> <span class="mdl-chip__text">'+user.responsibilities[j].name+'</span> </span> '
-}
+  var chips = '';
+  for(var j=0; j<user.responsibilities.length; j++){
+    chips += '<span class="mdl-chip"> <span class="mdl-chip__text">'+user.responsibilities[j].name+'</span> </span> '
+  }
 
-    userEl.querySelector(".involved-in-container").insertAdjacentHTML('beforeend', chips)
-		$("#company-user-list").insertAdjacentHTML('beforeend',
+  userEl.querySelector(".involved-in-container").insertAdjacentHTML('beforeend', chips)
+	$("#company-user-list").insertAdjacentHTML('beforeend',
 			userEl
 				.outerHTML
 				.replace(new RegExp("{{{userId}}}", 'g'), userId)
@@ -230,99 +268,129 @@ function complete(api, emailDomain, stripeKey){
   showUser(user);
 }
 
+
+
+// `setupStripe` pulls double-duty setting up both the
+// phone/tablet stripe payments element and the desktop
+// stripe checkout element
 function setupStripe(api, emailDomain, user, stripeKey){
-var stripe = Stripe(stripeKey);
-var elements = stripe.elements();
-var style = {
-  base: {
-    // Add your base input styles here. For example:
-    fontSize: '16px',
-    lineHeight: '24px'
-  }
-};
-var card = elements.create('card', {style: style});
 
-// Add an instance of the card Element into the `card-element` <div>
-card.mount('#card-element');
-card.addEventListener('change', function(event) {
-  var displayError = document.getElementById('card-errors');
-  if (event.error) {
-    displayError.textContent = event.error.message;
-  } else {
-    displayError.textContent = '';
-  }
-});
-$("#main-form").addEventListener('submit', function(e){
-e.preventDefault();
-    if(!checkRequired( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email", "#pitcher-company-name", "#tos-checkbox", user)) return false;
-stripe.createToken(card).then(function(result) {
-  if (result.error) {
-    // Inform the user if there was an error
-    var errorElement = document.getElementById('card-errors');
-    errorElement.textContent = result.error.message;
-  } else {
-    // Send the token to your server
-    stripeHandler(result.token, user, api);
-  }
-});
-})
+	// the majority of this function was lifted from the stripe
+	// documentation https://stripe.com/docs/elements
+	var stripe = Stripe(stripeKey);
+	var elements = stripe.elements();
+	var style = {
+		base: {
+			// Add your base input styles here. For example:
+			fontSize: '16px',
+			lineHeight: '24px'
+		}
+	};
+	var card = elements.create('card', {style: style});
 
+	// Add an instance of the card Element into the `card-element` <div>
+	card.mount('#card-element');
+	card.addEventListener('change', function(event) {
+		var displayError = document.getElementById('card-errors');
+		if (event.error) {
+			displayError.textContent = event.error.message;
+		} else {
+			displayError.textContent = '';
+		}
+	});
+	$("#main-form").addEventListener('submit', function(e){
+		e.preventDefault();
+				if(!checkRequired( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email", "#pitcher-company-name", "#tos-checkbox", user)) return false;
+		stripe.createToken(card).then(function(result) {
+			if (result.error) {
+				// Inform the user if there was an error
+				var errorElement = document.getElementById('card-errors');
+				errorElement.textContent = result.error.message;
+			} else {
+				// Send the token to your server
+				stripeHandler(result.token, user, api);
+			}
+		});
+	})
 
+	var handler = StripeCheckout.configure({
+		key: stripeKey,
+		image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+		locale: 'auto',
+		token: function(token){ stripeHandler(token, user, api) }
+	});
 
-  var handler = StripeCheckout.configure({
-    key: stripeKey,
-    image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
-    locale: 'auto',
-    token: function(token){ stripeHandler(token, user, api) }
-  });
+	// This section sets up the stripe checkout on desktop
+	$('#stripe-button').addEventListener('click', function(e) {
+		// Open Checkout with further options:
+		if(!checkRequired( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email", "#pitcher-company-name", "#tos-checkbox", user)) return false;
 
-  $('#stripe-button').addEventListener('click', function(e) {
-    // Open Checkout with further options:
-    if(!checkRequired( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email", "#pitcher-company-name", "#tos-checkbox", user)) return false;
+		handler.open({
+			zipCode: false,
+			email: $("#pitcher-email").value,
+			amount: 800,
+			image: "/logo-icon.png",
+			name: "Pay $8 Now",
+			description: "Remainder when call is completed"//,
+			//panelLabel: "Submit"
 
-    handler.open({
-      zipCode: false,
-      email: $("#pitcher-email").value,
-      amount: 800,
-image: "/logo-icon.png",
-name: "Pay $8 Now",
-      description: "Remainder when call is completed"//,
-      //panelLabel: "Submit"
+		});
+		e.preventDefault();
+	});
 
-    });
-    e.preventDefault();
-  });
-
-  // Close Checkout on page navigation:
-  window.addEventListener('popstate', function(result) {
-    console.log(result);
-    handler.close();
-  });
+		// Close Checkout on page navigation:
+	window.addEventListener('popstate', function(result) {
+		console.log(result);
+		handler.close();
+	});
 }
+
+// `stripeHandler` is called after a stripe payment has been
+// successfully processed (on both mobile/tablet and desktop)
+// This function posts the completed information to the api
+// and then base64 encodes the necessary information for the
+// completion page, adds it to the query string, and then
+// forwards to `complete.html`
 function stripeHandler(token, user, api) {
-			$("#stripe-button").disabled = true;
-      $("#main-form").classList.add("pending");
-      $("#progress-bar").classList.remove("hidden");
-      var bid = getBid()
-      var paymentInfo = {
-        token: token,
-        pitch: bid
-      };
-      axios
-				.post(api+"/stripe_payments", paymentInfo)
-				.then(function(payment){
-          window.location.href = "/complete.html?bid="+btoa(JSON.stringify(Object.assign({}, bid, {pitch_id: payment.data.pitch.id})))+"&user="+btoa(JSON.stringify(user))+"&charge="+payment.data.charge;
-				})
-				.catch(function(error){
+	$("#stripe-button").disabled = true;
+	$("#main-form").classList.add("pending");
+	$("#progress-bar").classList.remove("hidden");
+	var bid = getBid()
+	var paymentInfo = {
+		token: token,
+		pitch: bid
+	};
+	axios
+		.post(api+"/stripe_payments", paymentInfo)
+		.then(function(payment){
+			window.location.href = "/complete.html?bid="+btoa(JSON.stringify(Object.assign({}, bid, {pitch_id: payment.data.pitch.id})))+"&user="+btoa(JSON.stringify(user))+"&charge="+payment.data.charge;
+		})
+		.catch(function(error){
 console.log(error);
-          $("#progress-bar").classList.add("hidden");
-          $("#main-form").classList.remove("pending");
-          $("#stripe-button").disabled = false;
-					$("#stripe-response").innerHTML = "Something has gone wrong with sending your pitch. The developers at VIP Crowd have been made aware of the issue. You may try again, or contact support@vipcrowd.com for more information"
-					$("#stripe-response").classList.add("failure-message");
-					$("#stripe-response").classList.remove("hidden");
-				});
-    }
+			$("#progress-bar").classList.add("hidden");
+			$("#main-form").classList.remove("pending");
+			$("#stripe-button").disabled = false;
+			$("#stripe-response").innerHTML = "Something has gone wrong with sending your pitch. The developers at VIP Crowd have been made aware of the issue. You may try again, or contact support@vipcrowd.com for more information"
+			$("#stripe-response").classList.add("failure-message");
+			$("#stripe-response").classList.remove("hidden");
+		});
+}
+
+// `getBid` retrieves bid information from the form for packaging for the completion page
+function getBid(){
+	var user_id = $("#user-id").innerHTML;
+	var user = $("#user-info").innerHTML;
+	var bid = {
+		"id": user_id,
+		"pitcher_first_name": $("#pitcher-first-name").value,
+		"pitcher_last_name": $("#pitcher-last-name").value,
+		"pitcher_company_name": $("#pitcher-company-name").value,
+		"pitcher_email": $("#pitcher-email").value,
+		"description": $("#description").value,
+		"bid_amount": parseFloat($("#bid-amount").value)
+	}
+	return bid
+}
 
 //## SHARED FUNCTIONS
 
@@ -365,6 +433,8 @@ console.log(user.id);
   return user;
 }
 
+// `showChips` displays a client's interests as chips in the profile panel
+// at the top left of both the profile page and the completion page
 function showChips(interests){
   if(!interests.length) return false ;
   $("#no-interests").classList.add("hidden");
