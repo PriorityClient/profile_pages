@@ -61,6 +61,28 @@ two (soon to be three) pages. They are split into sections:
 
 
 
+this will start a local server at `http://localhost:8000`
+using information in the gulpfile under `gulp serve`
+this does run most of the build, but not the minification
+
+
+
+
+
+
+
+
+to see the build product, run `npm run build` and then
+manually start a webserver in the resulting `www` directory
+(possibly with python)
+
+
+
+
+
+
+
+
 ## STAGING AND PRODUCTION DEPLOYMENT INSTRUCTIONS
 
 
