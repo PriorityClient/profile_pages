@@ -16,14 +16,18 @@ server.get("/profile/:user_id", function(req, res) {
   res.sendFile(__dirname + '/www/index.html')
 })
 
-gulp.task('default', ['envSetup', 'copyResources', 'compressJS'/*, 'htmlminify'*/]);
-gulp.task('serve', ['envSetup', 'copyResources', 'copyJS', 'startServer', 'watch']);
+gulp.task('default', ['envSetup', 'copyLib', 'copyResources', 'compressJS'/*, 'htmlminify'*/]);
+gulp.task('serve', ['envSetup', 'copyLib', 'copyResources', 'copyJS', 'startServer', 'watch']);
 
 if(!process.env.API_ADDRESS) process.env.API_ADDRESS = "http://localhost:3000/profiles/v1";
 if(!process.env.STRIPE_KEY) process.env.STRIPE_KEY = "pk_test_zqRxEBrhmk4o4O0r2qVXmJCI";
 if(!process.env.EMAIL_DOMAIN) process.env.EMAIL_DOMAIN = "staging-message.vipcrowd.com";
 if(!process.env.HOME_DOMAIN) process.env.HOME_DOMAIN = "https://hello.vipcrowd.com";
 
+gulp.task('copyLib', function(){
+  gulp.src(['src/lib/*'])
+    .pipe(gulp.dest('www/lib/'));
+});
 gulp.task('copyResources', function(){
   gulp.src(['src/*.png'])
     .pipe(gulp.dest('www/'));
