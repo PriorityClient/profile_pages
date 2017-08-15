@@ -26,7 +26,7 @@ if(!process.env.HOME_DOMAIN) process.env.HOME_DOMAIN = "https://hello.vipcrowd.c
 
 gulp.task('copyLib', function(){
   gulp.src(['src/lib/*'])
-    .pipe(gulp.dest('www/lib/'));
+    .pipe(gulp.dest('www/'));
 });
 gulp.task('copyResources', function(){
   gulp.src(['src/*.png'])
