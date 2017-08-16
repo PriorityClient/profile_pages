@@ -139,6 +139,8 @@ function getUserFrom(api, screen_name){
 		.get(api+"/users/"+screen_name)
 		.then(showUser)
 		.catch(function(err){
+$("#profile-not-found").classList.remove('hidden');
+$("#profile-page").classList.add('hidden');
       console.log(err);
 			console.log('no user was found');
 		})
