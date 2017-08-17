@@ -426,8 +426,10 @@ console.log(user.id);
     $("#user-info").innerHTML=JSON.stringify(result);
   } catch(err){ /* completion page does not have these elements */ }
 
-	$("#sidebar-company-name").href="/company/"+user.enterprise_id;
-	$("#sidebar-company-name").innerHTML=(user.company_name||user.enterprise_id||"");
+	if(user.company_name){
+		$("#sidebar-company-name").href="/company/"+user.enterprise_id;
+		$("#sidebar-company-name").innerHTML=(user.company_name||"");
+	}
 	$("#user-name").innerHTML=user.first_name+" "+user.last_name;
   if(!user.avatar_url){
     $("#user-avatar").innerHTML=user.first_name.charAt(0)+user.last_name.charAt(0);
