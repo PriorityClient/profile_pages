@@ -195,6 +195,8 @@ function setupCompany(api){
 		.get(api+"/enterprises/"+company_name)
 		.then(showCompany)
 		.catch(function(err){
+$("#profile-not-found").classList.remove('hidden');
+$("#company-page").classList.add('hidden');
 			console.log(err);
 		})
 }
