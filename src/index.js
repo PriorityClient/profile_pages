@@ -428,7 +428,7 @@ console.log(user.id);
 
 	if(user.enterprise_id){
 		$("#sidebar-company-name").href="/company/"+user.enterprise_id;
-		$("#sidebar-company-name").innerHTML=(user.company_name||"");
+		$("#sidebar-company-name").innerHTML=(user.company_name||user.enterprise_id||"");
 	}
 	$("#user-name").innerHTML=user.first_name+" "+user.last_name;
   if(!user.avatar_url){
