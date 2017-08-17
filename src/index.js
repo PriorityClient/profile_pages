@@ -426,7 +426,7 @@ console.log(user.id);
     $("#user-info").innerHTML=JSON.stringify(result);
   } catch(err){ /* completion page does not have these elements */ }
 
-	if(user.company_name){
+	if(user.enterprise_id){
 		$("#sidebar-company-name").href="/company/"+user.enterprise_id;
 		$("#sidebar-company-name").innerHTML=(user.company_name||"");
 	}
