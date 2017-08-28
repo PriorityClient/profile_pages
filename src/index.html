@@ -29,6 +29,7 @@
 		font-size:5.0em;
 		width:2.0em;
 		height:2.0em;
+		margin-bottom:16px;
 		line-height:2;
 		text-align:center;
 		vertical-align:middle;
@@ -107,7 +108,6 @@ color:#999;
 	width: 75px;
 }
     body { background: #eee; }
-		.main-page { max-width: 1366px; margin:auto; }
     .section-header { margin:0;margin-left:15px; font-size:1.8em;}
     li ul  { padding-left: 10px; }
 		.short-break {
@@ -122,9 +122,10 @@ background-color: #0cb4ce
 }
 		a { color: #0cb4ce }
     .content-area {
+			max-width: 1366px;
       background-color: #fff;
-      padding: 10px;
-      margin-bottom: 20px;
+			padding: 16px;
+			border-radius: 2px;
     }
     .content-column h2 {
       margin-top: 0;
@@ -134,8 +135,7 @@ background-color: #0cb4ce
     .hidden { display:none; }
     .bold   { font-weight:bold; font-size:1.1em; }
     .small-bold   { font-weight:bold; font-size:0.8em; }
-    .large   { font-size:1.3em; line-height:1.4em;}
-    .user-listing-info { border-bottom:1px solid #eee; }
+    .large   { font-size:1.4em; line-height:1.5em;}
 		.pending { opacity: 0.3; background-image: url(""); }
     #user-info-panel { text-align:center ; }
     #user-info-panel h3, #user-info-panel h4 {margin-top:0px; margin-bottom:10px; }
@@ -151,12 +151,31 @@ background-color: #0cb4ce
            -moz-box-sizing: border-box;
                 box-sizing: border-box;
     }
-		#company-page { margin-top:15px; }
-		.user-listing-info h4 { border-bottom: 1px solid #eee; margin-bottom:0px; width:100%}
-		.individual-user {  border-bottom: 1px solid #eee; width:100%; margin-bottom: 10px; }
-		.individual-user a { text-decoration: none; }
-		.individual-user h6 {margin:0px; padding:0px;}
+		#company-page { padding:16px; }
+		.individual-user { 
+			border-bottom: 2px solid #ddd; 
+			width:100%; 
+			margin-bottom: 10px;
+		}
+		.individual-user a { 
+			text-decoration: none; 
+		}
+		.individual-user h6 {
+			margin:0px; 
+			padding:0px;
+		}
 		.inner-grid { margin-left:5px; margin-top:0px; margin-bottom:0px; border-left:0; padding:0; }
+		.content-area-header {
+			padding: 16px 32px;
+			background-color: white;
+			border-bottom: 2px solid #ddd;
+		}
+		.content-area-header h4 {
+			margin: 0;
+			font-weight: 600;
+			font-size: 1.6em;
+			color: #2e2e2e;
+		}
     #stripe-response {
       border-radius:4px;
       border: 1px solid;
@@ -176,12 +195,14 @@ background-color: #0cb4ce
     }
 		.stripe-button { width: 100%; margin-bottom: 10px;}
 		header img { max-height: 45px; }
-span.mdl-chip { border: 1px solid rgba(0,0,0,.25);
-background-color: transparent;
-border-radius: 8px;
- font-size:0.8em;
-padding: 0 8px; }
-  </style>
+		span.mdl-chip { 
+			border: 1px solid rgba(0,0,0,.25);
+			background-color: transparent;
+			border-radius: 8px;
+			font-size:0.8em;
+			padding: 0 8px;
+		}
+	</style>
 	</head>
 	<body onLoad="setup('{{{API_ADDRESS}}}','{{{EMAIL_DOMAIN}}}', '{{{STRIPE_KEY}}}', '{{{HOME_DOMAIN}}}')">
 
@@ -197,10 +218,11 @@ padding: 0 8px; }
 
 			<main class="main-page mdl-layout__content hidden" id="company-page">
 
-				<div class="mdl-grid content-area" id="company-user-list">
-					<div class="user-listing-info mdl-cell mdl-cell--12-col">
+				<div class="content-area-header">
 					<h4><span id="company-name"></span> employees on VIP Crowd</h4>
-					</div>
+				</div>
+				
+				<div class="mdl-grid content-area" id="company-user-list">
 					<div id="company-user-example" class="hidden mdl-grid individual-user">
 						<div class="avatar-parent mdl-cell mdl-cell--2-col mdl-cell--2-col-tablet mdl-cell--1-col-phone">
 							<a href="/{{{userScreenName}}}" class="thumbnail user-avatar"></a>
