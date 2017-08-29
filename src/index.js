@@ -305,7 +305,7 @@ function setupStripe(api, emailDomain, user, stripeKey){
 			lineHeight: '24px'
 		}
 	};
-	var card = elements.create('card', {style: style});
+	var card = elements.create('card', {style: style, hidePostalCode: true});
 
 	// Add an instance of the card Element into the `card-element` <div>
 	card.mount('#card-element');
