@@ -73,6 +73,7 @@ background-color: #0cb4ce
 		a { color: #0cb4ce }
 		#bid-form-submit-success p { font-size: 1.1em; max-width:500px;margin:auto;margin-bottom:25px; }
 		#bid-form-submit-success h1 { color: #0cb4ce; border-bottom: 2px #ccc solid; max-width:400px; margin:auto; margin-top:50px; margin-bottom:25px; }
+		.submit-success h1 { color: #0cb4ce; max-width:400px; margin:auto; margin-top:50px; margin-bottom:25px; }
 		#bid-form-submit-success { margin:auto;margin-bottom:250px;}
 
     body { background: #eee; }
@@ -165,6 +166,20 @@ header .logo {margin-left: 25px; max-width: 1366px ;}
 			<main class="main-page mdl-layout__content">
 				<div class="mdl-grid content-grid">
 
+					<div class="mdl-cell--hide-desktop mdl-cell mdl-cell--8-col content-column">
+            <div class="content-area ">
+
+              <div class="submit-success center-text">
+                <h1>Success!</h1>
+                <p class="substitute-variable">Your meeting request has been sent to {{user-first-name}} and your confirmation number is <span class="bold">{{charge-id}}</span>.</p>
+                <p class="substitute-variable">A receipt has been sent to {{pitcher-email}}</p>
+                <p class="substitute-variable">{{user-first-name}}'s response will come from an @{{{EMAIL_DOMAIN}}} email address, so please ensure those do not go into a spam folder.  A good test is to make sure you received the receipt email.</p>
+
+              </div><!-- .main-content -->
+
+            </div><!-- main section submission display .content-area -->
+          </div><!-- main section submission display .content-area -->
+
 					<div class="mdl-cell mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-cell--4-col-desktop content-column">
 
             <div id="user-info-panel" class="center-text content-area">
@@ -209,9 +224,9 @@ header .logo {margin-left: 25px; max-width: 1366px ;}
           </div> <!-- /left panel .content-column -->
 
 					<div class="mdl-cell mdl-cell--8-col content-column">
-            <div id="pitch-preview" class="content-area ">
+            <div id="pitch-preview" class="content-area mdl-cell--hide-tablet mdl-cell--hide-phone">
 
-              <div id="bid-form-submit-success" class="center-text main-content">
+              <div id="bid-form-submit-success" class="bid-form-submit-success center-text main-content">
                 <h1>Success!</h1>
                 <p class="substitute-variable">Your meeting request has been sent to {{user-first-name}} and your confirmation number is <span class="bold">{{charge-id}}</span>.</p>
                 <p class="substitute-variable">A receipt has been sent to {{pitcher-email}}</p>

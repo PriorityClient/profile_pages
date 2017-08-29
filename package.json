@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "gulp serve",
+    "start": "HOME_DOMAIN=http://localhost:8000/company/priorityclient gulp serve",
     "test": "exit 0",
     "build": "gulp",
     "doc": "docco src/*.js -l plain-markdown && mv docs/index.html README.md && rm -rf docs",

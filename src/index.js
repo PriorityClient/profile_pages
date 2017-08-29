@@ -164,18 +164,20 @@ function setupDescriptionCharCountDisplay(textAreaId, counter, container, max){
 // invalidates those that aren't by adding an `is-invalid` class into
 // the parent of those that are missing. The parent element is used
 // because [that is where mdl reads the invalidation class](https://getmdl.io/components/index.html#textfields-section)
-function checkRequired(firstName, lastName, description, bidAmount, emailAddress, companyName, tosCheckbox, user){
+function checkRequired(firstName, lastName, description, bidAmount, emailAddress, phoneNumber, companyName, tosCheckbox, user){
 	var first = $(firstName).value.trim() != ''
 	var last  = $(lastName).value.trim() != ''
 	var desc  = $(description).value.trim() != '' && $(description).value.length < 700
 	var bid   = $(bidAmount).value.trim() != '' && user.minimum_bid <= parseFloat($(bidAmount).value)
 	var email = $(emailAddress).value.trim() != ''
+	var phone = $(phoneNumber).value.trim() != ''
 	var company = $(companyName).value.trim() != ''
 	if(!first)  $(firstName).parentElement.classList.add('is-invalid')
 	if(!last)   $(lastName).parentElement.classList.add('is-invalid')
 	if(!desc)   $(description).parentElement.classList.add('is-invalid')
 	if(!bid)    $(bidAmount).parentElement.classList.add('is-invalid')
 	if(!email)  $(emailAddress).parentElement.classList.add('is-invalid')
+	if(!phone)  $(phoneNumber).parentElement.classList.add('is-invalid')
 	if(!company)  $(companyName).parentElement.classList.add('is-invalid')
 
 	return first&&last&&desc&&bid&&email&&company&&setCheckboxError(tosCheckbox)
@@ -317,7 +319,7 @@ function setupStripe(api, emailDomain, user, stripeKey){
 	});
 	$("#main-form").addEventListener('submit', function(e){
 		e.preventDefault();
-				if(!checkRequired( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email", "#pitcher-company-name", "#tos-checkbox", user)) return false;
+				if(!checkRequired( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email", "#pitcher-phone", "#pitcher-company-name", "#tos-checkbox", user)) return false;
 		stripe.createToken(card).then(function(result) {
 			if (result.error) {
 				// Inform the user if there was an error
@@ -340,7 +342,7 @@ function setupStripe(api, emailDomain, user, stripeKey){
 	// This section sets up the stripe checkout on desktop
 	$('#stripe-button').addEventListener('click', function(e) {
 		// Open Checkout with further options:
-		if(!checkRequired( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email", "#pitcher-company-name", "#tos-checkbox", user)) return false;
+		if(!checkRequired( "#pitcher-first-name", "#pitcher-last-name", "#description", "#bid-amount", "#pitcher-email", "#pitcher-phone", "#pitcher-company-name", "#tos-checkbox", user)) return false;
 
 		handler.open({
 			zipCode: false,
@@ -403,6 +405,7 @@ function getBid(){
 		"pitcher_last_name": $("#pitcher-last-name").value,
 		"pitcher_company_name": $("#pitcher-company-name").value,
 		"pitcher_email": $("#pitcher-email").value,
+		"pitcher_phone_number": $("#pitcher-phone").value,
 		"description": $("#description").value,
 		"bid_amount": parseFloat($("#bid-amount").value)
 	}
