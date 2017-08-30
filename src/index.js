@@ -431,6 +431,10 @@ function getBid(){
 function showUser(result){
 	var user = result.data||result;
 console.log(user.id);
+      if(user.charity_name){
+        $("#user-charity-name").innerHTML = user.charity_name;
+        $("#user-charity").classList.remove("hidden");
+      }
 
   try {
     $("#user-id").innerHTML=user.id
