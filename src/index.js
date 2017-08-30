@@ -103,7 +103,15 @@ function setupProfile(api, emailDomain, stripeKey){
 	$("#profile-page").classList.remove("hidden");
 	var url = window.location.href.split("/");
 	var screen_name = url[url.length-1];
+  var phoneMask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
+
   addListener($("#tos-checkbox"), "click", function(){ setCheckboxError("#tos-checkbox") });
+
+  var maskedInputController = vanillaTextMask.maskInput({
+    inputElement: $("#pitcher-phone"),
+    mask: phoneMask
+  })
+
 	getUserFrom(api, screen_name)
     .then(function(u){
       $("#bid-amount").parentElement.classList.add("is-dirty");

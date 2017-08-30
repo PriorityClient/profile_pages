@@ -30,5 +30,8 @@
     "gulp-htmlmin": "^3.0.0",
     "gulp-minify": "^1.0.0",
     "gulp-replace": "^0.6.1"
+  },
+  "dependencies": {
+    "vanilla-text-mask": "^5.0.1"
   }
 }

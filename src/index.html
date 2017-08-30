@@ -15,6 +15,7 @@
 		<script src="/checkout.js"></script>
 		<script src="/stripe.v3.js"></script>
 		<script src="/randomColor.min.js"></script>
+		<script src="/vanillaTextMask.js"></script>
 		<title>VIP Crowd</title>
 
   <style>
@@ -319,7 +320,7 @@ padding: 0 8px; }
 
 										<div class="mdl-cell mdl-cell--6-col-desktop mdl-cell--4-col-tablet">
 											<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-												<input type="tel" id="pitcher-phone" class="mdl-textfield__input"  pattern="^(1[-\.]?)?[\(]?\d{3}[-\)\.]?\d{3}[-\)\.]?\d{4}$">
+												<input type="tel" id="pitcher-phone" class="mdl-textfield__input"  pattern="^(1[-\.]?)?[\(]?\d{3}[-\)\.]?\s*\d{3}[-\)\.]?\s*\d{4}$">
 												<label for="pitcher-phone" class="mdl-textfield__label">Phone Number</label>
 												<span class="mdl-textfield__error">A valid phone number is required</span>
 											</div>
