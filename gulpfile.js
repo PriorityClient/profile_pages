@@ -19,13 +19,15 @@ server.get("/profile/:user_id", function(req, res) {
 gulp.task('default', ['envSetup', 'copyLib', 'copyResources', 'compressJS'/*, 'htmlminify'*/]);
 gulp.task('serve', ['envSetup', 'copyLib', 'copyResources', 'copyJS', 'startServer', 'watch']);
 
+if(!process.env.PITCHES_API_ADDRESS) process.env.PITCHES_API_ADDRESS = "http://localhost:3000/api/v2";
+if(!process.env.WEBSOCKET_ADDRESS) process.env.WEBSOCKET_ADDRESS = "http://localhost:28080";
 if(!process.env.API_ADDRESS) process.env.API_ADDRESS = "http://localhost:3000/profiles/v1";
 if(!process.env.STRIPE_KEY) process.env.STRIPE_KEY = "pk_test_zqRxEBrhmk4o4O0r2qVXmJCI";
 if(!process.env.EMAIL_DOMAIN) process.env.EMAIL_DOMAIN = "staging-message.vipcrowd.com";
 if(!process.env.HOME_DOMAIN) process.env.HOME_DOMAIN = "https://hello.vipcrowd.com";
 
 gulp.task('copyLib', function(){
-  gulp.src(['src/lib/*', './node_modules/vanilla-text-mask/dist/vanillaTextMask.js'])
+  gulp.src(['src/lib/*'])
     .pipe(gulp.dest('www/'));
 });
 gulp.task('copyResources', function(){
@@ -40,6 +42,8 @@ gulp.task('copyJS', function(){
 
 gulp.task('envSetup', function(){
   gulp.src('src/*.html')
+    .pipe(replace("{{{WEBSOCKET_ADDRESS}}}", process.env.WEBSOCKET_ADDRESS))
+    .pipe(replace("{{{PITCHES_API_ADDRESS}}}", process.env.PITCHES_API_ADDRESS))
     .pipe(replace("{{{API_ADDRESS}}}", process.env.API_ADDRESS))
     .pipe(replace("{{{EMAIL_DOMAIN}}}", process.env.EMAIL_DOMAIN))
     .pipe(replace("{{{STRIPE_KEY}}}", process.env.STRIPE_KEY))
