@@ -1,0 +1,29 @@
+{
+  "messages": [
+    {
+      "body": "first message body",
+      "sender_perspective": "system",
+      "created_at": "12/12/12 12:12:12"
+    },
+    {
+      "body": "initial info from vip",
+      "sender_perspective": "client",
+      "created_at": "12/12/12 12:12:12"
+    },
+    {
+      "body": "message from pitcher",
+      "sender_perspective": "pitcher",
+      "created_at": "12/12/12 12:12:12"
+    },
+    {
+      "body": "followup message from pitcher",
+      "sender_perspective": "pitcher",
+      "created_at": "12/12/12 12:12:12"
+    },
+    {
+      "body": "final reply from vip",
+      "sender_perspective": "client",
+      "created_at": "12/12/12 12:12:12"
+    }
+  ]
+}

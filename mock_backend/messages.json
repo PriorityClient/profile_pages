@@ -1,0 +1,29 @@
+{
+  "messages": [
+    {
+      "body": "text of first message",
+      "sender_perspective": "system",
+      "created_at": "12/12/12 10:34am"
+    },
+    {
+      "body": "text of first message",
+      "sender_perspective": "pitcher",
+      "created_at": "12/12/12 10:34am"
+    },
+    {
+      "body": "addendum to first message",
+      "sender_perspective": "pitcher",
+      "created_at": "12/12/12 10:34am"
+    },
+    {
+      "body": "text of response",
+      "sender_perspective": "client",
+      "created_at": "12/12/12 10:34am"
+    },
+    {
+      "body": "another message from pitcher",
+      "sender_perspective": "pitcher",
+      "created_at": "12/12/12 10:34am"
+    }
+  ]
+}
