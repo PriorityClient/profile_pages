@@ -19,8 +19,8 @@ server.get("/profile/:user_id", function(req, res) {
 gulp.task('default', ['envSetup', 'copyLib', 'copyResources', 'compressJS'/*, 'htmlminify'*/]);
 gulp.task('serve', ['envSetup', 'copyLib', 'copyResources', 'copyJS', 'startServer', 'watch']);
 
-if(!process.env.PITCHES_API_ADDRESS) process.env.PITCHES_API_ADDRESS = "http://localhost:3000/api/v2";
-if(!process.env.WEBSOCKET_ADDRESS) process.env.WEBSOCKET_ADDRESS = "http://localhost:28080";
+if(!process.env.PITCHES_API_ADDRESS) process.env.PITCHES_API_ADDRESS = "http://localhost:3000/api/v2/guest";
+if(!process.env.WEBSOCKET_ADDRESS) process.env.WEBSOCKET_ADDRESS = "ws://localhost:28080";
 if(!process.env.API_ADDRESS) process.env.API_ADDRESS = "http://localhost:3000/profiles/v1";
 if(!process.env.STRIPE_KEY) process.env.STRIPE_KEY = "pk_test_zqRxEBrhmk4o4O0r2qVXmJCI";
 if(!process.env.EMAIL_DOMAIN) process.env.EMAIL_DOMAIN = "staging-message.vipcrowd.com";

@@ -24,18 +24,19 @@
 				if(id.match(/^\.[^\#]*$/)) return document.getElementsByClassName(ident);
 				return document.querySelectorAll(ident);
 			}
-function getCookieValue(a) {
-	var b = document.cookie.match('(^|;)\\s*' + a + '\\s*=\\s*([^;]+)');
-	return b ? b.pop() : '';
-}
 
-function retrieveConversationMessages(axios_instance, id, token){
-  return axios_instance.get("/conversations/"+id+"?token="+token, function(result){
-    return result;
-  })
-  //.then(startSocket)
-  .then(showConversation)
-}
+      function getCookieValue(a) {
+        var b = document.cookie.match('(^|;)\\s*' + a + '\\s*=\\s*([^;]+)');
+        return b ? b.pop() : '';
+      }
+
+      function retrieveConversationMessages(axios_instance, id, token){
+        return axios_instance.get("/conversations/"+id+"?token="+token, function(result){
+          return result;
+        })
+        .then(startSocket)
+        .then(showConversation)
+      }
 
 			document.addEventListener("DOMContentLoaded", function(event) {
         var given_token = window.location.href.split("?")[1]
@@ -43,11 +44,17 @@ function retrieveConversationMessages(axios_instance, id, token){
 					baseURL: '{{{PITCHES_API_ADDRESS}}}'
 				});
 
-console.log(getCookieValue("conversation"))
         if(getCookieValue("conversation") == given_token && getCookieValue("token")){
           axios_instance.defaults.headers.common['Authorization'] = 'Bearer ' + getCookieValue("token");
-          $("#login-form").classList.add('hidden');
-          retrieveConversationMessages(axios_instance, given_token, getCookieValue("token"));
+          retrieveConversationMessages(axios_instance, given_token, getCookieValue("token"))
+            .then(function(){
+              $("#login-form").classList.add('hidden');
+            })
+            .catch(function(){
+              document.cookie = "token=; path=/";
+              document.cookie = "conversation=; path=/";
+              document.cookie = "perspective=; path=/";
+            })
         }
 
 				$("#login-form").addEventListener('submit', function(e){
@@ -74,6 +81,10 @@ console.log(getCookieValue("conversation"))
           }
           $("#new-message-body").value='';
           addMessage(message);
+					axios_instance
+						.post("/conversations/"+given_token+"/messages", {
+							body: message.body
+						})
         })
 
         $("#new-message-body").addEventListener("keypress", function(e){
@@ -88,14 +99,20 @@ console.log(getCookieValue("conversation"))
        // Let the library know where WebSocketMain.swf is:
 
         // Write your code in the same way as for native WebSocket:
-        var ws = new WebSocket('{{{WEBSOCKET_ADDRESS}}}');
+        var ws = new WebSocket('{{{WEBSOCKET_ADDRESS}}}?jwt='+getCookieValue('token'));
+
         ws.onopen = function() {
-          ws.send("Hello");  // Sends a message.
+          ws.send( `{"command":"subscribe","identifier":"{\\"channel\\":\\"GuestMessageChannel\\",\\"data\\":{\\"id\\":\\"${response.data.id}\\"}}"}`  );
         };
+
         ws.onmessage = function(e) {
-          // Receives a message.
-          console.log(e.data);
+          const data = JSON.parse(e.data);
+          console.log(response.data.viewer_perspective, data.message.sender_perspective);
+          if(data.identifier && data.message && data.message.sender_perspective == "client"){
+            addMessage(data.message)
+          }
         };
+
         ws.onclose = function() {
           console.log("socket closed");
         };
@@ -103,9 +120,9 @@ console.log(getCookieValue("conversation"))
       }
 
 			function showConversation(response){
-console.log(response);
         $("#login-form").classList.add("hidden");
         $("#conversation-form").classList.remove("hidden");
+        $("#conversation-header").innerHTML = "Conversation with "+response.data.client.first_name+" "+response.data.client.last_name
         const messages = response.data.messages;
         for(var i=0; i<messages.length; i++){
           addMessage(messages[i]);
@@ -114,7 +131,6 @@ console.log(response);
 			}
 
       function addMessage(message){
-        console.log(message);
         const sample = $("#sample-message")
         const messageEl = sample.cloneNode(true);
         messageEl.id = '';
@@ -124,6 +140,7 @@ console.log(response);
             .replace(new RegExp("{{{message body}}}", 'g'), message.body)
             .replace(new RegExp("{{{sent at}}}", 'g'), message.created_at)
         );
+        $("#conversation").scrollTop = $("#conversation").scrollHeight;
       }
 		</script>
   <style>
@@ -146,6 +163,8 @@ console.log(response);
 
 		#conversation {
 		 margin-bottom:15px;
+     max-height: 300px;
+     overflow: auto;
 		}
 
 		.speech-bubble {
@@ -207,6 +226,7 @@ console.log(response);
 					</button>
 				</form>
 
+				<h5 id="conversation-header"></h5>
 				<div id="conversation">
 				</div>
 
