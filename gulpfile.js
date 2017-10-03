@@ -27,7 +27,7 @@ if(!process.env.EMAIL_DOMAIN) process.env.EMAIL_DOMAIN = "staging-message.vipcro
 if(!process.env.HOME_DOMAIN) process.env.HOME_DOMAIN = "https://hello.vipcrowd.com";
 
 gulp.task('copyLib', function(){
-  gulp.src(['src/lib/*', './node_modules/vanilla-text-mask/src/vanillaTextMask.js'])
+  gulp.src(['src/lib/*', 'node_modules/vanilla-text-mask/dist/vanillaTextMask.js'])
     .pipe(gulp.dest('www/'));
 });
 gulp.task('copyResources', function(){
